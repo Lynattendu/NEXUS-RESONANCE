@@ -161,74 +161,107 @@ const SYMBOLS = [
 const LEVELS = [
 
   {
-  name: "Première résonance",
+    name: "Première résonance",
 
-  mode: "free",
+    mode: "free",
 
-  objectives: {
-    etoile: 20
+    objectives: {
+      etoile: 20
+    },
+
+    blockers: []
   },
 
-  blockers: []
-},
-
-  {{
-  name: "Feu intérieur",
-
-  mode: "time",
-
-  time: 60,
-
-  objectives: {
-    poulpe: 25
-  },
-
-  blockers: []
-},
-
-  {{
-  name: "Double fréquence",
-
-  mode: "moves",
-
-  moves: 22,
-
-  objectives: {
-    hippocampe: 15,
-    poisson: 15
-  },
-
-  blockers: []
-},
 
   {
-  name: "Cœur de glace",
+    name: "Feu intérieur",
 
-  mode: "time",
+    mode: "time",
 
-  time: 75,
+    time: 60,
 
-  objectives: {
-    meduse: 25
+    objectives: {
+      poulpe: 25
+    },
+
+    blockers: []
   },
 
-  clearBlocks: true,
 
-  blockers: [
+  {
+    name: "Double fréquence",
 
-  {{
-  name: "Sceau lunaire",
+    mode: "moves",
 
-  mode: "moves",
+    moves: 22,
 
-  moves: 28,
+    objectives: {
+      hippocampe: 15,
+      poisson: 15
+    },
 
-  objectives: {
-    etoile: 25,
-    perle: 15
+    blockers: []
   },
 
-  blockers: [
+
+  {
+    name: "Cœur de glace",
+
+    mode: "time",
+
+    time: 75,
+
+    objectives: {
+      meduse: 25
+    },
+
+    clearBlocks: true,
+
+    blockers: [
+
+      {
+        row: 2,
+        col: 2,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 2,
+        col: 4,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 4,
+        col: 1,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 4,
+        col: 5,
+        type: "ice",
+        hp: 1
+      }
+
+    ]
+  },
+
+
+  {
+    name: "Sceau lunaire",
+
+    mode: "moves",
+
+    moves: 28,
+
+    objectives: {
+      etoile: 25,
+      perle: 15
+    },
 
     blockers: [
 
@@ -236,7 +269,7 @@ const LEVELS = [
         row: 3,
         col: 2,
         type: "lock",
-        symbol: "moon",
+        symbol: "etoile",
         amount: 12
       },
 
@@ -244,7 +277,7 @@ const LEVELS = [
         row: 3,
         col: 3,
         type: "lock",
-        symbol: "moon",
+        symbol: "etoile",
         amount: 12
       },
 
@@ -252,7 +285,7 @@ const LEVELS = [
         row: 3,
         col: 4,
         type: "lock",
-        symbol: "moon",
+        symbol: "etoile",
         amount: 12
       }
 
@@ -268,8 +301,8 @@ const LEVELS = [
     time: 90,
 
     objectives: {
-      crystal: 20,
-      leaf: 20
+      poisson: 20,
+      poulpe: 20
     },
 
     clearBlocks: true,
@@ -308,7 +341,6 @@ const LEVELS = [
   }
 
 ];
-
 
 /* =========================================================
    SAUVEGARDE
