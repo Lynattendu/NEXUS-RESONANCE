@@ -17,6 +17,20 @@ const homeScreen =
 const gameScreen =
   document.getElementById("gameScreen");
 
+   const pathScreen =
+  document.getElementById("pathScreen");
+
+const pathMessage =
+  document.getElementById("pathMessage");
+
+const continuePathBtn =
+  document.getElementById("continuePathBtn");
+
+const pathHomeBtn =
+  document.getElementById("pathHomeBtn");
+
+const pathNodes =
+  document.querySelectorAll(".path-node");
 const playBtn =
   document.getElementById("playBtn");
 
@@ -348,7 +362,8 @@ const LEVELS = [
 
 const STORAGE_LEVEL =
   "nexusResonance_level";
-
+const STORAGE_UNLOCKED =
+  "nexusResonance_unlocked";
 
 /* =========================================================
    VARIABLES
@@ -475,7 +490,7 @@ function showHome() {
   homeScreen.classList.add("active");
 
   gameScreen.classList.remove("active");
-
+pathScreen.classList.remove("active");
   pauseMenu.classList.add("hidden");
   victoryScreen.classList.add("hidden");
   defeatScreen.classList.add("hidden");
@@ -493,6 +508,8 @@ function showHome() {
 function showGame() {
 
   homeScreen.classList.remove("active");
+
+  pathScreen.classList.remove("active");
 
   gameScreen.classList.add("active");
 
@@ -2409,7 +2426,233 @@ function flashTile(
 
 }
 
+/* =========================================================
+   PARCOURS SOUS-MARIN
+========================================================= */
 
+function showPathAfterVictory() {
+
+  stopTimer();
+
+  homeScreen.classList.remove("active");
+
+  gameScreen.classList.remove("active");
+
+  victoryScreen.classList.add("hidden");
+
+  defeatScreen.classList.add("hidden");
+
+  pauseMenu.classList.add("hidden");
+
+  pathScreen.classList.add("active");
+
+
+  const completedLevel =
+    currentLevel + 1;
+
+
+  const nextLevel =
+    currentLevel + 2;
+
+
+  /* -------------------------------------------------------
+     NETTOYER LES CLASSES
+  ------------------------------------------------------- */
+
+  pathNodes.forEach(node => {
+
+    node.classList.remove(
+      "completed",
+      "current",
+      "locked-path",
+      "unlocking-path"
+    );
+
+  });
+
+
+  /* -------------------------------------------------------
+     ÉTAT DES NIVEAUX
+  ------------------------------------------------------- */
+
+  pathNodes.forEach(node => {
+
+    const level =
+      Number(
+        node.dataset.level
+      );
+
+
+    /*
+       Niveaux déjà terminés
+    */
+
+    if (
+      level <=
+      completedLevel
+    ) {
+
+      node.classList.add(
+        "completed"
+      );
+
+    }
+
+
+    /*
+       Prochain niveau
+    */
+
+    else if (
+      level ===
+      nextLevel &&
+      nextLevel <=
+      LEVELS.length
+    ) {
+
+      node.classList.add(
+        "current"
+      );
+
+    }
+
+
+    /*
+       Futurs niveaux
+    */
+
+    else {
+
+      node.classList.add(
+        "locked-path"
+      );
+
+    }
+
+  });
+
+
+  /* -------------------------------------------------------
+     MESSAGE
+  ------------------------------------------------------- */
+
+  if (
+    currentLevel <
+    LEVELS.length - 1
+  ) {
+
+    pathMessage.textContent =
+      `Niveau ${completedLevel} terminé. Le niveau ${nextLevel} vient de se débloquer.`;
+
+
+    continuePathBtn.textContent =
+      "CONTINUER L'AVENTURE";
+
+
+    continuePathBtn.disabled =
+      false;
+
+  }
+
+  else {
+
+    pathMessage.textContent =
+      "Tu as atteint le Nexus des Abysses. Tous les niveaux sont terminés.";
+
+
+    continuePathBtn.textContent =
+      "REVENIR À L'ACCUEIL";
+
+  }
+
+
+  /* -------------------------------------------------------
+     ANIMATION DU PROCHAIN NIVEAU
+  ------------------------------------------------------- */
+
+  if (
+    nextLevel <=
+    LEVELS.length
+  ) {
+
+    const nextNode =
+      document.querySelector(
+        `.path-node[data-level="${nextLevel}"]`
+      );
+
+
+    if (nextNode) {
+
+      setTimeout(() => {
+
+        nextNode.classList.add(
+          "unlocking-path"
+        );
+
+      }, 450);
+
+
+      setTimeout(() => {
+
+        nextNode.classList.remove(
+          "unlocking-path"
+        );
+
+        nextNode.classList.add(
+          "current"
+        );
+
+      }, 1500);
+
+    }
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================================================
+   CONTINUER DEPUIS LE PARCOURS
+========================================================= */
+
+function continueFromPath() {
+
+  /*
+     Dernier niveau terminé
+  */
+
+  if (
+    currentLevel >=
+    LEVELS.length - 1
+  ) {
+
+    showHome();
+
+    return;
+
+  }
+
+
+  currentLevel++;
+
+
+  localStorage.setItem(
+    STORAGE_LEVEL,
+    currentLevel
+  );
+
+
+  startLevel(
+    currentLevel
+  );
+
+}
 /* =========================================================
    BOUTONS
 ========================================================= */
