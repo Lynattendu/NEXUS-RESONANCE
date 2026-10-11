@@ -115,273 +115,1326 @@ body {
 
 
 /* =========================================================
-   ACCUEIL
+   ACCUEIL — NEXUS RESONANCE
 ========================================================= */
 
 #homeScreen {
-  align-items: center;
-  justify-content: center;
-
-  padding: 30px 20px;
 
   position: relative;
+
+  min-height: 100vh;
+
   overflow: hidden;
-}
 
+  align-items: center;
 
-#homeScreen::before {
+  justify-content: center;
 
-  content: "";
-
-  position: absolute;
-
-  width: 500px;
-  height: 500px;
-
-  border-radius: 50%;
+  padding:
+    35px
+    20px;
 
   background:
     radial-gradient(
-      circle,
-      rgba(85, 214, 255, 0.16),
-      transparent 68%
+      circle at 50% 30%,
+      #182447 0%,
+      #090e21 38%,
+      #03050d 75%,
+      #010207 100%
     );
+}
 
-  top: -220px;
-  left: 50%;
 
-  transform: translateX(-50%);
+/* =========================================================
+   FOND
+========================================================= */
+
+.home-bg {
+
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
 
   pointer-events: none;
 }
 
 
-#homeScreen::after {
+/* =========================================================
+   HALOS
+========================================================= */
 
-  content: "";
+.home-orb {
 
   position: absolute;
 
+  border-radius: 50%;
+
+  filter: blur(20px);
+
+  opacity: 0.5;
+}
+
+
+.orb-1 {
+
   width: 420px;
+
   height: 420px;
 
-  border-radius: 50%;
+  top: -220px;
+
+  left: -150px;
 
   background:
     radial-gradient(
       circle,
-      rgba(166, 120, 255, 0.11),
+      rgba(72, 197, 255, 0.34),
       transparent 70%
     );
 
-  bottom: -230px;
-  right: -160px;
-
-  pointer-events: none;
-}
-
-
-.home-content {
-
-  width: 100%;
-  max-width: 520px;
-
-  text-align: center;
-
-  position: relative;
-  z-index: 2;
-}
-
-
-.logo-symbol {
-
-  width: 110px;
-  height: 110px;
-
-  margin:
-    0 auto
-    28px;
-
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 58px;
-
-  color: var(--blue-light);
-
-  border:
-    1px solid
-    rgba(85, 214, 255, 0.5);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(85, 214, 255, 0.15),
-      rgba(6, 13, 28, 0.8)
-    );
-
-  box-shadow:
-    0 0 20px rgba(85, 214, 255, 0.25),
-    0 0 60px rgba(85, 214, 255, 0.12);
-
   animation:
-    nexusPulse
-    3s ease-in-out
+    orbMoveOne
+    10s ease-in-out
     infinite;
 }
 
 
-@keyframes nexusPulse {
+.orb-2 {
+
+  width: 500px;
+
+  height: 500px;
+
+  right: -260px;
+
+  top: 30%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(150, 85, 255, 0.25),
+      transparent 70%
+    );
+
+  animation:
+    orbMoveTwo
+    12s ease-in-out
+    infinite;
+}
+
+
+.orb-3 {
+
+  width: 350px;
+
+  height: 350px;
+
+  left: 20%;
+
+  bottom: -220px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(25, 230, 190, 0.16),
+      transparent 70%
+    );
+
+  animation:
+    orbMoveThree
+    14s ease-in-out
+    infinite;
+}
+
+
+@keyframes orbMoveOne {
 
   0%,
   100% {
-    transform: scale(1);
+
+    transform:
+      translate(
+        0,
+        0
+      );
+
   }
 
   50% {
-    transform: scale(1.07);
+
+    transform:
+      translate(
+        80px,
+        60px
+      );
+
   }
 
 }
 
 
-.home-content h1 {
+@keyframes orbMoveTwo {
 
-  font-size:
-    clamp(2.6rem, 10vw, 5rem);
+  0%,
+  100% {
 
-  letter-spacing: 0.12em;
+    transform:
+      translate(
+        0,
+        0
+      );
 
-  font-weight: 800;
+  }
 
-  line-height: 0.95;
+  50% {
 
-  margin-bottom: 18px;
+    transform:
+      translate(
+        -90px,
+        40px
+      );
 
-  text-shadow:
-    0 0 18px
-    rgba(85, 214, 255, 0.18);
+  }
+
 }
 
 
-.home-content h1 span {
+@keyframes orbMoveThree {
 
-  display: block;
+  0%,
+  100% {
 
-  margin-top: 14px;
+    transform:
+      translate(
+        0,
+        0
+      );
 
-  font-size: 0.48em;
+  }
 
-  letter-spacing: 0.42em;
+  50% {
 
-  padding-left: 0.42em;
+    transform:
+      translate(
+        40px,
+        -70px
+      );
 
-  color: var(--blue-light);
+  }
 
-  font-weight: 500;
 }
-
-
-.subtitle {
-
-  color: var(--text-soft);
-
-  letter-spacing: 0.16em;
-
-  font-size:
-    clamp(0.85rem, 3vw, 1.05rem);
-
-  margin-bottom: 44px;
-}
-
 
 
 /* =========================================================
-   BOUTONS
+   PARTICULES
 ========================================================= */
 
-button {
+.particles {
 
-  font-family: inherit;
+  position: absolute;
 
-  border: none;
-
-  cursor: pointer;
-
-  -webkit-tap-highlight-color:
-    transparent;
+  inset: 0;
 }
 
 
-.main-btn {
+.particles span {
 
-  min-width: 220px;
+  position: absolute;
 
-  padding:
-    16px
-    28px;
+  width: 4px;
 
-  border-radius: 50px;
+  height: 4px;
 
-  color: #06111c;
+  border-radius: 50%;
+
+  background:
+    rgba(
+      145,
+      225,
+      255,
+      0.8
+    );
+
+  box-shadow:
+    0 0 12px
+    rgba(
+      85,
+      214,
+      255,
+      0.8
+    );
+
+  animation:
+    particleFloat
+    7s linear
+    infinite;
+}
+
+
+.particles span:nth-child(1) {
+
+  left: 10%;
+  top: 15%;
+
+  animation-delay: 0s;
+}
+
+
+.particles span:nth-child(2) {
+
+  left: 22%;
+  top: 70%;
+
+  animation-delay: 2s;
+}
+
+
+.particles span:nth-child(3) {
+
+  left: 35%;
+  top: 28%;
+
+  animation-delay: 4s;
+}
+
+
+.particles span:nth-child(4) {
+
+  left: 48%;
+  top: 82%;
+
+  animation-delay: 1s;
+}
+
+
+.particles span:nth-child(5) {
+
+  left: 62%;
+  top: 18%;
+
+  animation-delay: 3s;
+}
+
+
+.particles span:nth-child(6) {
+
+  left: 73%;
+  top: 66%;
+
+  animation-delay: 5s;
+}
+
+
+.particles span:nth-child(7) {
+
+  left: 88%;
+  top: 32%;
+
+  animation-delay: 2.5s;
+}
+
+
+.particles span:nth-child(8) {
+
+  left: 15%;
+  top: 45%;
+
+  animation-delay: 4.5s;
+}
+
+
+.particles span:nth-child(9) {
+
+  left: 55%;
+  top: 50%;
+
+  animation-delay: 1.5s;
+}
+
+
+.particles span:nth-child(10) {
+
+  left: 80%;
+  top: 83%;
+
+  animation-delay: 3.5s;
+}
+
+
+.particles span:nth-child(11) {
+
+  left: 42%;
+  top: 10%;
+
+  animation-delay: 5.5s;
+}
+
+
+.particles span:nth-child(12) {
+
+  left: 93%;
+  top: 60%;
+
+  animation-delay: 0.5s;
+}
+
+
+@keyframes particleFloat {
+
+  0% {
+
+    transform:
+      translateY(30px)
+      scale(0.5);
+
+    opacity: 0;
+
+  }
+
+  20% {
+
+    opacity: 1;
+
+  }
+
+  80% {
+
+    opacity: 0.8;
+
+  }
+
+  100% {
+
+    transform:
+      translateY(-110px)
+      scale(1.4);
+
+    opacity: 0;
+
+  }
+
+}
+
+
+/* =========================================================
+   CONTENU
+========================================================= */
+
+.home-content {
+
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+
+  max-width: 500px;
+
+  text-align: center;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   EMBLÈME NEXUS
+========================================================= */
+
+.nexus-emblem {
+
+  position: relative;
+
+  width: 190px;
+
+  height: 190px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 22px;
+}
+
+
+.nexus-ring {
+
+  position: absolute;
+
+  border-radius: 50%;
+}
+
+
+.ring-one {
+
+  width: 185px;
+
+  height: 185px;
+
+  border:
+    1px solid
+    rgba(
+      100,
+      220,
+      255,
+      0.18
+    );
+
+  animation:
+    nexusRotate
+    16s linear
+    infinite;
+}
+
+
+.ring-one::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 9px;
+
+  height: 9px;
+
+  border-radius: 50%;
+
+  top: -5px;
+
+  left: 50%;
+
+  background: #72e4ff;
+
+  box-shadow:
+    0 0 15px
+    #72e4ff;
+}
+
+
+.ring-two {
+
+  width: 145px;
+
+  height: 145px;
+
+  border:
+    1px dashed
+    rgba(
+      182,
+      130,
+      255,
+      0.35
+    );
+
+  animation:
+    nexusRotateReverse
+    11s linear
+    infinite;
+}
+
+
+.ring-three {
+
+  width: 108px;
+
+  height: 108px;
+
+  border:
+    2px solid
+    rgba(
+      100,
+      220,
+      255,
+      0.35
+    );
+
+  box-shadow:
+    0 0 25px
+    rgba(
+      85,
+      214,
+      255,
+      0.12
+    );
+}
+
+
+@keyframes nexusRotate {
+
+  from {
+
+    transform:
+      rotate(0deg);
+
+  }
+
+  to {
+
+    transform:
+      rotate(360deg);
+
+  }
+
+}
+
+
+@keyframes nexusRotateReverse {
+
+  from {
+
+    transform:
+      rotate(360deg);
+
+  }
+
+  to {
+
+    transform:
+      rotate(0deg);
+
+  }
+
+}
+
+
+/* =========================================================
+   CŒUR
+========================================================= */
+
+.nexus-core {
+
+  width: 72px;
+
+  height: 72px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 40% 35%,
+      #d3f8ff,
+      #57dcff 32%,
+      #4776ff 60%,
+      #1b1d70 100%
+    );
+
+  box-shadow:
+    0 0 15px
+    rgba(
+      100,
+      220,
+      255,
+      0.9
+    ),
+    0 0 40px
+    rgba(
+      80,
+      150,
+      255,
+      0.55
+    ),
+    0 0 80px
+    rgba(
+      150,
+      90,
+      255,
+      0.3
+    );
+
+  animation:
+    corePulse
+    2.5s ease-in-out
+    infinite;
+}
+
+
+.core-symbol {
+
+  font-size: 2.2rem;
+
+  color: white;
+
+  text-shadow:
+    0 0 10px white;
+}
+
+
+@keyframes corePulse {
+
+  0%,
+  100% {
+
+    transform:
+      scale(1);
+
+    box-shadow:
+      0 0 15px
+      rgba(
+        100,
+        220,
+        255,
+        0.7
+      ),
+      0 0 40px
+      rgba(
+        80,
+        150,
+        255,
+        0.4
+      );
+
+  }
+
+  50% {
+
+    transform:
+      scale(1.08);
+
+    box-shadow:
+      0 0 25px
+      rgba(
+        100,
+        220,
+        255,
+        1
+      ),
+      0 0 70px
+      rgba(
+        120,
+        90,
+        255,
+        0.55
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   TITRE
+========================================================= */
+
+.game-title {
+
+  width: 100%;
+
+  margin-bottom: 18px;
+}
+
+
+.title-small {
+
+  display: block;
+
+  font-size:
+    clamp(
+      0.9rem,
+      4vw,
+      1.25rem
+    );
+
+  letter-spacing: 0.62em;
+
+  padding-left: 0.62em;
+
+  color:
+    rgba(
+      170,
+      220,
+      255,
+      0.75
+    );
+
+  font-weight: 600;
+}
+
+
+.game-title h1 {
+
+  margin-top: 3px;
+
+  font-size:
+    clamp(
+      2.7rem,
+      12vw,
+      5.2rem
+    );
+
+  line-height: 1;
+
+  letter-spacing: 0.05em;
+
+  font-weight: 900;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 10%,
+      #bdeeff 45%,
+      #7bbcff 75%,
+      #a17cff 100%
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+
+  filter:
+    drop-shadow(
+      0 0 15px
+      rgba(
+        80,
+        190,
+        255,
+        0.2
+      )
+    );
+}
+
+
+.title-line {
+
+  width: 120px;
+
+  height: 2px;
+
+  margin:
+    13px auto
+    0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #76dfff,
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(
+      85,
+      214,
+      255,
+      0.7
+    );
+}
+
+
+/* =========================================================
+   SLOGAN
+========================================================= */
+
+.home-tagline {
+
+  color:
+    rgba(
+      210,
+      225,
+      245,
+      0.72
+    );
+
+  font-size:
+    clamp(
+      0.9rem,
+      3.5vw,
+      1.05rem
+    );
+
+  line-height: 1.65;
+
+  letter-spacing: 0.04em;
+
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   BOUTON JOUER
+========================================================= */
+
+.play-game-btn {
+
+  position: relative;
+
+  width:
+    min(
+      88%,
+      330px
+    );
+
+  min-height: 68px;
+
+  border-radius: 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  color: #05111f;
 
   background:
     linear-gradient(
       135deg,
-      var(--blue-light),
-      var(--blue)
+      #e8fbff 0%,
+      #8be8ff 32%,
+      #5bcbff 65%,
+      #9291ff 100%
     );
 
-  font-weight: 800;
+  font-weight: 900;
 
-  font-size: 1rem;
+  font-size: 1.15rem;
 
-  letter-spacing: 0.13em;
+  letter-spacing: 0.18em;
 
   box-shadow:
-    0 0 22px
-    rgba(85, 214, 255, 0.32);
+    0 0 20px
+    rgba(
+      92,
+      210,
+      255,
+      0.35
+    ),
+    0 12px 35px
+    rgba(
+      0,
+      0,
+      0,
+      0.45
+    );
+
+  overflow: hidden;
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 
-.main-btn:active {
+.play-game-btn::before {
 
-  transform: scale(0.96);
+  content: "";
 
-  box-shadow:
-    0 0 10px
-    rgba(85, 214, 255, 0.2);
-}
+  position: absolute;
 
+  width: 80px;
 
-.icon-btn {
+  height: 180%;
 
-  width: 46px;
-  height: 46px;
+  left: -110px;
 
-  border-radius: 14px;
+  top: -40%;
+
+  transform:
+    rotate(20deg);
 
   background:
-    rgba(255, 255, 255, 0.06);
+    rgba(
+      255,
+      255,
+      255,
+      0.45
+    );
+
+  filter:
+    blur(7px);
+
+  animation:
+    buttonShine
+    4s ease-in-out
+    infinite;
+}
+
+
+@keyframes buttonShine {
+
+  0%,
+  60% {
+
+    left: -110px;
+
+  }
+
+  85% {
+
+    left: 110%;
+
+  }
+
+  100% {
+
+    left: 110%;
+
+  }
+
+}
+
+
+.play-game-btn:active {
+
+  transform:
+    scale(0.96);
+
+  box-shadow:
+    0 0 15px
+    rgba(
+      92,
+      210,
+      255,
+      0.25
+    );
+}
+
+
+.play-icon {
+
+  width: 34px;
+
+  height: 34px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding-left: 2px;
+
+  background:
+    rgba(
+      5,
+      20,
+      40,
+      0.13
+    );
+
+  font-size: 0.85rem;
+}
+
+
+.play-text {
+
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   INFOS ACCUEIL
+========================================================= */
+
+.home-info {
+
+  width:
+    min(
+      88%,
+      330px
+    );
+
+  margin-top: 19px;
+
+  padding:
+    13px
+    18px;
+
+  border-radius: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 18px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.035
+    );
 
   border:
     1px solid
-    var(--border);
+    rgba(
+      255,
+      255,
+      255,
+      0.07
+    );
 
-  color: white;
-
-  font-size: 1.2rem;
+  backdrop-filter:
+    blur(10px);
 }
 
 
+.home-info-item {
 
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  text-align: left;
+}
+
+
+.info-icon {
+
+  font-size: 1.2rem;
+
+  color: #8de7ff;
+
+  text-shadow:
+    0 0 8px
+    rgba(
+      85,
+      214,
+      255,
+      0.7
+    );
+}
+
+
+.home-info-item small {
+
+  display: block;
+
+  font-size: 0.55rem;
+
+  color:
+    rgba(
+      200,
+      215,
+      235,
+      0.5
+    );
+
+  letter-spacing: 0.12em;
+}
+
+
+.home-info-item strong {
+
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 0.82rem;
+
+  color:
+    rgba(
+      240,
+      248,
+      255,
+      0.9
+    );
+}
+
+
+.info-separator {
+
+  width: 1px;
+
+  height: 32px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+}
+
+
+/* =========================================================
+   BAS DE PAGE
+========================================================= */
+
+.home-footer {
+
+  margin-top: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width:
+    min(
+      90%,
+      360px
+    );
+}
+
+
+.home-footer span {
+
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(
+        120,
+        220,
+        255,
+        0.35
+      )
+    );
+}
+
+
+.home-footer span:last-child {
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(
+        120,
+        220,
+        255,
+        0.35
+      ),
+      transparent
+    );
+}
+
+
+.home-footer p {
+
+  white-space: nowrap;
+
+  font-size: 0.56rem;
+
+  letter-spacing: 0.18em;
+
+  color:
+    rgba(
+      190,
+      210,
+      235,
+      0.45
+    );
+}
+
+
+/* =========================================================
+   PETITS ÉCRANS
+========================================================= */
+
+@media
+(max-width: 390px) {
+
+  #homeScreen {
+
+    padding:
+      20px
+      12px;
+
+  }
+
+
+  .nexus-emblem {
+
+    width: 155px;
+
+    height: 155px;
+
+    margin-bottom: 15px;
+
+  }
+
+
+  .ring-one {
+
+    width: 150px;
+
+    height: 150px;
+
+  }
+
+
+  .ring-two {
+
+    width: 118px;
+
+    height: 118px;
+
+  }
+
+
+  .ring-three {
+
+    width: 90px;
+
+    height: 90px;
+
+  }
+
+
+  .nexus-core {
+
+    width: 62px;
+
+    height: 62px;
+
+  }
+
+
+  .core-symbol {
+
+    font-size: 1.9rem;
+
+  }
+
+
+  .home-tagline {
+
+    margin-bottom: 23px;
+
+  }
+
+
+  .play-game-btn {
+
+    min-height: 62px;
+
+  }
+
+}
 /* =========================================================
    ÉCRAN DU JEU
 ========================================================= */
