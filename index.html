@@ -1,1 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NEXUS RESONANCE</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+</head>
+
+<body>
+
+
+  <!-- =====================================================
+       ÉCRAN D'ACCUEIL
+  ====================================================== -->
+
+  <section
+    id="homeScreen"
+    class="screen active"
+  >
+
+    <div class="home-content">
+
+      <div class="logo-symbol">
+        ◈
+      </div>
+
+      <h1>
+        NEXUS
+        <span>RESONANCE</span>
+      </h1>
+
+      <p class="subtitle">
+        Relie • Déclenche • Libère
+      </p>
+
+      <button
+        id="playBtn"
+        class="main-btn"
+      >
+        JOUER
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       ÉCRAN DU JEU
+  ====================================================== -->
+
+  <section
+    id="gameScreen"
+    class="screen"
+  >
+
+
+    <!-- =========================
+         EN-TÊTE
+    ========================== -->
+
+    <header class="game-header">
+
+      <button
+        id="menuBtn"
+        class="icon-btn"
+        aria-label="Menu"
+      >
+        ☰
+      </button>
+
+
+      <div class="level-info">
+
+        <span class="small-label">
+          NIVEAU
+        </span>
+
+        <strong id="levelNumber">
+          1
+        </strong>
+
+      </div>
+
+
+      <div class="score-info">
+
+        <span class="small-label">
+          SCORE
+        </span>
+
+        <strong id="score">
+          0
+        </strong>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         OBJECTIF
+    ========================== -->
+
+    <div class="objective-panel">
+
+      <div class="objective-title">
+        OBJECTIF
+      </div>
+
+      <div id="objectiveText">
+        Faire disparaître 20 lunes
+      </div>
+
+
+      <div class="objective-progress">
+
+        <span id="objectiveCurrent">
+          0
+        </span>
+
+        <span>
+          /
+        </span>
+
+        <span id="objectiveTarget">
+          20
+        </span>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         TEMPS / COUPS
+    ========================== -->
+
+    <div class="game-status">
+
+      <div
+        id="timerBox"
+        class="status-box"
+      >
+
+        <span class="status-label">
+          TEMPS
+        </span>
+
+        <strong id="timer">
+          60
+        </strong>
+
+      </div>
+
+
+      <div
+        id="movesBox"
+        class="status-box hidden"
+      >
+
+        <span class="status-label">
+          COUPS
+        </span>
+
+        <strong id="moves">
+          20
+        </strong>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         COMBO
+    ========================== -->
+
+    <div
+      id="comboDisplay"
+      class="combo-display"
+    >
+      COMBO ×1
+    </div>
+
+
+
+    <!-- =========================
+         GRILLE
+    ========================== -->
+
+    <main class="game-zone">
+
+      <div
+        id="gameBoard"
+        class="game-board"
+      >
+
+        <!--
+          Les cases seront créées
+          automatiquement par JavaScript.
+        -->
+
+      </div>
+
+    </main>
+
+
+
+    <!-- =========================
+         INFORMATION
+    ========================== -->
+
+    <div
+      id="gameMessage"
+      class="game-message"
+    >
+      Sélectionne un groupe de symboles identiques.
+    </div>
+
+
+  </section>
+
+
+
+  <!-- =====================================================
+       MENU PAUSE
+  ====================================================== -->
+
+  <div
+    id="pauseMenu"
+    class="overlay hidden"
+  >
+
+    <div class="modal">
+
+      <h2>
+        PAUSE
+      </h2>
+
+      <button
+        id="resumeBtn"
+        class="modal-btn"
+      >
+        CONTINUER
+      </button>
+
+      <button
+        id="restartBtn"
+        class="modal-btn"
+      >
+        RECOMMENCER
+      </button>
+
+      <button
+        id="homeBtn"
+        class="modal-btn secondary"
+      >
+        ACCUEIL
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       VICTOIRE
+  ====================================================== -->
+
+  <div
+    id="victoryScreen"
+    class="overlay hidden"
+  >
+
+    <div class="modal victory">
+
+      <div class="result-symbol">
+        ✦
+      </div>
+
+      <h2>
+        NIVEAU TERMINÉ
+      </h2>
+
+      <p>
+        Résonance stabilisée.
+      </p>
+
+
+      <div class="result-score">
+
+        SCORE
+
+        <strong id="victoryScore">
+          0
+        </strong>
+
+      </div>
+
+
+      <button
+        id="nextLevelBtn"
+        class="main-btn"
+      >
+        NIVEAU SUIVANT
+      </button>
+
+
+      <button
+        id="victoryRestartBtn"
+        class="modal-btn secondary"
+      >
+        REJOUER
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       DÉFAITE
+  ====================================================== -->
+
+  <div
+    id="defeatScreen"
+    class="overlay hidden"
+  >
+
+    <div class="modal defeat">
+
+      <div class="result-symbol">
+        ✕
+      </div>
+
+      <h2>
+        ÉCHEC
+      </h2>
+
+      <p>
+        La résonance s'est interrompue.
+      </p>
+
+
+      <button
+        id="defeatRestartBtn"
+        class="main-btn"
+      >
+        RECOMMENCER
+      </button>
+
+
+      <button
+        id="defeatHomeBtn"
+        class="modal-btn secondary"
+      >
+        ACCUEIL
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       SCRIPT
+  ====================================================== -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
