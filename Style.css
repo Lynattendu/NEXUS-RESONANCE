@@ -969,3 +969,21 @@ button {
     border-radius: 15px;
   }
 }
+
+/* =========================================================
+   images 
+========================================================= */
+.symbol-img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+
+  filter:
+    drop-shadow(
+      0 0 7px
+      rgba(120, 220, 255, 0.28)
+    );
+}
