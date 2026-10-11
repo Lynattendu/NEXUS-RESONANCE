@@ -569,8 +569,24 @@ button {
 ========================================================= */
 
 #gameScreen {
-  align-items: center;
-  padding-bottom: 26px;
+  position: relative;
+
+  min-height: 100vh;
+
+  background-image:
+    linear-gradient(
+      rgba(3, 10, 25, 0.38),
+      rgba(3, 8, 20, 0.58)
+    ),
+    url("Images/Parcours/fond-jeu-ruines-lumineuses.PNG");
+
+  background-size: cover;
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
 }
 
 .game-header {
@@ -701,36 +717,151 @@ button {
 
 .game-board {
   --columns: 7;
+
   width: min(94vw, 560px);
+
   display: grid;
-  grid-template-columns: repeat(var(--columns), 1fr);
-  gap: clamp(4px, 1.2vw, 8px);
-  padding: clamp(7px, 2vw, 12px);
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(12, 20, 38, 0.92), rgba(4, 8, 18, 0.96));
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-  touch-action: manipulation;
+
+  grid-template-columns:
+    repeat(
+      var(--columns),
+      1fr
+    );
+
+  gap:
+    clamp(
+      4px,
+      1.2vw,
+      8px
+    );
+
+  padding:
+    clamp(
+      9px,
+      2vw,
+      14px
+    );
+
+  border-radius: 24px;
+
+  background:
+    rgba(
+      4,
+      15,
+      35,
+      0.62
+    );
+
+  border:
+    1px solid
+    rgba(
+      110,
+      215,
+      255,
+      0.25
+    );
+
+  backdrop-filter:
+    blur(8px);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+
+  box-shadow:
+    0 0 28px
+    rgba(
+      60,
+      185,
+      255,
+      0.12
+    ),
+    0 22px 50px
+    rgba(
+      0,
+      0,
+      0,
+      0.35
+    );
+
+  touch-action:
+    manipulation;
 }
 
 .tile {
   position: relative;
-  aspect-ratio: 1;
-  width: 100%;
-  border-radius: clamp(8px, 2vw, 13px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none;
-  -webkit-user-select: none;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-}
 
+  aspect-ratio: 1;
+
+  width: 100%;
+
+  border-radius:
+    clamp(
+      8px,
+      2vw,
+      13px
+    );
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  user-select: none;
+
+  -webkit-user-select: none;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(
+        17,
+        39,
+        70,
+        0.88
+      ),
+      rgba(
+        5,
+        18,
+        42,
+        0.92
+      )
+    );
+
+  border:
+    1px solid
+    rgba(
+      135,
+      220,
+      255,
+      0.16
+    );
+
+  box-shadow:
+    inset 0 0 14px
+    rgba(
+      100,
+      190,
+      255,
+      0.06
+    ),
+    0 5px 10px
+    rgba(
+      0,
+      0,
+      0,
+      0.22
+    );
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
 .tile:active {
   transform: scale(0.92);
 }
