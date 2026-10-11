@@ -23,8 +23,7 @@ const gameScreen =
 const pathMessage =
   document.getElementById("pathMessage");
 
-const continuePathBtn =
-  document.getElementById("continuePathBtn");
+
 
 const pathHomeBtn =
   document.getElementById("pathHomeBtn");
@@ -2579,34 +2578,8 @@ function showPathAfterVictory() {
      MESSAGE
   ------------------------------------------------------- */
 
-  if (
-    currentLevel <
-    LEVELS.length - 1
-  ) {
-
-    pathMessage.textContent =
-      `Niveau ${completedLevel} terminé. Le niveau ${nextLevel} vient de se débloquer.`;
-
-
-    continuePathBtn.textContent =
-      "CONTINUER L'AVENTURE";
-
-
-    continuePathBtn.disabled =
-      false;
-
-  }
-
-  else {
-
-    pathMessage.textContent =
-      "Tu as atteint le Nexus des Abysses. Tous les niveaux sont terminés.";
-
-
-    continuePathBtn.textContent =
-      "REVENIR À L'ACCUEIL";
-
-  }
+  const continuePathBtn =
+  document.getElementById("continuePathBtn");
 
 
   /* -------------------------------------------------------
@@ -2660,42 +2633,7 @@ function showPathAfterVictory() {
 }
 
 
-/* =========================================================
-   CONTINUER DEPUIS LE PARCOURS
-========================================================= */
 
-function continueFromPath() {
-
-  /*
-     Dernier niveau terminé
-  */
-
-  if (
-    currentLevel >=
-    LEVELS.length - 1
-  ) {
-
-    showHome();
-
-    return;
-
-  }
-
-
-  currentLevel++;
-
-
-  localStorage.setItem(
-    STORAGE_LEVEL,
-    currentLevel
-  );
-
-
-  startLevel(
-    currentLevel
-  );
-
-}
 /* =========================================================
    BOUTONS
 ========================================================= */
@@ -2855,14 +2793,77 @@ defeatHomeBtn.addEventListener(
 
   }
 );
-continuePathBtn.addEventListener(
-  "click",
-  () => {
+/* =========================================================
+   CLIC SUR UN NIVEAU DU PARCOURS
+========================================================= */
 
-    continueFromPath();
+pathNodes.forEach(node => {
 
-  }
-);
+  node.addEventListener(
+    "click",
+    () => {
+
+      if (
+        !pathScreen.classList.contains("active")
+      ) {
+
+        return;
+
+      }
+
+
+      const selectedLevel =
+        Number(
+          node.dataset.level
+        );
+
+
+      const nextLevel =
+        currentLevel + 2;
+
+
+      /*
+         Seul le niveau qui vient
+         d'être débloqué est cliquable.
+      */
+
+      if (
+        selectedLevel !== nextLevel
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        selectedLevel >
+        LEVELS.length
+      ) {
+
+        return;
+
+      }
+
+
+      currentLevel =
+        selectedLevel - 1;
+
+
+      localStorage.setItem(
+        STORAGE_LEVEL,
+        currentLevel
+      );
+
+
+      startLevel(
+        currentLevel
+      );
+
+    }
+  );
+
+});
 
 
 pathHomeBtn.addEventListener(
