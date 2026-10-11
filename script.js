@@ -2327,14 +2327,57 @@ function stopTimer() {
 
 function finishVictory() {
 
+  if (
+    levelFinished
+  ) {
+
+    return;
+
+  }
+
+
   levelFinished = true;
 
   processing = false;
 
   stopTimer();
 
+
   victoryScore.textContent =
     score;
+
+
+  /*
+     Niveau maximum désormais débloqué
+  */
+
+  const unlockedLevel =
+    Math.min(
+      currentLevel + 2,
+      LEVELS.length
+    );
+
+
+  const previousUnlocked =
+    Number(
+      localStorage.getItem(
+        STORAGE_UNLOCKED
+      )
+    ) || 1;
+
+
+  if (
+    unlockedLevel >
+    previousUnlocked
+  ) {
+
+    localStorage.setItem(
+      STORAGE_UNLOCKED,
+      unlockedLevel
+    );
+
+  }
+
 
   victoryScreen.classList.remove(
     "hidden"
