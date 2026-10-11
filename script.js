@@ -20,6 +20,9 @@ const gameScreen =
 const playBtn =
   document.getElementById("playBtn");
 
+  const resetProgressBtn =
+  document.getElementById("resetProgressBtn"); 
+
 const homeLevel =
   document.getElementById("homeLevel");
 
