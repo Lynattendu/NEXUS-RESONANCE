@@ -353,6 +353,224 @@ const LEVELS = [
     ]
   }
 
+/* =========================================================
+   NIVEAU 7
+   Perles + méduses
+========================================================= */
+
+{
+  name: "Jardin des Perles",
+
+  mode: "moves",
+
+  moves: 24,
+
+  objectives: {
+    perle: 20,
+    meduse: 20
+  },
+
+  blockers: []
+},
+
+
+/* =========================================================
+   NIVEAU 8
+   Hippocampes + glace
+========================================================= */
+
+{
+  name: "Cristaux du Récif",
+
+  mode: "time",
+
+  time: 80,
+
+  objectives: {
+    hippocampe: 30
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 1,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 4,
+      type: "ice",
+      hp: 1
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 9
+   Poissons + pierres renforcées
+========================================================= */
+
+{
+  name: "Les Roches Profondes",
+
+  mode: "moves",
+
+  moves: 26,
+
+  objectives: {
+    poisson: 25
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 3,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 3,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 10
+   Niveau plus difficile
+   Étoiles + poulpes + cadenas
+========================================================= */
+
+{
+  name: "Gardien du Nexus",
+
+  mode: "time",
+
+  time: 95,
+
+  objectives: {
+    etoile: 20,
+    poulpe: 20
+  },
+
+  blockers: [
+
+    {
+      row: 3,
+      col: 1,
+      type: "lock",
+      symbol: "etoile",
+      amount: 10
+    },
+
+    {
+      row: 3,
+      col: 3,
+      type: "lock",
+      symbol: "etoile",
+      amount: 10
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 10
+    },
+
+    {
+      row: 5,
+      col: 2,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 10
+    },
+
+    {
+      row: 5,
+      col: 4,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 10
+    }
+
+  ]
+}
+
+
+   
 ];
 
 /* =========================================================
