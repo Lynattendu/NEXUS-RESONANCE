@@ -123,6 +123,61 @@ const MATCH_SIZE = 3;
 
 
 /* =========================================================
+   IMAGES DES OBJECTIFS
+========================================================= */
+
+const OBJECTIVE_IMAGES = {
+  etoile: "Images/Symboles/Etoile-de-mer.PNG",
+  hippocampe: "Images/Symboles/Hippocampe.PNG",
+  meduse: "Images/Symboles/Meduse.PNG",
+  perle: "Images/Symboles/Perle.PNG",
+  poisson: "Images/Symboles/Poisson.PNG",
+  poulpe: "Images/Symboles/Poulpe.PNG"
+};
+
+
+/* =========================================================
+   AFFICHER LES OBJECTIFS AVEC ICÔNES
+========================================================= */
+
+function renderObjectiveDisplay() {
+
+  const level =
+    LEVELS[currentLevel];
+
+  const objectives =
+    Object.entries(level.objectives);
+
+  objectiveText.innerHTML =
+    objectives.map(([symbolId, target]) => {
+
+      const current =
+        Math.min(
+          collected[symbolId] || 0,
+          target
+        );
+
+      const imagePath =
+        OBJECTIVE_IMAGES[symbolId] || "";
+
+      return `
+        <div class="objective-item">
+          <img
+            class="objective-symbol"
+            src="${imagePath}"
+            alt="${symbolId}"
+          >
+          <div class="objective-count">
+            ${current} / ${target}
+          </div>
+        </div>
+      `;
+
+    }).join("");
+
+}
+   
+/* =========================================================
    SYMBOLES
 ========================================================= */
 
@@ -853,7 +908,7 @@ selectedCell = null;
   configureLevel();
 
   renderBoard();
-
+renderObjectiveDisplay();
   updateInterface();
 
   gameMessage.textContent =
@@ -3456,11 +3511,7 @@ function updateInterface() {
   const progress =
     getObjectiveProgress();
 
-  objectiveCurrent.textContent =
-    progress.current;
-
-  objectiveTarget.textContent =
-    progress.target;
+ renderObjectiveDisplay();
 
 }
 
