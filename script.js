@@ -161,107 +161,74 @@ const SYMBOLS = [
 const LEVELS = [
 
   {
-    name: "Première résonance",
+  name: "Première résonance",
 
-    mode: "free",
+  mode: "free",
 
-    objectives: {
-      moon: 20
-    },
-
-    blockers: []
+  objectives: {
+    etoile: 20
   },
 
+  blockers: []
+},
 
-  {
-    name: "Feu intérieur",
+  {{
+  name: "Feu intérieur",
 
-    mode: "time",
+  mode: "time",
 
-    time: 60,
+  time: 60,
 
-    objectives: {
-      fire: 25
-    },
-
-    blockers: []
+  objectives: {
+    poulpe: 25
   },
 
+  blockers: []
+},
 
-  {
-    name: "Double fréquence",
+  {{
+  name: "Double fréquence",
 
-    mode: "moves",
+  mode: "moves",
 
-    moves: 22,
+  moves: 22,
 
-    objectives: {
-      moon: 15,
-      lightning: 15
-    },
-
-    blockers: []
+  objectives: {
+    hippocampe: 15,
+    poisson: 15
   },
 
+  blockers: []
+},
 
   {
-    name: "Cœur de glace",
+  name: "Cœur de glace",
 
-    mode: "time",
+  mode: "time",
 
-    time: 75,
+  time: 75,
 
-    objectives: {
-      water: 25
-    },
-
-    clearBlocks: true,
-
-    blockers: [
-
-      {
-        row: 2,
-        col: 2,
-        type: "ice",
-        hp: 1
-      },
-
-      {
-        row: 2,
-        col: 4,
-        type: "ice",
-        hp: 1
-      },
-
-      {
-        row: 4,
-        col: 1,
-        type: "ice",
-        hp: 1
-      },
-
-      {
-        row: 4,
-        col: 5,
-        type: "ice",
-        hp: 1
-      }
-
-    ]
+  objectives: {
+    meduse: 25
   },
 
+  clearBlocks: true,
 
-  {
-    name: "Sceau lunaire",
+  blockers: [
 
-    mode: "moves",
+  {{
+  name: "Sceau lunaire",
 
-    moves: 28,
+  mode: "moves",
 
-    objectives: {
-      moon: 25,
-      fire: 15
-    },
+  moves: 28,
+
+  objectives: {
+    etoile: 25,
+    perle: 15
+  },
+
+  blockers: [
 
     blockers: [
 
