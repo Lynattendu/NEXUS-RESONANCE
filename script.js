@@ -117,43 +117,42 @@ const AUTO_RESONANCE_SIZE = 4;
 const SYMBOLS = [
 
   {
-    id: "moon",
-    icon: "🌙",
-    name: "lunes"
+    id: "etoile",
+    image: "Images/Symboles/Etoile-de-mer.PNG",
+    name: "étoiles de mer"
   },
 
   {
-    id: "fire",
-    icon: "🔥",
-    name: "flammes"
+    id: "poulpe",
+    image: "Images/Symboles/Poulpe.PNG",
+    name: "poulpes"
   },
 
   {
-    id: "water",
-    icon: "💧",
-    name: "gouttes"
+    id: "hippocampe",
+    image: "Images/Symboles/Hippocampe.PNG",
+    name: "hippocampes"
   },
 
   {
-    id: "leaf",
-    icon: "🌿",
-    name: "feuilles"
+    id: "poisson",
+    image: "Images/Symboles/Poisson.PNG",
+    name: "poissons"
   },
 
   {
-    id: "lightning",
-    icon: "⚡",
-    name: "éclairs"
+    id: "meduse",
+    image: "Images/Symboles/Meduse.PNG",
+    name: "méduses"
   },
 
   {
-    id: "crystal",
-    icon: "💎",
-    name: "cristaux"
+    id: "perle",
+    image: "Images/Symboles/Perle.PNG",
+    name: "perles"
   }
 
 ];
-
 
 /* =========================================================
    NIVEAUX
