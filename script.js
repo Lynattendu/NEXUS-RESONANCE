@@ -19,7 +19,10 @@ const gameScreen =
 const playBtn =
   document.getElementById("playBtn");
 
-const menuBtn =
+   const homeLevel =
+  document.getElementById("homeLevel");
+
+   const menuBtn =
   document.getElementById("menuBtn");
 
 const pauseMenu =
@@ -490,6 +493,14 @@ function showHome() {
   victoryScreen.classList.add("hidden");
 
   defeatScreen.classList.add("hidden");
+
+
+  if (homeLevel) {
+
+    homeLevel.textContent =
+      currentLevel + 1;
+
+  }
 
 }
 
