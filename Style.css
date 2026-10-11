@@ -88,7 +88,183 @@ body {
     #aebbd0;
 }
 
+/* =========================================================
+   BOUTONS
+========================================================= */
 
+button {
+
+  font-family: inherit;
+
+  border: none;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+
+/* =========================================================
+   BOUTON PRINCIPAL
+========================================================= */
+
+.main-btn {
+
+  min-width: 220px;
+
+  padding:
+    16px
+    28px;
+
+  border-radius: 50px;
+
+  color: #06111c;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue-light),
+      var(--blue)
+    );
+
+  font-weight: 800;
+
+  font-size: 1rem;
+
+  letter-spacing: 0.13em;
+
+  box-shadow:
+    0 0 22px
+    rgba(85, 214, 255, 0.32);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.main-btn:active {
+
+  transform: scale(0.96);
+
+  box-shadow:
+    0 0 10px
+    rgba(85, 214, 255, 0.2);
+}
+
+
+/* =========================================================
+   PETIT BOUTON ICÔNE
+   Exemple : menu ☰
+========================================================= */
+
+.icon-btn {
+
+  width: 46px;
+  height: 46px;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  border:
+    1px solid
+    var(--border);
+
+  color: white;
+
+  font-size: 1.2rem;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.icon-btn:active {
+
+  transform: scale(0.92);
+
+  background:
+    rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================================================
+   BOUTONS DES FENÊTRES / MENUS
+========================================================= */
+
+.modal-btn {
+
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 11px;
+
+  padding:
+    13px
+    18px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid
+    var(--border);
+
+  color: white;
+
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+
+.modal-btn:active {
+
+  transform: scale(0.97);
+
+  background:
+    rgba(255, 255, 255, 0.13);
+}
+
+
+.modal-btn.secondary {
+
+  color: var(--text-soft);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   ACCESSIBILITÉ
+========================================================= */
+
+button:focus-visible {
+
+  outline:
+    3px solid
+    rgba(85, 214, 255, 0.85);
+
+  outline-offset: 3px;
+}
 
 /* =========================================================
    ÉCRANS
