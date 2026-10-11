@@ -2125,7 +2125,6 @@ button {
 
 }
 
-
 /* =========================================================
    PAS DE LIGNE ARTIFICIELLE
    Le courant est déjà dessiné sur l'image
@@ -2216,110 +2215,7 @@ button {
 }
 
 
-/* =========================================================
-   CERCLE NIVEAU
-========================================================= */
 
-.node-circle {
-  position: relative;
-
-  width: 68px;
-  height: 68px;
-
-  flex: 0 0 auto;
-
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1.2rem;
-  font-weight: 900;
-
-  color: #ffffff;
-
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      rgba(240, 252, 255, 0.9),
-      rgba(67, 208, 255, 0.86) 20%,
-      rgba(48, 111, 220, 0.92) 58%,
-      rgba(43, 26, 120, 0.96) 100%
-    );
-
-  border:
-    2px solid
-    rgba(180, 238, 255, 0.65);
-
-  box-shadow:
-    0 0 12px
-    rgba(88, 222, 255, 0.5),
-    0 0 28px
-    rgba(69, 124, 255, 0.25),
-    inset 0 0 12px
-    rgba(255, 255, 255, 0.18);
-}
-
-
-/* =========================================================
-   HALO
-========================================================= */
-
-.node-circle::before {
-  content: "";
-
-  position: absolute;
-  inset: -8px;
-
-  border-radius: 50%;
-
-  border:
-    1px solid
-    rgba(120, 223, 255, 0.18);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   NOM DU NIVEAU
-========================================================= */
-
-.node-label {
-  max-width: 150px;
-
-  padding:
-    7px
-    10px;
-
-  border-radius: 12px;
-
-  background:
-    rgba(5, 14, 30, 0.76);
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.1);
-
-  color:
-    rgba(240, 248, 255, 0.94);
-
-  font-size: 0.78rem;
-
-  line-height: 1.2;
-
-  text-align: center;
-
-  backdrop-filter:
-    blur(7px);
-
-  box-shadow:
-    0 8px 20px
-    rgba(0, 0, 0, 0.22);
-
-  white-space: nowrap;
-}
 
 
 /* =========================================================
@@ -2556,24 +2452,7 @@ button {
     height: 1250px;
   }
 
-  .node-circle {
-    width: 56px;
-    height: 56px;
-
-    font-size: 1rem;
-  }
-
-  .node-label {
-    max-width: 110px;
-
-    padding:
-      6px
-      7px;
-
-    font-size: 0.65rem;
-
-    white-space: normal;
-  }
+ 
 
 }
 
@@ -2590,18 +2469,7 @@ button {
     height: 1650px;
   }
 
-  .node-circle {
-    width: 76px;
-    height: 76px;
-
-    font-size: 1.3rem;
-  }
-
-  .node-label {
-    max-width: 180px;
-    font-size: 0.84rem;
-  }
-
+ 
 }
 /* =========================================================
    ACCESSIBILITÉ
