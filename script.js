@@ -873,16 +873,19 @@ function renderBoard() {
           cell.symbol
         );
 
-        const span =
-          document.createElement("span");
+       const img =
+  document.createElement("img");
 
-        span.className =
-          "symbol";
+img.className =
+  "symbol-img";
 
-        span.textContent =
-          data.icon;
+img.src =
+  data.image;
 
-        tile.appendChild(span);
+img.alt =
+  data.name;
+
+tile.appendChild(img);
 
         tile.addEventListener(
           "click",
