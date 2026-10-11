@@ -1805,12 +1805,12 @@ button {
   .level-path {
     width: 96vw;
 
-    min-height: 690px;
+    min-height: 1080px;
   }
 
 
   .level-path::before {
-    height: 590px;
+    height: 970px;
   }
 
 
@@ -1846,7 +1846,21 @@ button {
   .node-6 {
     left: 66%;
   }
+.node-7 {
+  left: 35%;
+}
 
+.node-8 {
+  left: 66%;
+}
+
+.node-9 {
+  left: 35%;
+}
+
+.node-10 {
+  left: 64%;
+}
 }
 
 
@@ -1863,14 +1877,14 @@ button {
 
 
   .level-path {
-    min-height: 900px;
+    min-height: 1320px;
 
     max-width: 620px;
   }
 
 
   .level-path::before {
-    height: 770px;
+    height: 1180px;
   }
 
 
