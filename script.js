@@ -2829,18 +2829,7 @@ nextLevelBtn.addEventListener(
   "click",
   () => {
 
-    let next =
-      currentLevel + 1;
-
-    if (
-      next >= LEVELS.length
-    ) {
-
-      next = 0;
-
-    }
-
-    startLevel(next);
+    showPathAfterVictory();
 
   }
 );
@@ -2866,7 +2855,24 @@ defeatHomeBtn.addEventListener(
 
   }
 );
+continuePathBtn.addEventListener(
+  "click",
+  () => {
 
+    continueFromPath();
+
+  }
+);
+
+
+pathHomeBtn.addEventListener(
+  "click",
+  () => {
+
+    showHome();
+
+  }
+);
 
 /* =========================================================
    DÉMARRAGE
