@@ -1650,14 +1650,479 @@ button {
 
 /* =========================================================
    ZONE DU PARCOURS
+   VERSION PLUS FINE / PLUS LISIBLE
 ========================================================= */
 
 .level-path {
   position: relative;
-  width: 92vw;
-  max-width: 900px;
-  height: 1500px;
-  margin: 10px auto 25px;
+
+  width: 96vw;
+  max-width: 520px;
+
+  height: 1180px;
+
+  margin: 8px auto 24px;
+}
+
+
+/* Le courant est déjà dans l’image */
+.level-path::before {
+  display: none;
+}
+
+
+/* =========================================================
+   NŒUDS DU PARCOURS
+========================================================= */
+
+.path-node {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 3;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+
+/* =========================================================
+   POSITIONS DES 10 NIVEAUX
+   (on pourra ajuster plus tard si besoin)
+========================================================= */
+
+.node-1  { left: 36%; top: 7%; }
+.node-2  { left: 48%; top: 16%; }
+.node-3  { left: 62%; top: 25%; }
+.node-4  { left: 50%; top: 35%; }
+.node-5  { left: 37%; top: 45%; }
+.node-6  { left: 49%; top: 55%; }
+.node-7  { left: 63%; top: 65%; }
+.node-8  { left: 50%; top: 75%; }
+.node-9  { left: 37%; top: 85%; }
+.node-10 { left: 50%; top: 94%; }
+
+
+/* =========================================================
+   BULLE DU NIVEAU
+========================================================= */
+
+.node-circle {
+  position: relative;
+
+  width: 56px;
+  height: 56px;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #f6fdff 0%,
+      #9ae8ff 18%,
+      #4eb9ff 38%,
+      #3556dc 67%,
+      #271b74 100%
+    );
+
+  border: 2px solid rgba(208, 243, 255, 0.72);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 12px rgba(99, 224, 255, 0.42),
+    0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+
+.node-circle::before {
+  content: "";
+
+  position: absolute;
+  inset: -5px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(139, 232, 255, 0.22);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   NOM DU NIVEAU
+========================================================= */
+
+.node-label {
+  min-width: 108px;
+  max-width: 142px;
+
+  padding: 7px 10px;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(5, 18, 42, 0.92),
+      rgba(8, 25, 56, 0.88)
+    );
+
+  border: 1px solid rgba(173, 230, 255, 0.18);
+
+  color: #ffffff;
+
+  font-size: 0.74rem;
+  line-height: 1.16;
+  text-align: left;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+
+/* =========================================================
+   NIVEAU VALIDÉ
+========================================================= */
+
+.path-node.completed .node-circle {
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #ffffff 0%,
+      #c7ffcb 18%,
+      #6ae86c 40%,
+      #23a63e 72%,
+      #146129 100%
+    );
+
+  border-color: rgba(220, 255, 220, 0.92);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 14px rgba(105, 255, 123, 0.44),
+    0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+
+.path-node.completed .node-circle::after {
+  content: "✓";
+
+  position: absolute;
+
+  right: -4px;
+  bottom: -4px;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #6de85b;
+  color: #ffffff;
+
+  font-size: 0.78rem;
+  font-weight: 900;
+
+  border: 2px solid rgba(255, 255, 255, 0.9);
+
+  box-shadow:
+    0 0 10px rgba(72, 232, 83, 0.45);
+}
+
+
+/* =========================================================
+   NIVEAU ACTUEL
+========================================================= */
+
+.path-node.current {
+  z-index: 6;
+}
+
+
+.path-node.current .node-circle {
+  transform: scale(1.04);
+
+  border-color: rgba(255, 245, 180, 0.96);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 18px rgba(255, 222, 124, 0.65),
+    0 0 34px rgba(118, 214, 255, 0.34),
+    0 10px 24px rgba(0, 0, 0, 0.34);
+
+  animation: currentNodePulse 1.8s ease-in-out infinite;
+}
+
+
+.path-node.current .node-label {
+  border-color: rgba(255, 238, 179, 0.28);
+}
+
+
+@keyframes currentNodePulse {
+  0%, 100% {
+    transform: scale(1.02);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.09);
+    filter: brightness(1.14);
+  }
+}
+
+
+/* =========================================================
+   NIVEAU VERROUILLÉ
+   IMPORTANT : on ne le rend PAS trop transparent
+========================================================= */
+
+.path-node.locked-path {
+  opacity: 0.95;
+  filter: none;
+}
+
+
+.path-node.locked-path .node-circle {
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #f4fbff 0%,
+      #acd9ff 16%,
+      #6b9fff 32%,
+      #4d53d8 60%,
+      #33206d 100%
+    );
+
+  border-color: rgba(213, 239, 255, 0.78);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 10px rgba(92, 178, 255, 0.26),
+    0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+
+.path-node.locked-path .node-circle::after {
+  content: "🔒";
+
+  position: absolute;
+
+  right: -3px;
+  bottom: -4px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f0b84b;
+
+  font-size: 0.66rem;
+
+  box-shadow:
+    0 0 8px rgba(255, 194, 89, 0.35);
+}
+
+
+.path-node.locked-path .node-label {
+  color: rgba(245, 249, 255, 0.95);
+  border-color: rgba(180, 225, 255, 0.13);
+}
+
+
+/* =========================================================
+   ANIMATION DÉBLOCAGE
+========================================================= */
+
+.path-node.unlocking-path .node-circle {
+  animation: unlockPathNode 0.9s ease forwards;
+}
+
+
+@keyframes unlockPathNode {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.4;
+    filter: brightness(0.7);
+  }
+
+  45% {
+    transform: scale(1.22);
+    opacity: 1;
+    filter: brightness(1.45);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+
+/* =========================================================
+   EN-TÊTE DU PARCOURS
+========================================================= */
+
+.path-header {
+  width: min(95%, 470px);
+
+  margin: 0 auto 14px;
+
+  padding: 16px 14px 14px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 25, 52, 0.82),
+      rgba(7, 20, 43, 0.74)
+    );
+
+  border: 1px solid rgba(141, 220, 255, 0.16);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  text-align: center;
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+
+.path-header h2,
+.path-header h3,
+.path-header p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* =========================================================
+   CONTENU DU PARCOURS
+========================================================= */
+
+.path-content {
+  padding: 14px 10px 28px;
+}
+
+
+/* =========================================================
+   BOUTON ACCUEIL / RETOUR
+========================================================= */
+
+.path-home-btn {
+  margin-top: 10px;
+
+  padding: 9px 14px;
+
+  border-radius: 14px;
+
+  background: rgba(4, 14, 32, 0.62);
+
+  border: 1px solid rgba(167, 224, 255, 0.12);
+
+  color: rgba(226, 241, 251, 0.78);
+
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+
+/* =========================================================
+   PETITS TÉLÉPHONES
+========================================================= */
+
+@media (max-width: 390px) {
+
+  .level-path {
+    width: 97vw;
+    height: 1110px;
+  }
+
+  .node-circle {
+    width: 50px;
+    height: 50px;
+
+    font-size: 1.15rem;
+  }
+
+  .node-label {
+    min-width: 96px;
+    max-width: 122px;
+
+    padding: 6px 8px;
+
+    font-size: 0.67rem;
+  }
+
+  .path-content {
+    padding: 10px 6px 22px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLETTE
+========================================================= */
+
+@media (min-width: 700px) {
+
+  .level-path {
+    max-width: 760px;
+    width: 78vw;
+    height: 1380px;
+  }
+
+  .node-circle {
+    width: 66px;
+    height: 66px;
+
+    font-size: 1.5rem;
+  }
+
+  .node-label {
+    min-width: 126px;
+    max-width: 170px;
+
+    font-size: 0.84rem;
+  }
+
 }
 
 
