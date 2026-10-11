@@ -21,288 +21,298 @@
 
 
   <!-- =====================================================
-       ÉCRAN D'ACCUEIL
-  ====================================================== -->
+     ÉCRAN D'ACCUEIL
+====================================================== -->
 
-  <section
-    id="homeScreen"
-    class="screen active"
-  >
+<section
+  id="homeScreen"
+  class="screen active"
+>
 
-    <div class="home-bg">
+  <div class="home-bg">
 
-      <div class="home-orb orb-1"></div>
-      <div class="home-orb orb-2"></div>
-      <div class="home-orb orb-3"></div>
+    <div class="home-water-light"></div>
+
+    <div class="home-orb orb-1"></div>
+    <div class="home-orb orb-2"></div>
+    <div class="home-orb orb-3"></div>
+
+    <div class="particles">
+
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+  </div>
 
 
-      <div class="particles">
+  <div class="home-content">
 
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+
+    <!-- =========================
+         EMBLÈME NEXUS
+    ========================== -->
+
+    <div class="nexus-emblem">
+
+      <div class="nexus-ring ring-one"></div>
+      <div class="nexus-ring ring-two"></div>
+      <div class="nexus-ring ring-three"></div>
+
+      <div class="nexus-core">
+
+        <span class="core-symbol">
+          ✦
+        </span>
 
       </div>
 
     </div>
 
 
-    <div class="home-content">
+    <!-- =========================
+         TITRE
+    ========================== -->
+
+    <div class="game-title">
+
+      <span class="title-small">
+        NEXUS
+      </span>
+
+      <h1>
+        RESONANCE
+      </h1>
+
+      <div class="title-line"></div>
+
+    </div>
 
 
-      <!-- =========================
-           EMBLÈME NEXUS
-      ========================== -->
+    <!-- =========================
+         SLOGAN
+    ========================== -->
 
-      <div class="nexus-emblem">
+    <p class="home-tagline">
 
-        <div class="nexus-ring ring-one"></div>
+      Explore les profondeurs.
+      <br>
 
-        <div class="nexus-ring ring-two"></div>
+      Aligne les symboles.
+      <br>
 
-        <div class="nexus-ring ring-three"></div>
+      Libère la résonance.
+
+    </p>
 
 
-        <div class="nexus-core">
+    <!-- =========================
+         BOUTON JOUER
+    ========================== -->
 
-          <span class="core-symbol">
-            ✦
-          </span>
+    <button
+      id="playBtn"
+      class="play-game-btn"
+      type="button"
+    >
+
+      <span class="play-icon">
+        ▶
+      </span>
+
+      <span class="play-text">
+        JOUER
+      </span>
+
+    </button>
+
+
+    <!-- =========================
+         INFOS ACCUEIL
+    ========================== -->
+
+    <div class="home-info">
+
+      <div class="home-info-item">
+
+        <span class="info-icon">
+          ◈
+        </span>
+
+        <div>
+
+          <small>
+            NIVEAU
+          </small>
+
+          <strong id="homeLevel">
+            1
+          </strong>
 
         </div>
 
       </div>
 
 
-      <!-- =========================
-           TITRE
-      ========================== -->
+      <div class="info-separator"></div>
 
-      <div class="game-title">
 
-        <span class="title-small">
-          NEXUS
+      <div class="home-info-item">
+
+        <span class="info-icon">
+          ✦
         </span>
 
+        <div>
 
-        <h1>
-          RESONANCE
-        </h1>
+          <small>
+            MISSION
+          </small>
 
+          <strong>
+            Résonner
+          </strong>
 
-        <div class="title-line"></div>
+        </div>
 
       </div>
 
+    </div>
 
-      <!-- =========================
-           SLOGAN
-      ========================== -->
 
-      <p class="home-tagline">
+    <!-- =========================
+         RÉINITIALISER
+    ========================== -->
 
-        Connecte les symboles.
-        <br>
+    <button
+      id="resetProgressBtn"
+      class="reset-progress-btn"
+      type="button"
+    >
 
-        Déclenche la résonance.
+      ↻ RECOMMENCER DEPUIS LE NIVEAU 1
 
+    </button>
+
+
+    <!-- =========================
+         BAS DE PAGE
+    ========================== -->
+
+    <div class="home-footer">
+
+      <span></span>
+
+      <p>
+        ALIGNE • DÉCLENCHE • LIBÈRE
       </p>
 
-
-      <!-- =========================
-           BOUTON JOUER
-      ========================== -->
-
-      <button
-        id="playBtn"
-        class="play-game-btn"
-        type="button"
-      >
-
-        <span class="play-icon">
-          ▶
-        </span>
-
-
-        <span class="play-text">
-          JOUER
-        </span>
-
-      </button>
-
-
-      <!-- =========================
-           INFOS ACCUEIL
-      ========================== -->
-
-      <div class="home-info">
-
-
-        <div class="home-info-item">
-
-          <span class="info-icon">
-            ◈
-          </span>
-
-
-          <div>
-
-            <small>
-              NIVEAU
-            </small>
-
-            <strong id="homeLevel">
-              1
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <div class="info-separator"></div>
-
-
-        <div class="home-info-item">
-
-          <span class="info-icon">
-            ✦
-          </span>
-
-
-          <div>
-
-            <small>
-              OBJECTIF
-            </small>
-
-            <strong>
-              Résonner
-            </strong>
-
-          </div>
-
-        </div>
-
-      </div>
-
-<!-- =========================
-     RÉINITIALISER PROGRESSION
-========================== -->
-
-<button
-  id="resetProgressBtn"
-  class="reset-progress-btn"
-  type="button"
->
-  ↻ RECOMMENCER DEPUIS LE NIVEAU 1
-</button>
-      
-      <!-- =========================
-           BAS DE PAGE
-      ========================== -->
-
-      <div class="home-footer">
-
-        <span></span>
-
-        <p>
-          RELIE • DÉCLENCHE • LIBÈRE
-        </p>
-
-        <span></span>
-
-      </div>
-
+      <span></span>
 
     </div>
 
-  </section>
+
+  </div>
+
+</section>
 
 
 
-  <!-- =====================================================
-       ÉCRAN DU JEU
-  ====================================================== -->
+<!-- =====================================================
+     ÉCRAN DU JEU
+====================================================== -->
 
-  <section
-    id="gameScreen"
-    class="screen"
-  >
-
-
-    <!-- =========================
-         HEADER
-    ========================== -->
-
-    <header class="game-header">
+<section
+  id="gameScreen"
+  class="screen"
+>
 
 
-      <button
-        id="menuBtn"
-        class="icon-btn"
-        type="button"
-        aria-label="Ouvrir le menu"
-      >
-        ☰
-      </button>
+  <!-- =========================
+       HAUT DU JEU
+  ========================== -->
+
+  <header class="game-header">
 
 
-      <div class="level-info">
+    <!-- MENU -->
 
-        <span class="small-label">
-          NIVEAU
-        </span>
-
-        <strong id="levelNumber">
-          1
-        </strong>
-
-      </div>
-
-
-      <div class="score-info">
-
-        <span class="small-label">
-          SCORE
-        </span>
-
-        <strong id="score">
-          0
-        </strong>
-
-      </div>
+    <button
+      id="menuBtn"
+      class="icon-btn"
+      type="button"
+      aria-label="Ouvrir le menu"
+    >
+      ☰
+    </button>
 
 
-    </header>
+    <!-- NIVEAU -->
+
+    <div class="level-info">
+
+      <span class="small-label">
+        NIVEAU
+      </span>
+
+      <strong id="levelNumber">
+        1
+      </strong>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-info">
+
+      <span class="small-label">
+        SCORE
+      </span>
+
+      <strong id="score">
+        0
+      </strong>
+
+    </div>
+
+
+  </header>
 
 
 
-    <!-- =========================
-         OBJECTIF
-    ========================== -->
+  <!-- =========================
+       INFORMATIONS DE MISSION
+  ========================== -->
+
+  <div class="mission-area">
+
+
+    <!-- OBJECTIF -->
 
     <div class="objective-panel">
-
 
       <div class="objective-title">
         OBJECTIF
       </div>
 
-
-      <div id="objectiveText">
-        Faire disparaître 20 lunes
+      <div
+        id="objectiveText"
+        class="objective-text"
+      >
+        Faire disparaître 20 symboles
       </div>
-
 
       <div class="objective-progress">
 
@@ -320,14 +330,11 @@
 
       </div>
 
-
     </div>
 
 
 
-    <!-- =========================
-         TEMPS / COUPS
-    ========================== -->
+    <!-- TEMPS / COUPS -->
 
     <div class="game-status">
 
@@ -366,6 +373,8 @@
 
     </div>
 
+
+  </div>
 
 
     <!-- =========================
