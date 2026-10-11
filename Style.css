@@ -297,9 +297,9 @@ body {
 
 .game-title h1 {
   margin-top: 3px;
-  font-size: clamp(2.7rem, 12vw, 5.2rem);
+  font-size: clamp(2.5rem, 10vw, 4.7rem);
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   font-weight: 900;
   background: linear-gradient(180deg, #ffffff 10%, #bdeeff 45%, #7bbcff 75%, #a17cff 100%);
   -webkit-background-clip: text;
