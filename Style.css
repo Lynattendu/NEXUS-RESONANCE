@@ -1843,3 +1843,1316 @@ button {
 
 }
 
+/* =========================================================
+   NEXUS RESONANCE
+   NOUVELLE INTERFACE AQUATIQUE
+   MOBILE FIRST
+========================================================= */
+
+
+/* =========================================================
+   ACCUEIL AQUATIQUE
+========================================================= */
+
+#homeScreen {
+  position: relative;
+
+  min-height: 100vh;
+  min-height: 100svh;
+
+  overflow: hidden;
+
+  background:
+    #031127;
+}
+
+
+#homeScreen .home-bg {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(2, 21, 49, 0.18) 0%,
+      rgba(1, 14, 36, 0.42) 50%,
+      rgba(1, 8, 23, 0.84) 100%
+    ),
+    url("Images/Parcours/fond-jeu-ruines-lumineuses.PNG");
+
+  background-size: cover;
+
+  background-position:
+    center center;
+
+  background-repeat:
+    no-repeat;
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   LUMIÈRE VENANT DE LA SURFACE
+========================================================= */
+
+.home-water-light {
+  position: absolute;
+
+  left: 50%;
+  top: -10%;
+
+  width: 85vw;
+  height: 70vh;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(155, 241, 255, 0.42),
+      rgba(70, 191, 255, 0.16) 36%,
+      transparent 70%
+    );
+
+  filter:
+    blur(16px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HALOS SOUS-MARINS
+========================================================= */
+
+.home-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter:
+    blur(30px);
+
+  opacity: 0.25;
+
+  pointer-events: none;
+}
+
+
+.orb-1 {
+  width: 180px;
+  height: 180px;
+
+  left: -70px;
+  top: 24%;
+
+  background:
+    rgba(52, 218, 255, 0.55);
+}
+
+
+.orb-2 {
+  width: 200px;
+  height: 200px;
+
+  right: -90px;
+  top: 48%;
+
+  background:
+    rgba(175, 75, 255, 0.5);
+}
+
+
+.orb-3 {
+  width: 170px;
+  height: 170px;
+
+  left: 28%;
+  bottom: -80px;
+
+  background:
+    rgba(36, 136, 255, 0.48);
+}
+
+
+/* =========================================================
+   BULLES
+========================================================= */
+
+#homeScreen .particles {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+
+#homeScreen .particles span {
+  position: absolute;
+
+  bottom: -50px;
+
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(180, 240, 255, 0.65);
+
+  background:
+    rgba(190, 245, 255, 0.12);
+
+  box-shadow:
+    inset 0 0 5px
+    rgba(255, 255, 255, 0.4),
+    0 0 8px
+    rgba(110, 220, 255, 0.25);
+
+  animation:
+    aquaticBubble
+    10s linear
+    infinite;
+}
+
+
+#homeScreen .particles span:nth-child(1) {
+  left: 8%;
+  animation-duration: 9s;
+}
+
+#homeScreen .particles span:nth-child(2) {
+  left: 16%;
+  animation-duration: 13s;
+  animation-delay: -4s;
+}
+
+#homeScreen .particles span:nth-child(3) {
+  left: 26%;
+  animation-duration: 11s;
+  animation-delay: -7s;
+}
+
+#homeScreen .particles span:nth-child(4) {
+  left: 35%;
+  animation-duration: 15s;
+  animation-delay: -3s;
+}
+
+#homeScreen .particles span:nth-child(5) {
+  left: 44%;
+  animation-duration: 10s;
+  animation-delay: -6s;
+}
+
+#homeScreen .particles span:nth-child(6) {
+  left: 53%;
+  animation-duration: 14s;
+  animation-delay: -8s;
+}
+
+#homeScreen .particles span:nth-child(7) {
+  left: 62%;
+  animation-duration: 12s;
+  animation-delay: -5s;
+}
+
+#homeScreen .particles span:nth-child(8) {
+  left: 70%;
+  animation-duration: 16s;
+  animation-delay: -9s;
+}
+
+#homeScreen .particles span:nth-child(9) {
+  left: 78%;
+  animation-duration: 11s;
+  animation-delay: -2s;
+}
+
+#homeScreen .particles span:nth-child(10) {
+  left: 86%;
+  animation-duration: 14s;
+  animation-delay: -7s;
+}
+
+#homeScreen .particles span:nth-child(11) {
+  left: 92%;
+  animation-duration: 9s;
+  animation-delay: -4s;
+}
+
+#homeScreen .particles span:nth-child(12) {
+  left: 58%;
+  animation-duration: 18s;
+  animation-delay: -10s;
+}
+
+
+@keyframes aquaticBubble {
+
+  0% {
+    transform:
+      translateY(0)
+      translateX(0)
+      scale(0.5);
+
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.7;
+  }
+
+  50% {
+    transform:
+      translateY(-50vh)
+      translateX(14px)
+      scale(1);
+  }
+
+  100% {
+    transform:
+      translateY(-115vh)
+      translateX(-12px)
+      scale(1.25);
+
+    opacity: 0;
+  }
+
+}
+
+
+/* =========================================================
+   CONTENU ACCUEIL
+========================================================= */
+
+#homeScreen .home-content {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(92%, 430px);
+
+  min-height: 100vh;
+  min-height: 100svh;
+
+  margin: 0 auto;
+
+  padding:
+    max(36px, env(safe-area-inset-top))
+    18px
+    max(22px, env(safe-area-inset-bottom));
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   EMBLÈME
+========================================================= */
+
+.nexus-emblem {
+  position: relative;
+
+  width: 128px;
+  height: 128px;
+
+  margin-bottom: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.nexus-ring {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(130, 231, 255, 0.42);
+
+  box-shadow:
+    0 0 18px
+    rgba(65, 205, 255, 0.2);
+}
+
+
+.ring-one {
+  inset: 0;
+
+  animation:
+    nexusRotate
+    16s linear
+    infinite;
+}
+
+
+.ring-two {
+  inset: 13px;
+
+  border-style:
+    dashed;
+
+  animation:
+    nexusRotateReverse
+    11s linear
+    infinite;
+}
+
+
+.ring-three {
+  inset: 28px;
+
+  border-color:
+    rgba(185, 123, 255, 0.55);
+
+  animation:
+    nexusPulse
+    2.7s ease-in-out
+    infinite;
+}
+
+
+.nexus-core {
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle,
+      #ebffff 0%,
+      #71e9ff 25%,
+      #2878de 58%,
+      #42228f 100%
+    );
+
+  border:
+    2px solid
+    rgba(205, 247, 255, 0.8);
+
+  box-shadow:
+    0 0 15px
+    rgba(107, 232, 255, 0.8),
+    0 0 38px
+    rgba(68, 161, 255, 0.52),
+    0 0 60px
+    rgba(146, 84, 255, 0.25);
+}
+
+
+.core-symbol {
+  color: #ffffff;
+
+  font-size: 1.4rem;
+
+  text-shadow:
+    0 0 10px #ffffff;
+}
+
+
+@keyframes nexusRotate {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+
+@keyframes nexusRotateReverse {
+
+  to {
+    transform:
+      rotate(-360deg);
+  }
+
+}
+
+
+@keyframes nexusPulse {
+
+  0%,
+  100% {
+    transform:
+      scale(1);
+
+    opacity: 0.65;
+  }
+
+  50% {
+    transform:
+      scale(1.12);
+
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================================================
+   TITRE ACCUEIL
+========================================================= */
+
+.game-title {
+  width: 100%;
+}
+
+
+.title-small {
+  display: block;
+
+  color:
+    rgba(174, 231, 255, 0.82);
+
+  font-size:
+    clamp(
+      0.68rem,
+      3vw,
+      0.86rem
+    );
+
+  font-weight: 700;
+
+  letter-spacing: 0.42em;
+
+  margin-left: 0.42em;
+}
+
+
+.game-title h1 {
+  margin:
+    4px 0
+    8px;
+
+  font-size:
+    clamp(
+      2.25rem,
+      12vw,
+      3.7rem
+    );
+
+  line-height: 0.95;
+
+  letter-spacing: 0.055em;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 12px
+    rgba(108, 221, 255, 0.56),
+    0 0 35px
+    rgba(51, 122, 255, 0.38);
+}
+
+
+.title-line {
+  width: 150px;
+  height: 2px;
+
+  margin:
+    12px auto
+    18px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(111, 227, 255, 0.95),
+      rgba(179, 119, 255, 0.85),
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(81, 210, 255, 0.6);
+}
+
+
+/* =========================================================
+   SLOGAN
+========================================================= */
+
+.home-tagline {
+  margin:
+    0 0
+    25px;
+
+  color:
+    rgba(228, 245, 255, 0.83);
+
+  font-size:
+    clamp(
+      0.84rem,
+      3.6vw,
+      1rem
+    );
+
+  line-height: 1.6;
+
+  letter-spacing: 0.03em;
+
+  text-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.85);
+}
+
+
+/* =========================================================
+   BOUTON JOUER
+========================================================= */
+
+.play-game-btn {
+  width:
+    min(
+      82vw,
+      310px
+    );
+
+  min-height: 62px;
+
+  border: 0;
+
+  border-radius: 999px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #d8fbff 0%,
+      #73e4ff 30%,
+      #3987ec 66%,
+      #7458e9 100%
+    );
+
+  color: #041426;
+
+  font-size: 0.95rem;
+
+  font-weight: 900;
+
+  letter-spacing: 0.18em;
+
+  box-shadow:
+    0 0 18px
+    rgba(93, 225, 255, 0.52),
+    0 0 45px
+    rgba(63, 144, 255, 0.3),
+    0 15px 35px
+    rgba(0, 0, 0, 0.4);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease;
+}
+
+
+.play-game-btn:active {
+  transform:
+    scale(0.96);
+}
+
+
+.play-icon {
+  font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   INFOS ACCUEIL
+========================================================= */
+
+.home-info {
+  width:
+    min(
+      86vw,
+      340px
+    );
+
+  min-height: 72px;
+
+  margin-top: 25px;
+
+  padding:
+    10px 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-around;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 30, 60, 0.72),
+      rgba(5, 15, 39, 0.78)
+    );
+
+  border:
+    1px solid
+    rgba(123, 218, 255, 0.2);
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.28);
+}
+
+
+.home-info-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.home-info-item div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.home-info-item small {
+  color:
+    rgba(156, 221, 245, 0.72);
+
+  font-size: 0.58rem;
+
+  letter-spacing: 0.16em;
+}
+
+
+.home-info-item strong {
+  color: #ffffff;
+
+  font-size: 0.95rem;
+}
+
+
+.info-icon {
+  color: #77e4ff;
+
+  font-size: 1.2rem;
+
+  text-shadow:
+    0 0 10px
+    rgba(87, 220, 255, 0.7);
+}
+
+
+.info-separator {
+  width: 1px;
+  height: 36px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(127, 220, 255, 0.4),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   RESET ACCUEIL
+========================================================= */
+
+.reset-progress-btn {
+  margin-top: 14px;
+
+  padding:
+    9px
+    13px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(3, 16, 37, 0.6);
+
+  border:
+    1px solid
+    rgba(147, 224, 255, 0.12);
+
+  color:
+    rgba(207, 235, 248, 0.62);
+
+  font-size: 0.6rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
+  backdrop-filter:
+    blur(7px);
+}
+
+
+/* =========================================================
+   BAS DE PAGE
+========================================================= */
+
+.home-footer {
+  width:
+    min(
+      88vw,
+      350px
+    );
+
+  margin-top: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.home-footer span {
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(117, 219, 255, 0.4)
+    );
+}
+
+
+.home-footer span:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(117, 219, 255, 0.4),
+      transparent
+    );
+}
+
+
+.home-footer p {
+  margin: 0;
+
+  white-space: nowrap;
+
+  color:
+    rgba(198, 230, 245, 0.5);
+
+  font-size: 0.53rem;
+
+  letter-spacing: 0.17em;
+}
+
+
+/* =========================================================
+   ÉCRAN DE JEU AQUATIQUE
+========================================================= */
+
+#gameScreen {
+  position: relative;
+
+  min-height: 100vh;
+  min-height: 100svh;
+
+  padding-bottom:
+    max(
+      25px,
+      env(safe-area-inset-bottom)
+    );
+
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(2, 13, 34, 0.24),
+      rgba(2, 10, 27, 0.48)
+    ),
+    url("Images/Parcours/fond-jeu-ruines-lumineuses.PNG");
+
+  background-size: cover;
+
+  background-position:
+    center top;
+
+  background-repeat: no-repeat;
+}
+
+
+/* =========================================================
+   HEADER MOBILE
+========================================================= */
+
+#gameScreen .game-header {
+  position: relative;
+
+  z-index: 10;
+
+  width: 100%;
+
+  min-height: 72px;
+
+  padding:
+    max(
+      10px,
+      env(safe-area-inset-top)
+    )
+    12px
+    10px;
+
+  display: grid;
+
+  grid-template-columns:
+    52px
+    1fr
+    1fr;
+
+  align-items: center;
+
+  gap: 8px;
+
+  background:
+    rgba(3, 12, 31, 0.82);
+
+  border-bottom:
+    1px solid
+    rgba(127, 220, 255, 0.14);
+
+  backdrop-filter:
+    blur(14px);
+
+  -webkit-backdrop-filter:
+    blur(14px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.16);
+}
+
+
+#gameScreen .icon-btn {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(14, 31, 57, 0.8);
+
+  border:
+    1px solid
+    rgba(150, 220, 255, 0.18);
+
+  color: #ffffff;
+
+  font-size: 1.15rem;
+}
+
+
+.level-info,
+.score-info {
+  height: 52px;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(14, 39, 69, 0.72),
+      rgba(9, 24, 53, 0.72)
+    );
+
+  border:
+    1px solid
+    rgba(124, 215, 255, 0.08);
+}
+
+
+.small-label {
+  color:
+    rgba(175, 225, 247, 0.7);
+
+  font-size: 0.55rem;
+
+  letter-spacing: 0.2em;
+}
+
+
+.level-info strong,
+.score-info strong {
+  margin-top: 2px;
+
+  color: #ffffff;
+
+  font-size: 1.15rem;
+}
+
+
+/* =========================================================
+   ZONE OBJECTIF + TEMPS / COUPS
+========================================================= */
+
+.mission-area {
+  width:
+    min(
+      94%,
+      600px
+    );
+
+  margin:
+    12px auto
+    6px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    92px;
+
+  gap: 9px;
+
+  align-items: stretch;
+}
+
+
+.objective-panel {
+  min-height: 92px;
+
+  margin: 0;
+
+  padding:
+    12px
+    14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 37, 70, 0.74),
+      rgba(8, 19, 50, 0.76)
+    );
+
+  border:
+    1px solid
+    rgba(108, 216, 255, 0.23);
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 10px 24px
+    rgba(0, 0, 0, 0.22);
+}
+
+
+.objective-title {
+  margin-bottom: 5px;
+
+  color:
+    rgba(151, 230, 255, 0.88);
+
+  font-size: 0.6rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.21em;
+}
+
+
+.objective-text {
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      0.75rem,
+      3.4vw,
+      0.92rem
+    );
+
+  font-weight: 700;
+
+  text-align: center;
+
+  line-height: 1.25;
+}
+
+
+.objective-progress {
+  margin-top: 6px;
+
+  color: #ffd66e;
+
+  font-size: 1.05rem;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 0 10px
+    rgba(255, 207, 91, 0.22);
+}
+
+
+/* =========================================================
+   TEMPS / COUPS
+========================================================= */
+
+.game-status {
+  width: 100%;
+
+  display: flex;
+
+  align-items: stretch;
+
+  justify-content: stretch;
+}
+
+
+.status-box {
+  width: 100%;
+
+  min-height: 92px;
+
+  padding:
+    9px;
+
+  border-radius: 19px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(11, 36, 67, 0.84),
+      rgba(8, 18, 45, 0.84)
+    );
+
+  border:
+    1px solid
+    rgba(120, 217, 255, 0.2);
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 10px 24px
+    rgba(0, 0, 0, 0.22);
+}
+
+
+.status-label {
+  color:
+    rgba(182, 225, 246, 0.72);
+
+  font-size: 0.57rem;
+
+  letter-spacing: 0.16em;
+}
+
+
+.status-box strong {
+  margin-top: 4px;
+
+  color: #ffffff;
+
+  font-size: 1.65rem;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   TRÈS PETITS TÉLÉPHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  #homeScreen .home-content {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+
+  .nexus-emblem {
+    width: 105px;
+    height: 105px;
+  }
+
+
+  .game-title h1 {
+    font-size: 2.05rem;
+  }
+
+
+  .mission-area {
+    width: 96%;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      78px;
+
+    gap: 6px;
+  }
+
+
+  .objective-panel,
+  .status-box {
+    min-height: 82px;
+
+    border-radius: 15px;
+  }
+
+
+  #gameScreen .game-header {
+    grid-template-columns:
+      45px
+      1fr
+      1fr;
+
+    gap: 6px;
+
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+
+  #gameScreen .icon-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+}
+
+
+/* =========================================================
+   TABLETTE
+========================================================= */
+
+@media (min-width: 700px) {
+
+  #homeScreen .home-content {
+    width: min(82%, 500px);
+  }
+
+
+  .nexus-emblem {
+    width: 150px;
+    height: 150px;
+  }
+
+
+  .mission-area {
+    width:
+      min(
+        78%,
+        700px
+      );
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      130px;
+  }
+
+
+  .objective-panel,
+  .status-box {
+    min-height: 108px;
+  }
+
+
+  #gameScreen .game-header {
+    min-height: 86px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+}
+
+
+
