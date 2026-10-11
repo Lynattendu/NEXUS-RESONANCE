@@ -119,8 +119,7 @@ const victoryScore =
 const ROWS = 8;
 const COLS = 7;
 
-const MIN_PLAYER_GROUP = 2;
-const AUTO_RESONANCE_SIZE = 4;
+const MATCH_SIZE = 3;
 
 
 /* =========================================================
@@ -613,7 +612,7 @@ let processing = false;
 let levelFinished = false;
 
 let cascadeLevel = 1;
-
+let selectedCell = null;
 
 /* =========================================================
    COMPTEURS
@@ -657,7 +656,70 @@ function randomSymbol() {
 
 }
 
+/* =========================================================
+   SYMBOLE DE DÉPART
+   Évite les alignements automatiques de 3
+========================================================= */
 
+function startingSymbol(row, col) {
+
+  let possibilities =
+    SYMBOLS.map(symbol => symbol.id);
+
+
+  if (
+    col >= 2 &&
+    isSymbolCell(board[row][col - 1]) &&
+    isSymbolCell(board[row][col - 2]) &&
+    board[row][col - 1].symbol ===
+    board[row][col - 2].symbol
+  ) {
+
+    possibilities =
+      possibilities.filter(
+        symbol =>
+          symbol !==
+          board[row][col - 1].symbol
+      );
+
+  }
+
+
+  if (
+    row >= 2 &&
+    isSymbolCell(board[row - 1][col]) &&
+    isSymbolCell(board[row - 2][col]) &&
+    board[row - 1][col].symbol ===
+    board[row - 2][col].symbol
+  ) {
+
+    possibilities =
+      possibilities.filter(
+        symbol =>
+          symbol !==
+          board[row - 1][col].symbol
+      );
+
+  }
+
+
+  if (
+    possibilities.length === 0
+  ) {
+
+    return randomSymbol();
+
+  }
+
+
+  return possibilities[
+    Math.floor(
+      Math.random() *
+      possibilities.length
+    )
+  ];
+
+}
 function getSymbolData(id) {
 
   return SYMBOLS.find(
@@ -768,7 +830,7 @@ function startLevel(levelIndex) {
   levelFinished = false;
 
   cascadeLevel = 1;
-
+selectedCell = null;
   collected = {
 
   etoile: 0,
@@ -795,7 +857,7 @@ function startLevel(levelIndex) {
   updateInterface();
 
   gameMessage.textContent =
-    "Choisis un groupe d'au moins 2 symboles identiques.";
+  "Déplace un symbole pour aligner au moins 3 symboles identiques.";
 
   if (
     LEVELS[currentLevel].mode === "time"
@@ -941,8 +1003,14 @@ function createBoard() {
 
   }
 
+
   const level =
     LEVELS[currentLevel];
+
+
+  /* =======================================================
+     AJOUT DES BLOCS DU NIVEAU
+  ======================================================= */
 
   level.blockers.forEach(blocker => {
 
@@ -957,37 +1025,56 @@ function createBoard() {
 
     }
 
+
     if (
       blocker.type === "ice"
     ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "ice",
-        hp: blocker.hp || 1
+
+        hp:
+          blocker.hp || 1
 
       };
 
     }
+
 
     else if (
       blocker.type === "stone"
     ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "stone",
-        hp: blocker.hp || 2
+
+        hp:
+          blocker.hp || 2
 
       };
 
     }
 
+
     else if (
       blocker.type === "lock"
     ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "lock",
 
@@ -1002,6 +1089,14 @@ function createBoard() {
     }
 
   });
+
+
+  /* =======================================================
+     REMPLISSAGE AVEC LES SYMBOLES
+
+     startingSymbol évite d'avoir déjà
+     des lignes de 3 au lancement.
+  ======================================================= */
 
   for (
     let row = 0;
@@ -1024,7 +1119,10 @@ function createBoard() {
           type: "symbol",
 
           symbol:
-            randomSymbol()
+            startingSymbol(
+              row,
+              col
+            )
 
         };
 
@@ -1034,7 +1132,13 @@ function createBoard() {
 
   }
 
-  ensurePlayerMove();
+
+  /* =======================================================
+     VÉRIFIER QU'IL EXISTE AU MOINS
+     UN DÉPLACEMENT POSSIBLE
+  ======================================================= */
+
+  ensurePossibleMove();
 
 }
 
