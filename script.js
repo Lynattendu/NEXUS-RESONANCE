@@ -390,12 +390,12 @@ let cascadeLevel = 1;
 
 let collected = {
 
-  moon: 0,
-  fire: 0,
-  water: 0,
-  leaf: 0,
-  lightning: 0,
-  crystal: 0
+  etoile: 0,
+  poulpe: 0,
+  hippocampe: 0,
+  poisson: 0,
+  meduse: 0,
+  perle: 0
 
 };
 
@@ -538,14 +538,14 @@ function startLevel(levelIndex) {
 
   collected = {
 
-    moon: 0,
-    fire: 0,
-    water: 0,
-    leaf: 0,
-    lightning: 0,
-    crystal: 0
+  etoile: 0,
+  poulpe: 0,
+  hippocampe: 0,
+  poisson: 0,
+  meduse: 0,
+  perle: 0
 
-  };
+};
 
   pauseMenu.classList.add("hidden");
   victoryScreen.classList.add("hidden");
