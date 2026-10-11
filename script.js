@@ -2424,7 +2424,50 @@ playBtn.addEventListener(
   }
 );
 
+/* =========================================================
+   RÉINITIALISER LA PROGRESSION
+========================================================= */
 
+resetProgressBtn.addEventListener(
+  "click",
+  () => {
+
+    const confirmation =
+      confirm(
+        "Recommencer NEXUS RESONANCE depuis le niveau 1 ?"
+      );
+
+
+    if (!confirmation) {
+
+      return;
+
+    }
+
+
+    /* remettre le niveau à zéro */
+
+    currentLevel = 0;
+
+
+    /* supprimer les sauvegardes */
+
+    localStorage.removeItem(
+      "nexusResonance_level"
+    );
+
+    localStorage.removeItem(
+      "nexusResonance_unlocked"
+    );
+
+
+    /* actualiser l'accueil */
+
+    showHome();
+
+  }
+);
+   
 menuBtn.addEventListener(
   "click",
   () => {
