@@ -19,10 +19,10 @@ const gameScreen =
 const playBtn =
   document.getElementById("playBtn");
 
-   const homeLevel =
+const homeLevel =
   document.getElementById("homeLevel");
 
-   const menuBtn =
+const menuBtn =
   document.getElementById("menuBtn");
 
 const pauseMenu =
@@ -96,22 +96,18 @@ const victoryScore =
 
 
 /* =========================================================
-   PARAMÈTRES GÉNÉRAUX
+   PARAMÈTRES
 ========================================================= */
 
-const COLS = 7;
 const ROWS = 8;
+const COLS = 7;
 
 const MIN_GROUP_SIZE = 2;
-
 const MAX_CASCADE = 20;
 
 
 /* =========================================================
    SYMBOLES
-
-   Plus tard, on pourra remplacer les emojis
-   par nos propres images.
 ========================================================= */
 
 const SYMBOLS = [
@@ -161,233 +157,185 @@ const SYMBOLS = [
 
 const LEVELS = [
 
+  {
+    name: "Première résonance",
 
-/* ---------------------------------------------------------
-   NIVEAU 1
-   Aucun chrono
---------------------------------------------------------- */
+    mode: "free",
 
-{
-  name: "Première résonance",
+    objectives: {
+      moon: 20
+    },
 
-  mode: "free",
-
-  objectives: {
-    moon: 20
+    blockers: []
   },
 
-  blockers: []
-},
 
+  {
+    name: "Feu intérieur",
 
-/* ---------------------------------------------------------
-   NIVEAU 2
-   Chronométré
---------------------------------------------------------- */
+    mode: "time",
 
-{
-  name: "Feu intérieur",
+    time: 60,
 
-  mode: "time",
+    objectives: {
+      fire: 25
+    },
 
-  time: 60,
-
-  objectives: {
-    fire: 25
+    blockers: []
   },
 
-  blockers: []
-},
 
+  {
+    name: "Double fréquence",
 
-/* ---------------------------------------------------------
-   NIVEAU 3
-   Nombre de coups limité
---------------------------------------------------------- */
+    mode: "moves",
 
-{
-  name: "Double fréquence",
+    moves: 22,
 
-  mode: "moves",
+    objectives: {
+      moon: 15,
+      lightning: 15
+    },
 
-  moves: 22,
-
-  objectives: {
-    moon: 15,
-    lightning: 15
+    blockers: []
   },
 
-  blockers: []
-},
 
+  {
+    name: "Cœur de glace",
 
-/* ---------------------------------------------------------
-   NIVEAU 4
-   Glace
-   Les blocs se cassent lorsqu'un groupe disparaît à côté.
---------------------------------------------------------- */
+    mode: "time",
 
-{
-  name: "Cœur de glace",
+    time: 75,
 
-  mode: "time",
+    objectives: {
+      water: 25
+    },
 
-  time: 75,
+    clearBlocks: true,
 
-  objectives: {
-    water: 25
+    blockers: [
+
+      {
+        row: 2,
+        col: 2,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 2,
+        col: 4,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 4,
+        col: 1,
+        type: "ice",
+        hp: 1
+      },
+
+      {
+        row: 4,
+        col: 5,
+        type: "ice",
+        hp: 1
+      }
+
+    ]
   },
 
-  clearBlocks: true,
 
-  blockers: [
+  {
+    name: "Sceau lunaire",
 
-    {
-      row: 2,
-      col: 2,
-      type: "ice",
-      hp: 1
+    mode: "moves",
+
+    moves: 28,
+
+    objectives: {
+      moon: 25,
+      fire: 15
     },
 
-    {
-      row: 2,
-      col: 4,
-      type: "ice",
-      hp: 1
-    },
+    blockers: [
 
-    {
-      row: 4,
-      col: 1,
-      type: "ice",
-      hp: 1
-    },
+      {
+        row: 3,
+        col: 2,
+        type: "lock",
+        symbol: "moon",
+        amount: 12
+      },
 
-    {
-      row: 4,
-      col: 5,
-      type: "ice",
-      hp: 1
-    },
+      {
+        row: 3,
+        col: 3,
+        type: "lock",
+        symbol: "moon",
+        amount: 12
+      },
 
-    {
-      row: 5,
-      col: 2,
-      type: "ice",
-      hp: 1
-    },
+      {
+        row: 3,
+        col: 4,
+        type: "lock",
+        symbol: "moon",
+        amount: 12
+      }
 
-    {
-      row: 5,
-      col: 4,
-      type: "ice",
-      hp: 1
-    }
-
-  ]
-},
-
-
-/* ---------------------------------------------------------
-   NIVEAU 5
-   Cadenas
-   Les cases s'ouvrent après 12 lunes disparues.
---------------------------------------------------------- */
-
-{
-  name: "Le sceau lunaire",
-
-  mode: "moves",
-
-  moves: 28,
-
-  objectives: {
-    moon: 25,
-    fire: 15
+    ]
   },
 
-  blockers: [
 
-    {
-      row: 3,
-      col: 2,
-      type: "lock",
-      symbol: "moon",
-      amount: 12
+  {
+    name: "Nexus fracturé",
+
+    mode: "time",
+
+    time: 90,
+
+    objectives: {
+      crystal: 20,
+      leaf: 20
     },
 
-    {
-      row: 3,
-      col: 3,
-      type: "lock",
-      symbol: "moon",
-      amount: 12
-    },
+    clearBlocks: true,
 
-    {
-      row: 3,
-      col: 4,
-      type: "lock",
-      symbol: "moon",
-      amount: 12
-    }
+    blockers: [
 
-  ]
-},
+      {
+        row: 2,
+        col: 1,
+        type: "stone",
+        hp: 2
+      },
 
+      {
+        row: 2,
+        col: 5,
+        type: "stone",
+        hp: 2
+      },
 
-/* ---------------------------------------------------------
-   NIVEAU 6
-   Pierre renforcée
-   Il faut créer deux groupes à côté pour la casser.
---------------------------------------------------------- */
+      {
+        row: 4,
+        col: 2,
+        type: "stone",
+        hp: 2
+      },
 
-{
-  name: "Nexus fracturé",
+      {
+        row: 4,
+        col: 4,
+        type: "stone",
+        hp: 2
+      }
 
-  mode: "time",
-
-  time: 90,
-
-  objectives: {
-    crystal: 20,
-    leaf: 20
-  },
-
-  clearBlocks: true,
-
-  blockers: [
-
-    {
-      row: 2,
-      col: 1,
-      type: "stone",
-      hp: 2
-    },
-
-    {
-      row: 2,
-      col: 5,
-      type: "stone",
-      hp: 2
-    },
-
-    {
-      row: 4,
-      col: 2,
-      type: "stone",
-      hp: 2
-    },
-
-    {
-      row: 4,
-      col: 4,
-      type: "stone",
-      hp: 2
-    }
-
-  ]
-}
+    ]
+  }
 
 ];
 
@@ -404,7 +352,7 @@ const STORAGE_UNLOCKED =
 
 
 /* =========================================================
-   VARIABLES DU JEU
+   VARIABLES DE JEU
 ========================================================= */
 
 let board = [];
@@ -413,6 +361,7 @@ let currentLevel =
   Number(
     localStorage.getItem(STORAGE_LEVEL)
   ) || 0;
+
 
 if (
   currentLevel < 0 ||
@@ -442,7 +391,7 @@ let cascadeLevel = 1;
 
 
 /* =========================================================
-   COMPTEURS DES SYMBOLES DISPARUS
+   COMPTEURS
 ========================================================= */
 
 let collected = {
@@ -458,7 +407,7 @@ let collected = {
 
 
 /* =========================================================
-   OUTIL ATTENTE
+   ATTENTE
 ========================================================= */
 
 function sleep(ms) {
@@ -473,7 +422,7 @@ function sleep(ms) {
 
 
 /* =========================================================
-   ÉCRANS
+   ÉCRAN ACCUEIL
 ========================================================= */
 
 function showHome() {
@@ -484,9 +433,11 @@ function showHome() {
   paused = false;
   levelFinished = false;
 
+
   homeScreen.classList.add("active");
 
   gameScreen.classList.remove("active");
+
 
   pauseMenu.classList.add("hidden");
 
@@ -505,6 +456,10 @@ function showHome() {
 }
 
 
+/* =========================================================
+   ÉCRAN JEU
+========================================================= */
+
 function showGame() {
 
   homeScreen.classList.remove("active");
@@ -522,13 +477,25 @@ function startLevel(levelIndex = currentLevel) {
 
   stopTimer();
 
+
   currentLevel = levelIndex;
 
-  if (currentLevel >= LEVELS.length) {
+
+  if (currentLevel < 0) {
 
     currentLevel = 0;
 
   }
+
+
+  if (
+    currentLevel >= LEVELS.length
+  ) {
+
+    currentLevel = 0;
+
+  }
+
 
   localStorage.setItem(
     STORAGE_LEVEL,
@@ -590,7 +557,9 @@ function startLevel(levelIndex = currentLevel) {
     LEVELS[currentLevel];
 
 
-  if (level.mode === "time") {
+  if (
+    level.mode === "time"
+  ) {
 
     startTimer();
 
@@ -600,7 +569,7 @@ function startLevel(levelIndex = currentLevel) {
 
 
 /* =========================================================
-   CONFIGURATION DU NIVEAU
+   CONFIGURER LE NIVEAU
 ========================================================= */
 
 function configureLevel() {
@@ -613,7 +582,9 @@ function configureLevel() {
     currentLevel + 1;
 
 
-  if (level.mode === "time") {
+  if (
+    level.mode === "time"
+  ) {
 
     timeRemaining =
       level.time;
@@ -625,7 +596,9 @@ function configureLevel() {
   }
 
 
-  else if (level.mode === "moves") {
+  else if (
+    level.mode === "moves"
+  ) {
 
     movesRemaining =
       level.moves;
@@ -671,7 +644,13 @@ function buildObjectiveText() {
     const symbol =
       getSymbolData(symbolId);
 
-    if (!symbol) return;
+
+    if (!symbol) {
+
+      return;
+
+    }
+
 
     parts.push(
       `${amount} ${symbol.name}`
@@ -680,9 +659,11 @@ function buildObjectiveText() {
   });
 
 
-  if (level.clearBlocks) {
+  if (
+    level.clearBlocks
+  ) {
 
-    const breakableBlocks =
+    const totalBlocks =
       level.blockers.filter(blocker =>
 
         blocker.type === "ice" ||
@@ -691,11 +672,13 @@ function buildObjectiveText() {
       ).length;
 
 
-    if (breakableBlocks > 0) {
+    if (
+      totalBlocks > 0
+    ) {
 
       parts.push(
-        `${breakableBlocks} bloc${
-          breakableBlocks > 1 ? "s" : ""
+        `${totalBlocks} bloc${
+          totalBlocks > 1 ? "s" : ""
         }`
       );
 
@@ -710,7 +693,7 @@ function buildObjectiveText() {
 
 
 /* =========================================================
-   CRÉATION DU PLATEAU
+   CRÉER LE PLATEAU
 ========================================================= */
 
 function createBoard() {
@@ -743,13 +726,13 @@ function createBoard() {
   }
 
 
-  /* -------------------------------------------------------
-     Ajouter les blocs du niveau
-  ------------------------------------------------------- */
-
   const level =
     LEVELS[currentLevel];
 
+
+  /* -------------------------------------------------------
+     AJOUT DES BLOCS
+  ------------------------------------------------------- */
 
   level.blockers.forEach(blocker => {
 
@@ -765,14 +748,18 @@ function createBoard() {
     }
 
 
-    if (blocker.type === "ice") {
+    if (
+      blocker.type === "ice"
+    ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "ice",
-
-        hp:
-          blocker.hp || 1
+        hp: blocker.hp || 1
 
       };
 
@@ -783,12 +770,14 @@ function createBoard() {
       blocker.type === "stone"
     ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "stone",
-
-        hp:
-          blocker.hp || 2
+        hp: blocker.hp || 2
 
       };
 
@@ -799,7 +788,11 @@ function createBoard() {
       blocker.type === "lock"
     ) {
 
-      board[blocker.row][blocker.col] = {
+      board[
+        blocker.row
+      ][
+        blocker.col
+      ] = {
 
         type: "lock",
 
@@ -817,14 +810,13 @@ function createBoard() {
 
 
   /* -------------------------------------------------------
-     Remplir les cases libres
-     On évite de créer des groupes dès le départ.
+     REMPLISSAGE
   ------------------------------------------------------- */
 
   for (
-    let row = ROWS - 1;
-    row >= 0;
-    row--
+    let row = 0;
+    row < ROWS;
+    row++
   ) {
 
     for (
@@ -833,7 +825,9 @@ function createBoard() {
       col++
     ) {
 
-      if (board[row][col] !== null) {
+      if (
+        board[row][col] !== null
+      ) {
 
         continue;
 
@@ -845,10 +839,7 @@ function createBoard() {
         type: "symbol",
 
         symbol:
-          chooseSafeSymbol(
-            row,
-            col
-          )
+          randomSymbol()
 
       };
 
@@ -863,82 +854,23 @@ function createBoard() {
 
 
 /* =========================================================
-   CHOISIR UN SYMBOLE
-   On évite autant que possible de créer une paire
-   lors du remplissage.
+   SYMBOLE ALÉATOIRE
 ========================================================= */
 
-function chooseSafeSymbol(row, col) {
+function randomSymbol() {
 
-  let possibilities =
-    SYMBOLS.map(symbol => symbol.id);
-
-
-  const forbidden = [];
-
-
-  /* symbole en dessous */
-
-  if (
-    row + 1 < ROWS &&
-    isSymbolCell(
-      board[row + 1][col]
-    )
-  ) {
-
-    forbidden.push(
-      board[row + 1][col].symbol
-    );
-
-  }
-
-
-  /* symbole à gauche */
-
-  if (
-    col - 1 >= 0 &&
-    isSymbolCell(
-      board[row][col - 1]
-    )
-  ) {
-
-    forbidden.push(
-      board[row][col - 1].symbol
-    );
-
-  }
-
-
-  possibilities =
-    possibilities.filter(symbol =>
-
-      !forbidden.includes(symbol)
-
-    );
-
-
-  if (
-    possibilities.length === 0
-  ) {
-
-    possibilities =
-      SYMBOLS.map(symbol => symbol.id);
-
-  }
-
-
-  return possibilities[
+  return SYMBOLS[
     Math.floor(
       Math.random() *
-      possibilities.length
+      SYMBOLS.length
     )
-  ];
+  ].id;
 
 }
 
 
 /* =========================================================
-   VÉRIFIER UNE CASE SYMBOLE
+   TEST CASE SYMBOLE
 ========================================================= */
 
 function isSymbolCell(cell) {
@@ -953,12 +885,13 @@ function isSymbolCell(cell) {
 
 
 /* =========================================================
-   AFFICHAGE DU PLATEAU
+   AFFICHER LE PLATEAU
 ========================================================= */
 
 function renderBoard(options = {}) {
 
   gameBoard.innerHTML = "";
+
 
   gameBoard.style.setProperty(
     "--columns",
@@ -991,9 +924,11 @@ function renderBoard(options = {}) {
       tile.classList.add("tile");
 
 
-      tile.dataset.row = row;
+      tile.dataset.row =
+        row;
 
-      tile.dataset.col = col;
+      tile.dataset.col =
+        col;
 
 
       /* ---------------------------------------------------
@@ -1004,7 +939,8 @@ function renderBoard(options = {}) {
 
         tile.disabled = true;
 
-        tile.style.opacity = "0";
+        tile.style.opacity =
+          "0";
 
       }
 
@@ -1053,8 +989,10 @@ function renderBoard(options = {}) {
         const span =
           document.createElement("span");
 
+
         span.className =
           "symbol";
+
 
         span.textContent =
           symbol.icon;
@@ -1098,6 +1036,7 @@ function renderBoard(options = {}) {
 
         tile.disabled = true;
 
+
         tile.innerHTML =
           `<span class="symbol">❄️</span>`;
 
@@ -1120,11 +1059,7 @@ function renderBoard(options = {}) {
 
 
         tile.innerHTML =
-          `<span class="symbol">${
-            cell.hp >= 2
-              ? "🪨"
-              : "◈"
-          }</span>`;
+          `<span class="symbol">🪨</span>`;
 
       }
 
@@ -1146,9 +1081,7 @@ function renderBoard(options = {}) {
       }
 
 
-      gameBoard.appendChild(
-        tile
-      );
+      gameBoard.appendChild(tile);
 
     }
 
@@ -1181,7 +1114,9 @@ async function handleTileClick(
     board[row][col];
 
 
-  if (!isSymbolCell(cell)) {
+  if (
+    !isSymbolCell(cell)
+  ) {
 
     return;
 
@@ -1213,10 +1148,6 @@ async function handleTileClick(
   }
 
 
-  /* -------------------------------------------------------
-     Un vrai coup est joué
-  ------------------------------------------------------- */
-
   processing = true;
 
 
@@ -1242,7 +1173,9 @@ async function handleTileClick(
   );
 
 
-  if (checkVictory()) {
+  if (
+    checkVictory()
+  ) {
 
     finishVictory();
 
@@ -1254,7 +1187,9 @@ async function handleTileClick(
   await resolveBoard();
 
 
-  if (checkVictory()) {
+  if (
+    checkVictory()
+  ) {
 
     finishVictory();
 
@@ -1288,10 +1223,7 @@ async function handleTileClick(
 
 
 /* =========================================================
-   TROUVER UN GROUPE CONNECTÉ
-
-   Connexion :
-   haut / bas / gauche / droite
+   TROUVER UN GROUPE
 ========================================================= */
 
 function findGroup(
@@ -1316,19 +1248,21 @@ function findGroup(
     startCell.symbol;
 
 
+  const stack = [
+
+    {
+      row: startRow,
+      col: startCol
+    }
+
+  ];
+
+
   const visited =
     new Set();
 
 
   const group = [];
-
-
-  const stack = [
-    {
-      row: startRow,
-      col: startCol
-    }
-  ];
 
 
   while (
@@ -1368,7 +1302,11 @@ function findGroup(
 
 
     const cell =
-      board[current.row][current.col];
+      board[
+        current.row
+      ][
+        current.col
+      ];
 
 
     if (
@@ -1382,15 +1320,18 @@ function findGroup(
 
 
     group.push({
+
       row:
         current.row,
 
       col:
         current.col
+
     });
 
 
     stack.push(
+
       {
         row:
           current.row - 1,
@@ -1422,6 +1363,7 @@ function findGroup(
         col:
           current.col + 1
       }
+
     );
 
   }
@@ -1459,7 +1401,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Animation de sélection
+     SÉLECTION
   ------------------------------------------------------- */
 
   group.forEach(position => {
@@ -1486,7 +1428,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Animation disparition
+     DISPARITION
   ------------------------------------------------------- */
 
   group.forEach(position => {
@@ -1517,7 +1459,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Comptabiliser les symboles
+     COMPTER LES SYMBOLES
   ------------------------------------------------------- */
 
   collected[symbolId] +=
@@ -1525,7 +1467,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Score
+     SCORE
   ------------------------------------------------------- */
 
   const baseScore =
@@ -1546,7 +1488,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Casser les blocs à côté
+     ENDOMMAGER BLOCS
   ------------------------------------------------------- */
 
   damageAdjacentBlocks(
@@ -1555,7 +1497,7 @@ async function removeGroup(
 
 
   /* -------------------------------------------------------
-     Supprimer réellement les symboles
+     SUPPRESSION RÉELLE
   ------------------------------------------------------- */
 
   group.forEach(position => {
@@ -1569,19 +1511,11 @@ async function removeGroup(
   });
 
 
-  /* -------------------------------------------------------
-     Vérifier les cadenas
-  ------------------------------------------------------- */
-
   unlockThresholdBlocks();
 
 
   updateInterface();
 
-
-  /* -------------------------------------------------------
-     Message combo
-  ------------------------------------------------------- */
 
   if (
     automaticCascade
@@ -1619,20 +1553,6 @@ async function removeGroup(
 
   }
 
-
-  gameBoard.classList.add(
-    "board-success"
-  );
-
-
-  setTimeout(() => {
-
-    gameBoard.classList.remove(
-      "board-success"
-    );
-
-  }, 400);
-
 }
 
 
@@ -1642,28 +1562,36 @@ async function removeGroup(
 
 function calculateGroupScore(size) {
 
-  if (size === 2) {
+  if (
+    size === 2
+  ) {
 
     return 20;
 
   }
 
 
-  if (size === 3) {
+  if (
+    size === 3
+  ) {
 
     return 45;
 
   }
 
 
-  if (size === 4) {
+  if (
+    size === 4
+  ) {
 
     return 80;
 
   }
 
 
-  if (size === 5) {
+  if (
+    size === 5
+  ) {
 
     return 125;
 
@@ -1679,7 +1607,7 @@ function calculateGroupScore(size) {
 
 
 /* =========================================================
-   ENDOMMAGER LES BLOCS ADJACENTS
+   ENDOMMAGER LES BLOCS À CÔTÉ
 ========================================================= */
 
 function damageAdjacentBlocks(
@@ -1757,11 +1685,17 @@ function damageAdjacentBlocks(
 
 
       if (
-        !cell ||
-        (
-          cell.type !== "ice" &&
-          cell.type !== "stone"
-        )
+        !cell
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        cell.type !== "ice" &&
+        cell.type !== "stone"
       ) {
 
         return;
@@ -1856,8 +1790,7 @@ function unlockThresholdBlocks() {
 
 
 /* =========================================================
-   RÉSOUDRE LE PLATEAU
-   Gravité + cascades
+   RÉSOUDRE GRAVITÉ + CASCADES
 ========================================================= */
 
 async function resolveBoard() {
@@ -1870,9 +1803,11 @@ async function resolveBoard() {
     MAX_CASCADE
   ) {
 
-    await applyGravity();
+    applyGravity();
+
 
     fillEmptyCells();
+
 
     renderBoard({
       falling: true,
@@ -1901,16 +1836,7 @@ async function resolveBoard() {
     cascadeLevel++;
 
 
-    /* -----------------------------------------------------
-       Tous les groupes créés sont supprimés ensemble.
-    ----------------------------------------------------- */
-
-    const positions =
-      mergeGroups(groups);
-
-
     await removeMultipleGroups(
-      positions,
       groups
     );
 
@@ -1934,11 +1860,9 @@ async function resolveBoard() {
 
 /* =========================================================
    GRAVITÉ
-
-   Les blocs séparent les colonnes en plusieurs zones.
 ========================================================= */
 
-async function applyGravity() {
+function applyGravity() {
 
   for (
     let col = 0;
@@ -1946,143 +1870,65 @@ async function applyGravity() {
     col++
   ) {
 
-    let bottom =
+    let writeRow =
       ROWS - 1;
 
 
-    while (
-      bottom >= 0
+    for (
+      let row = ROWS - 1;
+      row >= 0;
+      row--
     ) {
 
-      /* ---------------------------------------------------
-         Chercher le prochain bloc.
-      --------------------------------------------------- */
-
-      let segmentBottom =
-        bottom;
+      const cell =
+        board[row][col];
 
 
-      while (
-        segmentBottom >= 0 &&
-        isBlocker(
-          board[
-            segmentBottom
-          ][col]
-        )
+      if (
+        isBlocker(cell)
       ) {
 
-        segmentBottom--;
+        writeRow =
+          row - 1;
+
+        continue;
 
       }
 
 
       if (
-        segmentBottom < 0
-      ) {
-
-        break;
-
-      }
-
-
-      let segmentTop =
-        segmentBottom;
-
-
-      while (
-        segmentTop >= 0 &&
-        !isBlocker(
-          board[
-            segmentTop
-          ][col]
-        )
-      ) {
-
-        segmentTop--;
-
-      }
-
-
-      const symbols = [];
-
-
-      for (
-        let row =
-          segmentBottom;
-
-        row >
-          segmentTop;
-
-        row--
+        isSymbolCell(cell)
       ) {
 
         if (
-          isSymbolCell(
-            board[row][col]
-          )
+          row !== writeRow
         ) {
 
-          symbols.push(
-            board[row][col]
-          );
+          board[
+            writeRow
+          ][col] =
+            cell;
+
+
+          board[row][col] =
+            null;
 
         }
 
-      }
-
-
-      for (
-        let row =
-          segmentBottom;
-
-        row >
-          segmentTop;
-
-        row--
-      ) {
-
-        board[row][col] =
-          null;
-
-      }
-
-
-      let writeRow =
-        segmentBottom;
-
-
-      symbols.forEach(symbol => {
-
-        board[
-          writeRow
-        ][col] =
-          symbol;
 
         writeRow--;
 
-      });
-
-
-      bottom =
-        segmentTop - 1;
+      }
 
     }
 
   }
 
-
-  renderBoard({
-    falling: true
-  });
-
-
-  await sleep(220);
-
 }
 
 
 /* =========================================================
-   UN BLOC ARRÊTE LA GRAVITÉ
+   BLOCS QUI BLOQUENT LA CHUTE
 ========================================================= */
 
 function isBlocker(cell) {
@@ -2104,15 +1950,15 @@ function isBlocker(cell) {
 
 
 /* =========================================================
-   REMPLIR LES CASES VIDES
+   REMPLIR LES VIDES
 ========================================================= */
 
 function fillEmptyCells() {
 
   for (
-    let row = ROWS - 1;
-    row >= 0;
-    row--
+    let row = 0;
+    row < ROWS;
+    row++
   ) {
 
     for (
@@ -2135,10 +1981,7 @@ function fillEmptyCells() {
         type: "symbol",
 
         symbol:
-          chooseSafeSymbol(
-            row,
-            col
-          )
+          randomSymbol()
 
       };
 
@@ -2155,10 +1998,10 @@ function fillEmptyCells() {
 
 function findAllGroups() {
 
+  const groups = [];
+
   const visited =
     new Set();
-
-  const groups = [];
 
 
   for (
@@ -2233,12 +2076,14 @@ function findAllGroups() {
 
 
 /* =========================================================
-   FUSIONNER LES POSITIONS DES GROUPES
+   SUPPRIMER PLUSIEURS GROUPES EN CASCADE
 ========================================================= */
 
-function mergeGroups(groups) {
+async function removeMultipleGroups(
+  groups
+) {
 
-  const map =
+  const positionsMap =
     new Map();
 
 
@@ -2250,7 +2095,7 @@ function mergeGroups(groups) {
         `${position.row}-${position.col}`;
 
 
-      map.set(
+      positionsMap.set(
         key,
         position
       );
@@ -2260,26 +2105,11 @@ function mergeGroups(groups) {
   });
 
 
-  return Array.from(
-    map.values()
-  );
+  const positions =
+    Array.from(
+      positionsMap.values()
+    );
 
-}
-
-
-/* =========================================================
-   SUPPRESSION DE PLUSIEURS GROUPES
-   PENDANT UNE CASCADE
-========================================================= */
-
-async function removeMultipleGroups(
-  positions,
-  groups
-) {
-
-  /* -------------------------------------------------------
-     Animation
-  ------------------------------------------------------- */
 
   positions.forEach(position => {
 
@@ -2304,10 +2134,6 @@ async function removeMultipleGroups(
   await sleep(300);
 
 
-  /* -------------------------------------------------------
-     Chaque groupe compte séparément pour les points
-  ------------------------------------------------------- */
-
   groups.forEach(group => {
 
     if (
@@ -2319,15 +2145,11 @@ async function removeMultipleGroups(
     }
 
 
-    const first =
-      group[0];
-
-
     const cell =
       board[
-        first.row
+        group[0].row
       ][
-        first.col
+        group[0].col
       ];
 
 
@@ -2403,7 +2225,7 @@ async function removeMultipleGroups(
 
 
 /* =========================================================
-   OBJECTIFS
+   VÉRIFIER LA VICTOIRE
 ========================================================= */
 
 function checkVictory() {
@@ -2411,10 +2233,6 @@ function checkVictory() {
   const level =
     LEVELS[currentLevel];
 
-
-  /* -------------------------------------------------------
-     Objectifs symboles
-  ------------------------------------------------------- */
 
   for (
     const [symbol, amount]
@@ -2435,10 +2253,6 @@ function checkVictory() {
 
   }
 
-
-  /* -------------------------------------------------------
-     Blocs à détruire
-  ------------------------------------------------------- */
 
   if (
     level.clearBlocks
@@ -2514,66 +2328,6 @@ function getObjectiveProgress() {
   });
 
 
-  if (
-    level.clearBlocks
-  ) {
-
-    const originalBlocks =
-      level.blockers.filter(blocker =>
-
-        blocker.type === "ice" ||
-        blocker.type === "stone"
-
-      ).length;
-
-
-    let remaining = 0;
-
-
-    for (
-      let row = 0;
-      row < ROWS;
-      row++
-    ) {
-
-      for (
-        let col = 0;
-        col < COLS;
-        col++
-      ) {
-
-        const cell =
-          board[row][col];
-
-
-        if (
-          cell &&
-          (
-            cell.type === "ice" ||
-            cell.type === "stone"
-          )
-        ) {
-
-          remaining++;
-
-        }
-
-      }
-
-    }
-
-
-    current +=
-      originalBlocks -
-      remaining;
-
-
-    target +=
-      originalBlocks;
-
-  }
-
-
   return {
     current,
     target
@@ -2583,7 +2337,7 @@ function getObjectiveProgress() {
 
 
 /* =========================================================
-   METTRE À JOUR L'INTERFACE
+   INTERFACE
 ========================================================= */
 
 function updateInterface() {
@@ -2618,7 +2372,7 @@ function updateInterface() {
 
 
 /* =========================================================
-   CHRONOMÈTRE
+   CHRONO
 ========================================================= */
 
 function startTimer() {
@@ -2688,7 +2442,7 @@ function startTimer() {
 
 
 /* =========================================================
-   ARRÊTER LE CHRONO
+   STOP CHRONO
 ========================================================= */
 
 function stopTimer() {
@@ -2728,6 +2482,7 @@ function finishVictory() {
 
   processing = false;
 
+
   stopTimer();
 
 
@@ -2740,18 +2495,6 @@ function finishVictory() {
   );
 
 
-  /* -------------------------------------------------------
-     Sauvegarder le niveau débloqué
-  ------------------------------------------------------- */
-
-  const unlocked =
-    Number(
-      localStorage.getItem(
-        STORAGE_UNLOCKED
-      )
-    ) || 1;
-
-
   const nextUnlocked =
     Math.min(
       currentLevel + 2,
@@ -2759,27 +2502,22 @@ function finishVictory() {
     );
 
 
+  const previousUnlocked =
+    Number(
+      localStorage.getItem(
+        STORAGE_UNLOCKED
+      )
+    ) || 1;
+
+
   if (
     nextUnlocked >
-    unlocked
+    previousUnlocked
   ) {
 
     localStorage.setItem(
       STORAGE_UNLOCKED,
       nextUnlocked
-    );
-
-  }
-
-
-  if (
-    currentLevel <
-    LEVELS.length - 1
-  ) {
-
-    localStorage.setItem(
-      STORAGE_LEVEL,
-      currentLevel + 1
     );
 
   }
@@ -2806,6 +2544,7 @@ function finishDefeat() {
 
   processing = false;
 
+
   stopTimer();
 
 
@@ -2817,7 +2556,7 @@ function finishDefeat() {
 
 
 /* =========================================================
-   PLATEAU JOUABLE
+   GARANTIR AU MOINS UN GROUPE
 ========================================================= */
 
 function ensurePlayableBoard() {
@@ -2831,111 +2570,13 @@ function ensurePlayableBoard() {
   }
 
 
-  shuffleSymbols();
-
-
-  if (
-    findAllGroups().length === 0
-  ) {
-
-    forcePlayablePair();
-
-  }
+  forcePlayablePair();
 
 }
 
 
 /* =========================================================
-   MÉLANGER LES SYMBOLES
-========================================================= */
-
-function shuffleSymbols() {
-
-  const positions = [];
-
-  const symbols = [];
-
-
-  for (
-    let row = 0;
-    row < ROWS;
-    row++
-  ) {
-
-    for (
-      let col = 0;
-      col < COLS;
-      col++
-    ) {
-
-      if (
-        isSymbolCell(
-          board[row][col]
-        )
-      ) {
-
-        positions.push({
-          row,
-          col
-        });
-
-
-        symbols.push(
-          board[row][col].symbol
-        );
-
-      }
-
-    }
-
-  }
-
-
-  for (
-    let i =
-      symbols.length - 1;
-
-    i > 0;
-
-    i--
-  ) {
-
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
-
-
-    [
-      symbols[i],
-      symbols[j]
-    ] = [
-      symbols[j],
-      symbols[i]
-    ];
-
-  }
-
-
-  positions.forEach(
-    (position, index) => {
-
-      board[
-        position.row
-      ][
-        position.col
-      ].symbol =
-        symbols[index];
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   FORCER AU MOINS UNE PAIRE
+   FORCER UNE PAIRE
 ========================================================= */
 
 function forcePlayablePair() {
@@ -2979,7 +2620,7 @@ function forcePlayablePair() {
 
 
 /* =========================================================
-   DONNÉES D'UN SYMBOLE
+   DONNÉES SYMBOLE
 ========================================================= */
 
 function getSymbolData(id) {
@@ -3009,7 +2650,7 @@ function getTile(
 
 
 /* =========================================================
-   PETIT EFFET SI LE GROUPE EST TROP PETIT
+   PETIT EFFET SI CLIC INVALIDE
 ========================================================= */
 
 function flashTile(
@@ -3064,7 +2705,7 @@ playBtn.addEventListener(
 
 
 /* =========================================================
-   MENU
+   MENU PAUSE
 ========================================================= */
 
 menuBtn.addEventListener(
@@ -3141,7 +2782,7 @@ homeBtn.addEventListener(
 
 
 /* =========================================================
-   REJOUER APRÈS VICTOIRE
+   VICTOIRE - REJOUER
 ========================================================= */
 
 victoryRestartBtn.addEventListener(
@@ -3169,8 +2810,7 @@ nextLevelBtn.addEventListener(
 
 
     if (
-      next >=
-      LEVELS.length
+      next >= LEVELS.length
     ) {
 
       next = 0;
@@ -3178,14 +2818,25 @@ nextLevelBtn.addEventListener(
     }
 
 
-    startLevel(next);
+    currentLevel = next;
+
+
+    localStorage.setItem(
+      STORAGE_LEVEL,
+      currentLevel
+    );
+
+
+    startLevel(
+      currentLevel
+    );
 
   }
 );
 
 
 /* =========================================================
-   REJOUER APRÈS DÉFAITE
+   DÉFAITE - RECOMMENCER
 ========================================================= */
 
 defeatRestartBtn.addEventListener(
@@ -3201,7 +2852,7 @@ defeatRestartBtn.addEventListener(
 
 
 /* =========================================================
-   ACCUEIL APRÈS DÉFAITE
+   DÉFAITE - ACCUEIL
 ========================================================= */
 
 defeatHomeBtn.addEventListener(
