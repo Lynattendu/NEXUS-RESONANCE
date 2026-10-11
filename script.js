@@ -1294,6 +1294,7 @@ tile.appendChild(img);
 
 /* =========================================================
    CLIC JOUEUR
+   DÉPLACEMENT DE DEUX SYMBOLES
 ========================================================= */
 
 async function handleTileClick(
@@ -1311,95 +1312,270 @@ async function handleTileClick(
 
   }
 
-  const group =
-    findGroup(
-      row,
-      col
-    );
+
+  const cell =
+    board[row][col];
+
 
   if (
-    group.length <
-    MIN_PLAYER_GROUP
+    !isSymbolCell(cell)
   ) {
-
-    flashTile(
-      row,
-      col
-    );
-
-    gameMessage.textContent =
-      "Il faut au moins 2 symboles identiques.";
 
     return;
 
   }
 
-  processing = true;
 
-  cascadeLevel = 1;
+  /* =======================================================
+     PREMIER SYMBOLE
+  ======================================================= */
 
   if (
-    LEVELS[currentLevel].mode === "moves"
+    selectedCell === null
+  ) {
+
+    selectedCell = {
+      row,
+      col
+    };
+
+
+    showSelectedCell();
+
+
+    gameMessage.textContent =
+      "Choisis un symbole juste à côté.";
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     RETOUCHER LE MÊME SYMBOLE
+     = ANNULER LA SÉLECTION
+  ======================================================= */
+
+  if (
+    selectedCell.row === row &&
+    selectedCell.col === col
+  ) {
+
+    selectedCell = null;
+
+
+    clearSelectedCells();
+
+
+    gameMessage.textContent =
+      "Déplace un symbole pour aligner au moins 3 symboles.";
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     SI LE SECOND SYMBOLE N'EST PAS VOISIN,
+     IL DEVIENT LA NOUVELLE SÉLECTION
+  ======================================================= */
+
+  if (
+    !areAdjacent(
+      selectedCell.row,
+      selectedCell.col,
+      row,
+      col
+    )
+  ) {
+
+    selectedCell = {
+      row,
+      col
+    };
+
+
+    clearSelectedCells();
+
+
+    showSelectedCell();
+
+
+    gameMessage.textContent =
+      "Choisis un symbole juste à côté.";
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     LES DEUX CASES SONT VOISINES :
+     ON TENTE L'ÉCHANGE
+  ======================================================= */
+
+  processing = true;
+
+
+  const first = {
+
+    row:
+      selectedCell.row,
+
+    col:
+      selectedCell.col
+
+  };
+
+
+  const second = {
+
+    row,
+    col
+
+  };
+
+
+  selectedCell = null;
+
+
+  clearSelectedCells();
+
+
+  swapCells(
+    first,
+    second
+  );
+
+
+  renderBoard();
+
+
+  await animateSwap(
+    first,
+    second
+  );
+
+
+  /* =======================================================
+     CHERCHER LES ALIGNEMENTS CRÉÉS
+  ======================================================= */
+
+  let matches =
+    findAllMatches();
+
+
+  /* =======================================================
+     AUCUN ALIGNEMENT
+     ON ANNULE LE DÉPLACEMENT
+  ======================================================= */
+
+  if (
+    matches.length === 0
+  ) {
+
+    await animateInvalidSwap(
+      first,
+      second
+    );
+
+
+    swapCells(
+      first,
+      second
+    );
+
+
+    renderBoard();
+
+
+    gameMessage.textContent =
+      "Ce déplacement ne crée aucun alignement.";
+
+
+    processing = false;
+
+    return;
+
+  }
+
+
+  /* =======================================================
+     COUP VALIDE
+  ======================================================= */
+
+  const level =
+    LEVELS[currentLevel];
+
+
+  if (
+    level.mode === "moves"
   ) {
 
     movesRemaining--;
 
   }
 
-  await removeGroup(
-    group,
-    false
+
+  cascadeLevel = 1;
+
+
+  await resolveMatches(
+    matches
   );
 
-  if (
-    checkVictory()
-  ) {
 
-    finishVictory();
-    return;
-
-  }
-
-  await gravityAndRefill();
+  /* =======================================================
+     VICTOIRE ?
+  ======================================================= */
 
   if (
     checkVictory()
   ) {
 
     finishVictory();
+
     return;
 
   }
 
-  await resolveSpecialResonances();
+
+  /* =======================================================
+     PLUS DE COUPS ?
+  ======================================================= */
 
   if (
-    checkVictory()
-  ) {
-
-    finishVictory();
-    return;
-
-  }
-
-  if (
-    LEVELS[currentLevel].mode === "moves" &&
+    level.mode === "moves" &&
     movesRemaining <= 0
   ) {
 
     finishDefeat();
+
     return;
 
   }
 
-  ensurePlayerMove();
+
+  /* =======================================================
+     VÉRIFIER QU'UN AUTRE COUP EST POSSIBLE
+  ======================================================= */
+
+  ensurePossibleMove();
+
 
   renderBoard();
 
+
   updateInterface();
 
+
   comboDisplay.textContent =
-    "COMBO ×1";
+    "RÉSONANCE ×1";
+
+
+  gameMessage.textContent =
+    "À toi de jouer.";
+
 
   processing = false;
 
@@ -1407,278 +1583,948 @@ async function handleTileClick(
 
 
 /* =========================================================
-   TROUVER GROUPE CONNECTÉ
+   DEUX CASES SONT-ELLES VOISINES ?
 ========================================================= */
 
-function findGroup(
-  startRow,
-  startCol
+function areAdjacent(
+  row1,
+  col1,
+  row2,
+  col2
 ) {
 
-  const startCell =
-    board[startRow][startCol];
-
-  if (
-    !isSymbolCell(startCell)
-  ) {
-
-    return [];
-
-  }
-
-  const target =
-    startCell.symbol;
-
-  const stack = [
-
-    {
-      row: startRow,
-      col: startCol
-    }
-
-  ];
-
-  const visited =
-    new Set();
-
-  const group = [];
-
-  while (
-    stack.length > 0
-  ) {
-
-    const current =
-      stack.pop();
-
-    const key =
-      `${current.row}-${current.col}`;
-
-    if (
-      visited.has(key)
-    ) {
-
-      continue;
-
-    }
-
-    visited.add(key);
-
-    if (
-      current.row < 0 ||
-      current.row >= ROWS ||
-      current.col < 0 ||
-      current.col >= COLS
-    ) {
-
-      continue;
-
-    }
-
-    const cell =
-      board[
-        current.row
-      ][
-        current.col
-      ];
-
-    if (
-      !isSymbolCell(cell) ||
-      cell.symbol !== target
-    ) {
-
-      continue;
-
-    }
-
-    group.push({
-
-      row:
-        current.row,
-
-      col:
-        current.col
-
-    });
-
-    stack.push(
-
-      {
-        row:
-          current.row - 1,
-
-        col:
-          current.col
-      },
-
-      {
-        row:
-          current.row + 1,
-
-        col:
-          current.col
-      },
-
-      {
-        row:
-          current.row,
-
-        col:
-          current.col - 1
-      },
-
-      {
-        row:
-          current.row,
-
-        col:
-          current.col + 1
-      }
-
+  const rowDistance =
+    Math.abs(
+      row1 - row2
     );
 
-  }
 
-  return group;
+  const colDistance =
+    Math.abs(
+      col1 - col2
+    );
+
+
+  return (
+    rowDistance +
+    colDistance
+  ) === 1;
 
 }
 
 
 /* =========================================================
-   SUPPRESSION JOUEUR OU CASCADE
+   ÉCHANGER DEUX CASES
 ========================================================= */
 
-async function removeGroup(
-  group,
-  automatic
+function swapCells(
+  first,
+  second
 ) {
 
+  const temp =
+    board[
+      first.row
+    ][
+      first.col
+    ];
+
+
+  board[
+    first.row
+  ][
+    first.col
+  ] =
+    board[
+      second.row
+    ][
+      second.col
+    ];
+
+
+  board[
+    second.row
+  ][
+    second.col
+  ] =
+    temp;
+
+}
+
+
+/* =========================================================
+   AFFICHER LE SYMBOLE SÉLECTIONNÉ
+========================================================= */
+
+function showSelectedCell() {
+
+  clearSelectedCells();
+
+
   if (
-    group.length === 0
+    !selectedCell
   ) {
 
     return;
 
   }
 
-  const first =
-    group[0];
 
-  const symbolId =
-    board[
-      first.row
-    ][
-      first.col
-    ].symbol;
+  const tile =
+    getTile(
+      selectedCell.row,
+      selectedCell.col
+    );
 
 
-  group.forEach(position => {
+  if (tile) {
 
-    const tile =
-      getTile(
-        position.row,
-        position.col
-      );
+    tile.classList.add(
+      "selected"
+    );
 
-    if (tile) {
+  }
 
-      tile.classList.add(
-        "selected"
-      );
-
-    }
-
-  });
+}
 
 
-  await sleep(90);
+/* =========================================================
+   ENLEVER LA SÉLECTION
+========================================================= */
+
+function clearSelectedCells() {
+
+  const selectedTiles =
+    gameBoard.querySelectorAll(
+      ".tile.selected"
+    );
 
 
-  group.forEach(position => {
-
-    const tile =
-      getTile(
-        position.row,
-        position.col
-      );
-
-    if (tile) {
+  selectedTiles.forEach(
+    tile => {
 
       tile.classList.remove(
         "selected"
       );
 
-      tile.classList.add(
-        "removing"
-      );
-
     }
+  );
 
-  });
-
-
-  await sleep(260);
+}
 
 
-  collected[symbolId] +=
-    group.length;
+/* =========================================================
+   ANIMATION ÉCHANGE
+========================================================= */
 
+async function animateSwap(
+  first,
+  second
+) {
 
-  score +=
-    calculateGroupScore(
-      group.length
-    ) *
-    (
-      automatic
-        ? cascadeLevel
-        : 1
+  const firstTile =
+    getTile(
+      first.row,
+      first.col
     );
 
 
-  damageAdjacentBlocks(
-    group
+  const secondTile =
+    getTile(
+      second.row,
+      second.col
+    );
+
+
+  if (
+    !firstTile ||
+    !secondTile
+  ) {
+
+    await sleep(220);
+
+    return;
+
+  }
+
+
+  const firstRect =
+    firstTile.getBoundingClientRect();
+
+
+  const secondRect =
+    secondTile.getBoundingClientRect();
+
+
+  const dx =
+    secondRect.left -
+    firstRect.left;
+
+
+  const dy =
+    secondRect.top -
+    firstRect.top;
+
+
+  firstTile.animate(
+
+    [
+
+      {
+        transform:
+          `translate(${-dx}px, ${-dy}px)`
+      },
+
+      {
+        transform:
+          "translate(0, 0)"
+      }
+
+    ],
+
+    {
+
+      duration: 220,
+
+      easing:
+        "cubic-bezier(.2,.8,.2,1)"
+
+    }
+
   );
 
 
-  group.forEach(position => {
+  secondTile.animate(
 
-    board[
-      position.row
-    ][
-      position.col
-    ] = null;
+    [
 
-  });
+      {
+        transform:
+          `translate(${dx}px, ${dy}px)`
+      },
+
+      {
+        transform:
+          "translate(0, 0)"
+      }
+
+    ],
+
+    {
+
+      duration: 220,
+
+      easing:
+        "cubic-bezier(.2,.8,.2,1)"
+
+    }
+
+  );
+
+
+  await sleep(220);
+
+}
+
+
+/* =========================================================
+   ANIMATION DÉPLACEMENT IMPOSSIBLE
+========================================================= */
+
+async function animateInvalidSwap(
+  first,
+  second
+) {
+
+  const firstTile =
+    getTile(
+      first.row,
+      first.col
+    );
+
+
+  const secondTile =
+    getTile(
+      second.row,
+      second.col
+    );
+
+
+  const animation = [
+
+    {
+      transform:
+        "translateX(0)"
+    },
+
+    {
+      transform:
+        "translateX(-5px)"
+    },
+
+    {
+      transform:
+        "translateX(5px)"
+    },
+
+    {
+      transform:
+        "translateX(0)"
+    }
+
+  ];
+
+
+  const options = {
+
+    duration: 220,
+
+    easing:
+      "ease-in-out"
+
+  };
+
+
+  if (firstTile) {
+
+    firstTile.animate(
+      animation,
+      options
+    );
+
+  }
+
+
+  if (secondTile) {
+
+    secondTile.animate(
+      animation,
+      options
+    );
+
+  }
+
+
+  await sleep(230);
+
+}
+
+
+/* =========================================================
+   TROUVER TOUS LES ALIGNEMENTS
+   3 OU PLUS
+========================================================= */
+
+function findAllMatches() {
+
+  const matched =
+    new Map();
+
+
+  /* =======================================================
+     ALIGNEMENTS HORIZONTAUX
+  ======================================================= */
+
+  for (
+    let row = 0;
+    row < ROWS;
+    row++
+  ) {
+
+    let col = 0;
+
+
+    while (
+      col < COLS
+    ) {
+
+      const cell =
+        board[row][col];
+
+
+      if (
+        !isSymbolCell(cell)
+      ) {
+
+        col++;
+
+        continue;
+
+      }
+
+
+      const symbol =
+        cell.symbol;
+
+
+      let end =
+        col + 1;
+
+
+      while (
+        end < COLS &&
+        isSymbolCell(
+          board[row][end]
+        ) &&
+        board[row][end].symbol ===
+        symbol
+      ) {
+
+        end++;
+
+      }
+
+
+      const length =
+        end - col;
+
+
+      if (
+        length >= MATCH_SIZE
+      ) {
+
+        for (
+          let currentCol = col;
+          currentCol < end;
+          currentCol++
+        ) {
+
+          matched.set(
+
+            `${row}-${currentCol}`,
+
+            {
+
+              row,
+
+              col:
+                currentCol,
+
+              symbol
+
+            }
+
+          );
+
+        }
+
+      }
+
+
+      col = end;
+
+    }
+
+  }
+
+
+  /* =======================================================
+     ALIGNEMENTS VERTICAUX
+  ======================================================= */
+
+  for (
+    let col = 0;
+    col < COLS;
+    col++
+  ) {
+
+    let row = 0;
+
+
+    while (
+      row < ROWS
+    ) {
+
+      const cell =
+        board[row][col];
+
+
+      if (
+        !isSymbolCell(cell)
+      ) {
+
+        row++;
+
+        continue;
+
+      }
+
+
+      const symbol =
+        cell.symbol;
+
+
+      let end =
+        row + 1;
+
+
+      while (
+        end < ROWS &&
+        isSymbolCell(
+          board[end][col]
+        ) &&
+        board[end][col].symbol ===
+        symbol
+      ) {
+
+        end++;
+
+      }
+
+
+      const length =
+        end - row;
+
+
+      if (
+        length >= MATCH_SIZE
+      ) {
+
+        for (
+          let currentRow = row;
+          currentRow < end;
+          currentRow++
+        ) {
+
+          matched.set(
+
+            `${currentRow}-${col}`,
+
+            {
+
+              row:
+                currentRow,
+
+              col,
+
+              symbol
+
+            }
+
+          );
+
+        }
+
+      }
+
+
+      row = end;
+
+    }
+
+  }
+
+
+  return createMatchGroups(
+
+    Array.from(
+      matched.values()
+    )
+
+  );
+
+}
+
+
+/* =========================================================
+   REGROUPER LES ALIGNEMENTS CONNECTÉS
+   POUR LES FORMES EN L OU EN T
+========================================================= */
+
+function createMatchGroups(
+  positions
+) {
+
+  const groups = [];
+
+
+  const map =
+    new Map();
+
+
+  positions.forEach(
+    position => {
+
+      map.set(
+
+        `${position.row}-${position.col}`,
+
+        position
+
+      );
+
+    }
+  );
+
+
+  const visited =
+    new Set();
+
+
+  positions.forEach(
+    position => {
+
+      const startKey =
+        `${position.row}-${position.col}`;
+
+
+      if (
+        visited.has(startKey)
+      ) {
+
+        return;
+
+      }
+
+
+      const group = [];
+
+
+      const stack = [
+        position
+      ];
+
+
+      while (
+        stack.length > 0
+      ) {
+
+        const current =
+          stack.pop();
+
+
+        const key =
+          `${current.row}-${current.col}`;
+
+
+        if (
+          visited.has(key)
+        ) {
+
+          continue;
+
+        }
+
+
+        visited.add(key);
+
+
+        group.push(
+          current
+        );
+
+
+        const neighbours = [
+
+          {
+            row:
+              current.row - 1,
+
+            col:
+              current.col
+          },
+
+          {
+            row:
+              current.row + 1,
+
+            col:
+              current.col
+          },
+
+          {
+            row:
+              current.row,
+
+            col:
+              current.col - 1
+          },
+
+          {
+            row:
+              current.row,
+
+            col:
+              current.col + 1
+          }
+
+        ];
+
+
+        neighbours.forEach(
+          neighbour => {
+
+            const neighbourKey =
+              `${neighbour.row}-${neighbour.col}`;
+
+
+            const next =
+              map.get(
+                neighbourKey
+              );
+
+
+            if (
+              next &&
+              next.symbol ===
+              current.symbol &&
+              !visited.has(
+                neighbourKey
+              )
+            ) {
+
+              stack.push(
+                next
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+
+      if (
+        group.length >=
+        MATCH_SIZE
+      ) {
+
+        groups.push(
+          group
+        );
+
+      }
+
+    }
+  );
+
+
+  return groups;
+
+}
+
+
+/* =========================================================
+   RÉSOUDRE LES ALIGNEMENTS
+   PUIS LES CASCADES
+========================================================= */
+
+async function resolveMatches(
+  initialMatches
+) {
+
+  let matches =
+    initialMatches;
+
+
+  cascadeLevel = 1;
+
+
+  while (
+    matches.length > 0
+  ) {
+
+    await removeMatchedGroups(
+      matches,
+      cascadeLevel
+    );
+
+
+    if (
+      checkVictory()
+    ) {
+
+      return;
+
+    }
+
+
+    await gravityAndRefill();
+
+
+    matches =
+      findAllMatches();
+
+
+    if (
+      matches.length > 0
+    ) {
+
+      cascadeLevel++;
+
+
+      comboDisplay.textContent =
+        `RÉSONANCE ×${cascadeLevel}`;
+
+
+      comboDisplay.classList.remove(
+        "active"
+      );
+
+
+      void comboDisplay.offsetWidth;
+
+
+      comboDisplay.classList.add(
+        "active"
+      );
+
+
+      gameMessage.textContent =
+        `Résonance ×${cascadeLevel} !`;
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   SUPPRIMER LES ALIGNEMENTS
+========================================================= */
+
+async function removeMatchedGroups(
+  groups,
+  multiplier
+) {
+
+  const uniquePositions =
+    new Map();
+
+
+  groups.forEach(
+    group => {
+
+      group.forEach(
+        position => {
+
+          uniquePositions.set(
+
+            `${position.row}-${position.col}`,
+
+            position
+
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     ANIMATION DISPARITION
+  ======================================================= */
+
+  uniquePositions.forEach(
+    position => {
+
+      const tile =
+        getTile(
+          position.row,
+          position.col
+        );
+
+
+      if (tile) {
+
+        tile.classList.add(
+          "removing"
+        );
+
+      }
+
+    }
+  );
+
+
+  await sleep(280);
+
+
+  /* =======================================================
+     OBJECTIFS + SCORE + OBSTACLES
+  ======================================================= */
+
+  groups.forEach(
+    group => {
+
+      if (
+        group.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      const first =
+        group[0];
+
+
+      const cell =
+        board[
+          first.row
+        ][
+          first.col
+        ];
+
+
+      if (
+        !isSymbolCell(cell)
+      ) {
+
+        return;
+
+      }
+
+
+      const symbol =
+        cell.symbol;
+
+
+      collected[symbol] +=
+        group.length;
+
+
+      score +=
+
+        calculateGroupScore(
+          group.length
+        ) *
+
+        multiplier;
+
+
+      damageAdjacentBlocks(
+        group
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     SUPPRESSION RÉELLE
+  ======================================================= */
+
+  uniquePositions.forEach(
+    position => {
+
+      board[
+        position.row
+      ][
+        position.col
+      ] = null;
+
+    }
+  );
 
 
   unlockThresholdBlocks();
 
-
-  if (automatic) {
-
-    comboDisplay.textContent =
-      `RÉSONANCE ×${cascadeLevel}`;
-
-    comboDisplay.classList.remove(
-      "active"
-    );
-
-    void comboDisplay.offsetWidth;
-
-    comboDisplay.classList.add(
-      "active"
-    );
-
-    gameMessage.textContent =
-      `Résonance automatique ×${cascadeLevel} !`;
-
-  }
-
-  else {
-
-    gameMessage.textContent =
-      `${group.length} symboles supprimés`;
-
-  }
 
   updateInterface();
 
@@ -1689,17 +2535,277 @@ async function removeGroup(
    SCORE
 ========================================================= */
 
-function calculateGroupScore(size) {
+function calculateGroupScore(
+  size
+) {
 
-  if (size === 2) return 20;
-  if (size === 3) return 45;
-  if (size === 4) return 80;
-  if (size === 5) return 125;
+  if (
+    size === 3
+  ) {
 
-  return 125 + ((size - 5) * 40);
+    return 30;
+
+  }
+
+
+  if (
+    size === 4
+  ) {
+
+    return 70;
+
+  }
+
+
+  if (
+    size === 5
+  ) {
+
+    return 130;
+
+  }
+
+
+  return (
+    130 +
+    ((size - 5) * 50)
+  );
 
 }
 
+
+/* =========================================================
+   VÉRIFIER QU'UN DÉPLACEMENT EST POSSIBLE
+========================================================= */
+
+function hasPossibleMove() {
+
+  for (
+    let row = 0;
+    row < ROWS;
+    row++
+  ) {
+
+    for (
+      let col = 0;
+      col < COLS;
+      col++
+    ) {
+
+      if (
+        !isSymbolCell(
+          board[row][col]
+        )
+      ) {
+
+        continue;
+
+      }
+
+
+      const neighbours = [
+
+        {
+          row,
+          col:
+            col + 1
+        },
+
+        {
+          row:
+            row + 1,
+          col
+        }
+
+      ];
+
+
+      for (
+        const neighbour
+        of neighbours
+      ) {
+
+        if (
+          neighbour.row >= ROWS ||
+          neighbour.col >= COLS
+        ) {
+
+          continue;
+
+        }
+
+
+        if (
+          !isSymbolCell(
+            board[
+              neighbour.row
+            ][
+              neighbour.col
+            ]
+          )
+        ) {
+
+          continue;
+
+        }
+
+
+        const first = {
+          row,
+          col
+        };
+
+
+        const second = {
+
+          row:
+            neighbour.row,
+
+          col:
+            neighbour.col
+
+        };
+
+
+        swapCells(
+          first,
+          second
+        );
+
+
+        const createsMatch =
+          findAllMatches().length > 0;
+
+
+        swapCells(
+          first,
+          second
+        );
+
+
+        if (
+          createsMatch
+        ) {
+
+          return true;
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================================================
+   GARANTIR QU'IL EXISTE UN COUP
+========================================================= */
+
+function ensurePossibleMove() {
+
+  if (
+    hasPossibleMove()
+  ) {
+
+    return;
+
+  }
+
+
+  gameMessage.textContent =
+    "Aucun déplacement possible. Mélange du Nexus…";
+
+
+  reshuffleSymbols();
+
+}
+
+
+/* =========================================================
+   MÉLANGER LE PLATEAU
+========================================================= */
+
+function reshuffleSymbols() {
+
+  const positions = [];
+
+
+  for (
+    let row = 0;
+    row < ROWS;
+    row++
+  ) {
+
+    for (
+      let col = 0;
+      col < COLS;
+      col++
+    ) {
+
+      if (
+        isSymbolCell(
+          board[row][col]
+        )
+      ) {
+
+        positions.push({
+          row,
+          col
+        });
+
+      }
+
+    }
+
+  }
+
+
+  for (
+    let attempt = 0;
+    attempt < 100;
+    attempt++
+  ) {
+
+    positions.forEach(
+      position => {
+
+        board[
+          position.row
+        ][
+          position.col
+        ].symbol =
+          randomSymbol();
+
+      }
+    );
+
+
+    if (
+      findAllMatches().length === 0 &&
+      hasPossibleMove()
+    ) {
+
+      renderBoard();
+
+      return;
+
+    }
+
+  }
+
+
+  createBoard();
+
+
+  renderBoard();
+
+}
 
 /* =========================================================
    BLOCS ADJACENTS
