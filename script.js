@@ -1,6 +1,7 @@
 /* =========================================================
    NEXUS RESONANCE
    SCRIPT.JS
+   Version gameplay contrôlé par le joueur
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -102,8 +103,8 @@ const victoryScore =
 const ROWS = 8;
 const COLS = 7;
 
-const MIN_GROUP_SIZE = 2;
-const MAX_CASCADE = 20;
+const MIN_PLAYER_GROUP = 2;
+const AUTO_RESONANCE_SIZE = 4;
 
 
 /* =========================================================
@@ -347,12 +348,9 @@ const LEVELS = [
 const STORAGE_LEVEL =
   "nexusResonance_level";
 
-const STORAGE_UNLOCKED =
-  "nexusResonance_unlocked";
-
 
 /* =========================================================
-   VARIABLES DE JEU
+   VARIABLES
 ========================================================= */
 
 let board = [];
@@ -361,7 +359,6 @@ let currentLevel =
   Number(
     localStorage.getItem(STORAGE_LEVEL)
   ) || 0;
-
 
 if (
   currentLevel < 0 ||
@@ -372,19 +369,14 @@ if (
 
 }
 
-
 let score = 0;
-
 let movesRemaining = 0;
-
 let timeRemaining = 0;
 
 let timerInterval = null;
 
 let paused = false;
-
 let processing = false;
-
 let levelFinished = false;
 
 let cascadeLevel = 1;
@@ -407,7 +399,7 @@ let collected = {
 
 
 /* =========================================================
-   ATTENTE
+   OUTILS
 ========================================================= */
 
 function sleep(ms) {
@@ -421,8 +413,54 @@ function sleep(ms) {
 }
 
 
+function randomSymbol() {
+
+  return SYMBOLS[
+    Math.floor(
+      Math.random() *
+      SYMBOLS.length
+    )
+  ].id;
+
+}
+
+
+function getSymbolData(id) {
+
+  return SYMBOLS.find(
+    symbol =>
+      symbol.id === id
+  );
+
+}
+
+
+function isSymbolCell(cell) {
+
+  return (
+    cell &&
+    cell.type === "symbol"
+  );
+
+}
+
+
+function isBlocker(cell) {
+
+  return (
+    cell &&
+    (
+      cell.type === "ice" ||
+      cell.type === "stone" ||
+      cell.type === "lock"
+    )
+  );
+
+}
+
+
 /* =========================================================
-   ÉCRAN ACCUEIL
+   ÉCRANS
 ========================================================= */
 
 function showHome() {
@@ -433,18 +471,13 @@ function showHome() {
   paused = false;
   levelFinished = false;
 
-
   homeScreen.classList.add("active");
 
   gameScreen.classList.remove("active");
 
-
   pauseMenu.classList.add("hidden");
-
   victoryScreen.classList.add("hidden");
-
   defeatScreen.classList.add("hidden");
-
 
   if (homeLevel) {
 
@@ -456,10 +489,6 @@ function showHome() {
 }
 
 
-/* =========================================================
-   ÉCRAN JEU
-========================================================= */
-
 function showGame() {
 
   homeScreen.classList.remove("active");
@@ -470,25 +499,18 @@ function showGame() {
 
 
 /* =========================================================
-   LANCER UN NIVEAU
+   LANCER NIVEAU
 ========================================================= */
 
-function startLevel(levelIndex = currentLevel) {
+function startLevel(levelIndex) {
 
   stopTimer();
 
-
-  currentLevel = levelIndex;
-
-
-  if (currentLevel < 0) {
-
-    currentLevel = 0;
-
-  }
-
+  currentLevel =
+    levelIndex ?? currentLevel;
 
   if (
+    currentLevel < 0 ||
     currentLevel >= LEVELS.length
   ) {
 
@@ -496,27 +518,21 @@ function startLevel(levelIndex = currentLevel) {
 
   }
 
-
   localStorage.setItem(
     STORAGE_LEVEL,
     currentLevel
   );
 
-
   score = 0;
 
   movesRemaining = 0;
-
   timeRemaining = 0;
 
-  cascadeLevel = 1;
-
-  processing = false;
-
   paused = false;
-
+  processing = false;
   levelFinished = false;
 
+  cascadeLevel = 1;
 
   collected = {
 
@@ -529,16 +545,11 @@ function startLevel(levelIndex = currentLevel) {
 
   };
 
-
+  pauseMenu.classList.add("hidden");
   victoryScreen.classList.add("hidden");
-
   defeatScreen.classList.add("hidden");
 
-  pauseMenu.classList.add("hidden");
-
-
   showGame();
-
 
   createBoard();
 
@@ -548,17 +559,11 @@ function startLevel(levelIndex = currentLevel) {
 
   updateInterface();
 
-
   gameMessage.textContent =
-    "Sélectionne un groupe d'au moins 2 symboles identiques.";
-
-
-  const level =
-    LEVELS[currentLevel];
-
+    "Choisis un groupe d'au moins 2 symboles identiques.";
 
   if (
-    level.mode === "time"
+    LEVELS[currentLevel].mode === "time"
   ) {
 
     startTimer();
@@ -569,7 +574,7 @@ function startLevel(levelIndex = currentLevel) {
 
 
 /* =========================================================
-   CONFIGURER LE NIVEAU
+   CONFIGURATION NIVEAU
 ========================================================= */
 
 function configureLevel() {
@@ -577,10 +582,11 @@ function configureLevel() {
   const level =
     LEVELS[currentLevel];
 
-
   levelNumber.textContent =
     currentLevel + 1;
 
+  objectiveText.textContent =
+    buildObjectiveText();
 
   if (
     level.mode === "time"
@@ -590,11 +596,9 @@ function configureLevel() {
       level.time;
 
     timerBox.classList.remove("hidden");
-
     movesBox.classList.add("hidden");
 
   }
-
 
   else if (
     level.mode === "moves"
@@ -604,29 +608,22 @@ function configureLevel() {
       level.moves;
 
     movesBox.classList.remove("hidden");
-
     timerBox.classList.add("hidden");
 
   }
-
 
   else {
 
     timerBox.classList.add("hidden");
-
     movesBox.classList.add("hidden");
 
   }
-
-
-  objectiveText.textContent =
-    buildObjectiveText();
 
 }
 
 
 /* =========================================================
-   TEXTE OBJECTIF
+   OBJECTIF TEXTE
 ========================================================= */
 
 function buildObjectiveText() {
@@ -636,56 +633,43 @@ function buildObjectiveText() {
 
   const parts = [];
 
-
   Object.entries(
     level.objectives || {}
-  ).forEach(([symbolId, amount]) => {
+  ).forEach(([id, amount]) => {
 
-    const symbol =
-      getSymbolData(symbolId);
+    const data =
+      getSymbolData(id);
 
+    if (data) {
 
-    if (!symbol) {
-
-      return;
+      parts.push(
+        `${amount} ${data.name}`
+      );
 
     }
 
-
-    parts.push(
-      `${amount} ${symbol.name}`
-    );
-
   });
-
 
   if (
     level.clearBlocks
   ) {
 
-    const totalBlocks =
-      level.blockers.filter(blocker =>
-
-        blocker.type === "ice" ||
-        blocker.type === "stone"
-
+    const count =
+      level.blockers.filter(
+        blocker =>
+          blocker.type === "ice" ||
+          blocker.type === "stone"
       ).length;
 
-
-    if (
-      totalBlocks > 0
-    ) {
+    if (count > 0) {
 
       parts.push(
-        `${totalBlocks} bloc${
-          totalBlocks > 1 ? "s" : ""
-        }`
+        `${count} bloc${count > 1 ? "s" : ""}`
       );
 
     }
 
   }
-
 
   return parts.join(" + ");
 
@@ -693,13 +677,12 @@ function buildObjectiveText() {
 
 
 /* =========================================================
-   CRÉER LE PLATEAU
+   CRÉATION PLATEAU
 ========================================================= */
 
 function createBoard() {
 
   board = [];
-
 
   for (
     let row = 0;
@@ -708,7 +691,6 @@ function createBoard() {
   ) {
 
     const line = [];
-
 
     for (
       let col = 0;
@@ -720,19 +702,12 @@ function createBoard() {
 
     }
 
-
     board.push(line);
 
   }
 
-
   const level =
     LEVELS[currentLevel];
-
-
-  /* -------------------------------------------------------
-     AJOUT DES BLOCS
-  ------------------------------------------------------- */
 
   level.blockers.forEach(blocker => {
 
@@ -747,16 +722,11 @@ function createBoard() {
 
     }
 
-
     if (
       blocker.type === "ice"
     ) {
 
-      board[
-        blocker.row
-      ][
-        blocker.col
-      ] = {
+      board[blocker.row][blocker.col] = {
 
         type: "ice",
         hp: blocker.hp || 1
@@ -765,16 +735,11 @@ function createBoard() {
 
     }
 
-
     else if (
       blocker.type === "stone"
     ) {
 
-      board[
-        blocker.row
-      ][
-        blocker.col
-      ] = {
+      board[blocker.row][blocker.col] = {
 
         type: "stone",
         hp: blocker.hp || 2
@@ -783,16 +748,11 @@ function createBoard() {
 
     }
 
-
     else if (
       blocker.type === "lock"
     ) {
 
-      board[
-        blocker.row
-      ][
-        blocker.col
-      ] = {
+      board[blocker.row][blocker.col] = {
 
         type: "lock",
 
@@ -808,11 +768,6 @@ function createBoard() {
 
   });
 
-
-  /* -------------------------------------------------------
-     REMPLISSAGE
-  ------------------------------------------------------- */
-
   for (
     let row = 0;
     row < ROWS;
@@ -826,78 +781,41 @@ function createBoard() {
     ) {
 
       if (
-        board[row][col] !== null
+        board[row][col] === null
       ) {
 
-        continue;
+        board[row][col] = {
+
+          type: "symbol",
+
+          symbol:
+            randomSymbol()
+
+        };
 
       }
-
-
-      board[row][col] = {
-
-        type: "symbol",
-
-        symbol:
-          randomSymbol()
-
-      };
 
     }
 
   }
 
-
-  ensurePlayableBoard();
-
-}
-
-
-/* =========================================================
-   SYMBOLE ALÉATOIRE
-========================================================= */
-
-function randomSymbol() {
-
-  return SYMBOLS[
-    Math.floor(
-      Math.random() *
-      SYMBOLS.length
-    )
-  ].id;
+  ensurePlayerMove();
 
 }
 
 
 /* =========================================================
-   TEST CASE SYMBOLE
+   AFFICHAGE PLATEAU
 ========================================================= */
 
-function isSymbolCell(cell) {
-
-  return (
-    cell &&
-    cell.type === "symbol" &&
-    cell.symbol
-  );
-
-}
-
-
-/* =========================================================
-   AFFICHER LE PLATEAU
-========================================================= */
-
-function renderBoard(options = {}) {
+function renderBoard() {
 
   gameBoard.innerHTML = "";
-
 
   gameBoard.style.setProperty(
     "--columns",
     COLS
   );
-
 
   for (
     let row = 0;
@@ -914,15 +832,13 @@ function renderBoard(options = {}) {
       const cell =
         board[row][col];
 
-
       const tile =
         document.createElement("button");
 
-
       tile.type = "button";
 
-      tile.classList.add("tile");
-
+      tile.className =
+        "tile";
 
       tile.dataset.row =
         row;
@@ -931,81 +847,40 @@ function renderBoard(options = {}) {
         col;
 
 
-      /* ---------------------------------------------------
-         CASE VIDE
-      --------------------------------------------------- */
-
       if (!cell) {
 
         tile.disabled = true;
 
-        tile.style.opacity =
-          "0";
+        tile.classList.add(
+          "tile-empty"
+        );
 
       }
 
-
-      /* ---------------------------------------------------
-         SYMBOLE
-      --------------------------------------------------- */
 
       else if (
         cell.type === "symbol"
       ) {
 
-        const symbol =
+        const data =
           getSymbolData(
             cell.symbol
           );
-
 
         tile.classList.add(
           cell.symbol
         );
 
-
-        if (
-          options.falling
-        ) {
-
-          tile.classList.add(
-            "falling"
-          );
-
-        }
-
-
-        if (
-          options.newTiles
-        ) {
-
-          tile.classList.add(
-            "new-tile"
-          );
-
-        }
-
-
         const span =
           document.createElement("span");
-
 
         span.className =
           "symbol";
 
-
         span.textContent =
-          symbol.icon;
-
+          data.icon;
 
         tile.appendChild(span);
-
-
-        tile.setAttribute(
-          "aria-label",
-          symbol.name
-        );
-
 
         tile.addEventListener(
           "click",
@@ -1022,10 +897,6 @@ function renderBoard(options = {}) {
       }
 
 
-      /* ---------------------------------------------------
-         GLACE
-      --------------------------------------------------- */
-
       else if (
         cell.type === "ice"
       ) {
@@ -1036,16 +907,11 @@ function renderBoard(options = {}) {
 
         tile.disabled = true;
 
-
         tile.innerHTML =
           `<span class="symbol">❄️</span>`;
 
       }
 
-
-      /* ---------------------------------------------------
-         PIERRE
-      --------------------------------------------------- */
 
       else if (
         cell.type === "stone"
@@ -1057,16 +923,11 @@ function renderBoard(options = {}) {
 
         tile.disabled = true;
 
-
         tile.innerHTML =
           `<span class="symbol">🪨</span>`;
 
       }
 
-
-      /* ---------------------------------------------------
-         CADENAS
-      --------------------------------------------------- */
 
       else if (
         cell.type === "lock"
@@ -1080,7 +941,6 @@ function renderBoard(options = {}) {
 
       }
 
-
       gameBoard.appendChild(tile);
 
     }
@@ -1091,7 +951,7 @@ function renderBoard(options = {}) {
 
 
 /* =========================================================
-   CLIC SUR UNE CASE
+   CLIC JOUEUR
 ========================================================= */
 
 async function handleTileClick(
@@ -1109,113 +969,95 @@ async function handleTileClick(
 
   }
 
-
-  const cell =
-    board[row][col];
-
-
-  if (
-    !isSymbolCell(cell)
-  ) {
-
-    return;
-
-  }
-
-
   const group =
     findGroup(
       row,
       col
     );
 
-
   if (
     group.length <
-    MIN_GROUP_SIZE
+    MIN_PLAYER_GROUP
   ) {
-
-    gameMessage.textContent =
-      "Il faut au moins 2 symboles identiques.";
 
     flashTile(
       row,
       col
     );
 
+    gameMessage.textContent =
+      "Il faut au moins 2 symboles identiques.";
+
     return;
 
   }
 
-
   processing = true;
 
-
-  const level =
-    LEVELS[currentLevel];
-
+  cascadeLevel = 1;
 
   if (
-    level.mode === "moves"
+    LEVELS[currentLevel].mode === "moves"
   ) {
 
     movesRemaining--;
 
   }
 
-
-  cascadeLevel = 1;
-
-
   await removeGroup(
     group,
     false
   );
 
+  if (
+    checkVictory()
+  ) {
+
+    finishVictory();
+    return;
+
+  }
+
+  await gravityAndRefill();
 
   if (
     checkVictory()
   ) {
 
     finishVictory();
-
     return;
 
   }
 
-
-  await resolveBoard();
-
+  await resolveSpecialResonances();
 
   if (
     checkVictory()
   ) {
 
     finishVictory();
-
     return;
 
   }
 
-
   if (
-    level.mode === "moves" &&
+    LEVELS[currentLevel].mode === "moves" &&
     movesRemaining <= 0
   ) {
 
     finishDefeat();
-
     return;
 
   }
 
-
-  ensurePlayableBoard();
+  ensurePlayerMove();
 
   renderBoard();
 
   updateInterface();
 
+  comboDisplay.textContent =
+    "COMBO ×1";
 
   processing = false;
 
@@ -1223,7 +1065,7 @@ async function handleTileClick(
 
 
 /* =========================================================
-   TROUVER UN GROUPE
+   TROUVER GROUPE CONNECTÉ
 ========================================================= */
 
 function findGroup(
@@ -1234,7 +1076,6 @@ function findGroup(
   const startCell =
     board[startRow][startCol];
 
-
   if (
     !isSymbolCell(startCell)
   ) {
@@ -1243,10 +1084,8 @@ function findGroup(
 
   }
 
-
-  const targetSymbol =
+  const target =
     startCell.symbol;
-
 
   const stack = [
 
@@ -1257,13 +1096,10 @@ function findGroup(
 
   ];
 
-
   const visited =
     new Set();
 
-
   const group = [];
-
 
   while (
     stack.length > 0
@@ -1272,10 +1108,8 @@ function findGroup(
     const current =
       stack.pop();
 
-
     const key =
       `${current.row}-${current.col}`;
-
 
     if (
       visited.has(key)
@@ -1285,9 +1119,7 @@ function findGroup(
 
     }
 
-
     visited.add(key);
-
 
     if (
       current.row < 0 ||
@@ -1300,7 +1132,6 @@ function findGroup(
 
     }
 
-
     const cell =
       board[
         current.row
@@ -1308,16 +1139,14 @@ function findGroup(
         current.col
       ];
 
-
     if (
       !isSymbolCell(cell) ||
-      cell.symbol !== targetSymbol
+      cell.symbol !== target
     ) {
 
       continue;
 
     }
-
 
     group.push({
 
@@ -1328,7 +1157,6 @@ function findGroup(
         current.col
 
     });
-
 
     stack.push(
 
@@ -1368,19 +1196,18 @@ function findGroup(
 
   }
 
-
   return group;
 
 }
 
 
 /* =========================================================
-   SUPPRIMER UN GROUPE
+   SUPPRESSION JOUEUR OU CASCADE
 ========================================================= */
 
 async function removeGroup(
   group,
-  automaticCascade
+  automatic
 ) {
 
   if (
@@ -1391,18 +1218,16 @@ async function removeGroup(
 
   }
 
+  const first =
+    group[0];
 
   const symbolId =
     board[
-      group[0].row
+      first.row
     ][
-      group[0].col
+      first.col
     ].symbol;
 
-
-  /* -------------------------------------------------------
-     SÉLECTION
-  ------------------------------------------------------- */
 
   group.forEach(position => {
 
@@ -1411,7 +1236,6 @@ async function removeGroup(
         position.row,
         position.col
       );
-
 
     if (tile) {
 
@@ -1424,12 +1248,8 @@ async function removeGroup(
   });
 
 
-  await sleep(100);
+  await sleep(90);
 
-
-  /* -------------------------------------------------------
-     DISPARITION
-  ------------------------------------------------------- */
 
   group.forEach(position => {
 
@@ -1438,7 +1258,6 @@ async function removeGroup(
         position.row,
         position.col
       );
-
 
     if (tile) {
 
@@ -1455,50 +1274,28 @@ async function removeGroup(
   });
 
 
-  await sleep(300);
+  await sleep(260);
 
-
-  /* -------------------------------------------------------
-     COMPTER LES SYMBOLES
-  ------------------------------------------------------- */
 
   collected[symbolId] +=
     group.length;
 
 
-  /* -------------------------------------------------------
-     SCORE
-  ------------------------------------------------------- */
-
-  const baseScore =
+  score +=
     calculateGroupScore(
       group.length
+    ) *
+    (
+      automatic
+        ? cascadeLevel
+        : 1
     );
 
-
-  const multiplier =
-    automaticCascade
-      ? cascadeLevel
-      : 1;
-
-
-  score +=
-    baseScore *
-    multiplier;
-
-
-  /* -------------------------------------------------------
-     ENDOMMAGER BLOCS
-  ------------------------------------------------------- */
 
   damageAdjacentBlocks(
     group
   );
 
-
-  /* -------------------------------------------------------
-     SUPPRESSION RÉELLE
-  ------------------------------------------------------- */
 
   group.forEach(position => {
 
@@ -1514,109 +1311,62 @@ async function removeGroup(
   unlockThresholdBlocks();
 
 
-  updateInterface();
-
-
-  if (
-    automaticCascade
-  ) {
+  if (automatic) {
 
     comboDisplay.textContent =
-      `COMBO ×${cascadeLevel}`;
+      `RÉSONANCE ×${cascadeLevel}`;
 
     comboDisplay.classList.remove(
       "active"
     );
 
-
     void comboDisplay.offsetWidth;
-
 
     comboDisplay.classList.add(
       "active"
     );
 
-
     gameMessage.textContent =
-      `Réaction en chaîne ×${cascadeLevel} !`;
+      `Résonance automatique ×${cascadeLevel} !`;
 
   }
 
   else {
 
-    comboDisplay.textContent =
-      "COMBO ×1";
-
-
     gameMessage.textContent =
-      `${group.length} symboles en résonance`;
+      `${group.length} symboles supprimés`;
 
   }
+
+  updateInterface();
 
 }
 
 
 /* =========================================================
-   SCORE DES GROUPES
+   SCORE
 ========================================================= */
 
 function calculateGroupScore(size) {
 
-  if (
-    size === 2
-  ) {
+  if (size === 2) return 20;
+  if (size === 3) return 45;
+  if (size === 4) return 80;
+  if (size === 5) return 125;
 
-    return 20;
-
-  }
-
-
-  if (
-    size === 3
-  ) {
-
-    return 45;
-
-  }
-
-
-  if (
-    size === 4
-  ) {
-
-    return 80;
-
-  }
-
-
-  if (
-    size === 5
-  ) {
-
-    return 125;
-
-  }
-
-
-  return (
-    125 +
-    ((size - 5) * 40)
-  );
+  return 125 + ((size - 5) * 40);
 
 }
 
 
 /* =========================================================
-   ENDOMMAGER LES BLOCS À CÔTÉ
+   BLOCS ADJACENTS
 ========================================================= */
 
-function damageAdjacentBlocks(
-  group
-) {
+function damageAdjacentBlocks(group) {
 
   const damaged =
     new Set();
-
 
   group.forEach(position => {
 
@@ -1652,7 +1402,6 @@ function damageAdjacentBlocks(
 
     ];
 
-
     neighbours.forEach(next => {
 
       if (
@@ -1666,10 +1415,8 @@ function damageAdjacentBlocks(
 
       }
 
-
       const key =
         `${next.row}-${next.col}`;
-
 
       if (
         damaged.has(key)
@@ -1679,35 +1426,24 @@ function damageAdjacentBlocks(
 
       }
 
-
       const cell =
         board[next.row][next.col];
 
-
       if (
-        !cell
+        !cell ||
+        (
+          cell.type !== "ice" &&
+          cell.type !== "stone"
+        )
       ) {
 
         return;
 
       }
-
-
-      if (
-        cell.type !== "ice" &&
-        cell.type !== "stone"
-      ) {
-
-        return;
-
-      }
-
 
       damaged.add(key);
 
-
       cell.hp--;
-
 
       if (
         cell.hp <= 0
@@ -1718,7 +1454,6 @@ function damageAdjacentBlocks(
         ][
           next.col
         ] = null;
-
 
         score += 100;
 
@@ -1732,7 +1467,7 @@ function damageAdjacentBlocks(
 
 
 /* =========================================================
-   DÉBLOQUER LES CADENAS
+   CADENAS
 ========================================================= */
 
 function unlockThresholdBlocks() {
@@ -1752,7 +1487,6 @@ function unlockThresholdBlocks() {
       const cell =
         board[row][col];
 
-
       if (
         !cell ||
         cell.type !== "lock"
@@ -1762,21 +1496,15 @@ function unlockThresholdBlocks() {
 
       }
 
-
-      const amount =
+      if (
         collected[
           cell.unlockSymbol
-        ] || 0;
-
-
-      if (
-        amount >=
+        ] >=
         cell.unlockAmount
       ) {
 
         board[row][col] =
           null;
-
 
         score += 150;
 
@@ -1790,70 +1518,79 @@ function unlockThresholdBlocks() {
 
 
 /* =========================================================
-   RÉSOUDRE GRAVITÉ + CASCADES
+   GRAVITÉ ET REMPLISSAGE
 ========================================================= */
 
-async function resolveBoard() {
+async function gravityAndRefill() {
 
-  let cascadeCount = 0;
+  const oldPositions =
+    captureSymbolPositions();
+
+  applyGravity();
+
+  renderBoard();
+
+  animateFallingTiles(
+    oldPositions
+  );
+
+  await sleep(320);
+
+  fillEmptyCells();
+
+  renderBoard();
+
+  animateNewTiles();
+
+  await sleep(260);
+
+}
 
 
-  while (
-    cascadeCount <
-    MAX_CASCADE
+/* =========================================================
+   CAPTURER POSITIONS
+========================================================= */
+
+function captureSymbolPositions() {
+
+  const positions = [];
+
+  for (
+    let row = 0;
+    row < ROWS;
+    row++
   ) {
 
-    applyGravity();
-
-
-    fillEmptyCells();
-
-
-    renderBoard({
-      falling: true,
-      newTiles: true
-    });
-
-
-    await sleep(320);
-
-
-    const groups =
-      findAllGroups();
-
-
-    if (
-      groups.length === 0
+    for (
+      let col = 0;
+      col < COLS;
+      col++
     ) {
 
-      break;
+      const cell =
+        board[row][col];
 
-    }
+      if (
+        isSymbolCell(cell)
+      ) {
 
+        positions.push({
 
-    cascadeCount++;
+          row,
+          col,
 
-    cascadeLevel++;
+          symbol:
+            cell.symbol
 
+        });
 
-    await removeMultipleGroups(
-      groups
-    );
-
-
-    if (
-      checkVictory()
-    ) {
-
-      break;
+      }
 
     }
 
   }
 
-
-  comboDisplay.textContent =
-    "COMBO ×1";
+  return positions;
 
 }
 
@@ -1870,55 +1607,99 @@ function applyGravity() {
     col++
   ) {
 
-    let writeRow =
+    let segmentBottom =
       ROWS - 1;
 
-
-    for (
-      let row = ROWS - 1;
-      row >= 0;
-      row--
+    while (
+      segmentBottom >= 0
     ) {
 
-      const cell =
-        board[row][col];
-
-
-      if (
-        isBlocker(cell)
+      while (
+        segmentBottom >= 0 &&
+        isBlocker(
+          board[
+            segmentBottom
+          ][col]
+        )
       ) {
 
-        writeRow =
-          row - 1;
-
-        continue;
+        segmentBottom--;
 
       }
 
-
       if (
-        isSymbolCell(cell)
+        segmentBottom < 0
+      ) {
+
+        break;
+
+      }
+
+      let segmentTop =
+        segmentBottom;
+
+      while (
+        segmentTop >= 0 &&
+        !isBlocker(
+          board[
+            segmentTop
+          ][col]
+        )
+      ) {
+
+        segmentTop--;
+
+      }
+
+      const symbols = [];
+
+      for (
+        let row = segmentBottom;
+        row > segmentTop;
+        row--
       ) {
 
         if (
-          row !== writeRow
+          isSymbolCell(
+            board[row][col]
+          )
         ) {
 
-          board[
-            writeRow
-          ][col] =
-            cell;
-
-
-          board[row][col] =
-            null;
+          symbols.push(
+            board[row][col]
+          );
 
         }
 
+      }
+
+      for (
+        let row = segmentBottom;
+        row > segmentTop;
+        row--
+      ) {
+
+        board[row][col] =
+          null;
+
+      }
+
+      let writeRow =
+        segmentBottom;
+
+      symbols.forEach(symbol => {
+
+        board[
+          writeRow
+        ][col] =
+          symbol;
 
         writeRow--;
 
-      }
+      });
+
+      segmentBottom =
+        segmentTop - 1;
 
     }
 
@@ -1928,23 +1709,70 @@ function applyGravity() {
 
 
 /* =========================================================
-   BLOCS QUI BLOQUENT LA CHUTE
+   ANIMATION CHUTE
 ========================================================= */
 
-function isBlocker(cell) {
+function animateFallingTiles() {
 
-  if (!cell) {
+  const tiles =
+    gameBoard.querySelectorAll(
+      ".tile"
+    );
 
-    return false;
+  tiles.forEach(tile => {
 
-  }
+    if (
+      tile.classList.contains(
+        "blocked-ice"
+      ) ||
+      tile.classList.contains(
+        "blocked-stone"
+      ) ||
+      tile.classList.contains(
+        "locked"
+      )
+    ) {
 
+      return;
 
-  return (
-    cell.type === "ice" ||
-    cell.type === "stone" ||
-    cell.type === "lock"
-  );
+    }
+
+    tile.animate(
+      [
+
+        {
+          transform:
+            "translateY(-28px)",
+
+          opacity:
+            0.6
+        },
+
+        {
+          transform:
+            "translateY(4px)",
+
+          opacity:
+            1
+        },
+
+        {
+          transform:
+            "translateY(0)",
+
+          opacity:
+            1
+        }
+
+      ],
+
+      {
+        duration: 320,
+        easing: "cubic-bezier(.2,.9,.2,1)"
+      }
+    );
+
+  });
 
 }
 
@@ -1968,24 +1796,149 @@ function fillEmptyCells() {
     ) {
 
       if (
-        board[row][col] !== null
+        board[row][col] === null
+      ) {
+
+        board[row][col] = {
+
+          type: "symbol",
+
+          symbol:
+            randomSymbol()
+
+        };
+
+      }
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   ANIMATION NOUVELLES PIÈCES
+========================================================= */
+
+function animateNewTiles() {
+
+  const tiles =
+    gameBoard.querySelectorAll(
+      ".tile"
+    );
+
+  tiles.forEach(tile => {
+
+    if (
+      tile.disabled
+    ) {
+
+      return;
+
+    }
+
+    tile.animate(
+      [
+
+        {
+          transform:
+            "translateY(-40px) scale(.8)",
+
+          opacity:
+            0
+        },
+
+        {
+          transform:
+            "translateY(4px) scale(1.03)",
+
+          opacity:
+            1
+        },
+
+        {
+          transform:
+            "translateY(0) scale(1)",
+
+          opacity:
+            1
+        }
+
+      ],
+
+      {
+        duration: 300,
+        easing: "cubic-bezier(.2,.9,.2,1)"
+      }
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   RÉSONANCES AUTOMATIQUES
+   Seulement groupes de 4 ou plus
+========================================================= */
+
+async function resolveSpecialResonances() {
+
+  let safety = 0;
+
+  while (
+    safety < 8
+  ) {
+
+    const groups =
+      findAllGroups().filter(
+        group =>
+          group.length >=
+          AUTO_RESONANCE_SIZE
+      );
+
+    if (
+      groups.length === 0
+    ) {
+
+      return;
+
+    }
+
+    cascadeLevel++;
+
+    for (
+      const group of groups
+    ) {
+
+      if (
+        group.length <
+        AUTO_RESONANCE_SIZE
       ) {
 
         continue;
 
       }
 
-
-      board[row][col] = {
-
-        type: "symbol",
-
-        symbol:
-          randomSymbol()
-
-      };
+      await removeGroup(
+        group,
+        true
+      );
 
     }
+
+    await gravityAndRefill();
+
+    if (
+      checkVictory()
+    ) {
+
+      return;
+
+    }
+
+    safety++;
 
   }
 
@@ -2003,7 +1956,6 @@ function findAllGroups() {
   const visited =
     new Set();
 
-
   for (
     let row = 0;
     row < ROWS;
@@ -2019,7 +1971,6 @@ function findAllGroups() {
       const key =
         `${row}-${col}`;
 
-
       if (
         visited.has(key)
       ) {
@@ -2027,7 +1978,6 @@ function findAllGroups() {
         continue;
 
       }
-
 
       if (
         !isSymbolCell(
@@ -2039,13 +1989,11 @@ function findAllGroups() {
 
       }
 
-
       const group =
         findGroup(
           row,
           col
         );
-
 
       group.forEach(position => {
 
@@ -2055,10 +2003,9 @@ function findAllGroups() {
 
       });
 
-
       if (
         group.length >=
-        MIN_GROUP_SIZE
+        MIN_PLAYER_GROUP
       ) {
 
         groups.push(group);
@@ -2069,506 +2016,27 @@ function findAllGroups() {
 
   }
 
-
   return groups;
 
 }
 
 
 /* =========================================================
-   SUPPRIMER PLUSIEURS GROUPES EN CASCADE
+   GARANTIR UN COUP POSSIBLE
 ========================================================= */
 
-async function removeMultipleGroups(
-  groups
-) {
+function ensurePlayerMove() {
 
-  const positionsMap =
-    new Map();
-
-
-  groups.forEach(group => {
-
-    group.forEach(position => {
-
-      const key =
-        `${position.row}-${position.col}`;
-
-
-      positionsMap.set(
-        key,
-        position
-      );
-
-    });
-
-  });
-
-
-  const positions =
-    Array.from(
-      positionsMap.values()
-    );
-
-
-  positions.forEach(position => {
-
-    const tile =
-      getTile(
-        position.row,
-        position.col
-      );
-
-
-    if (tile) {
-
-      tile.classList.add(
-        "removing"
-      );
-
-    }
-
-  });
-
-
-  await sleep(300);
-
-
-  groups.forEach(group => {
-
-    if (
-      group.length === 0
-    ) {
-
-      return;
-
-    }
-
-
-    const cell =
-      board[
-        group[0].row
-      ][
-        group[0].col
-      ];
-
-
-    if (
-      !isSymbolCell(cell)
-    ) {
-
-      return;
-
-    }
-
-
-    const symbolId =
-      cell.symbol;
-
-
-    collected[symbolId] +=
-      group.length;
-
-
-    score +=
-      calculateGroupScore(
-        group.length
-      ) *
-      cascadeLevel;
-
-
-    damageAdjacentBlocks(
-      group
-    );
-
-  });
-
-
-  positions.forEach(position => {
-
-    board[
-      position.row
-    ][
-      position.col
-    ] = null;
-
-  });
-
-
-  unlockThresholdBlocks();
-
-
-  comboDisplay.textContent =
-    `COMBO ×${cascadeLevel}`;
-
-
-  comboDisplay.classList.remove(
-    "active"
-  );
-
-
-  void comboDisplay.offsetWidth;
-
-
-  comboDisplay.classList.add(
-    "active"
-  );
-
-
-  gameMessage.textContent =
-    `Cascade automatique ×${cascadeLevel} !`;
-
-
-  updateInterface();
-
-}
-
-
-/* =========================================================
-   VÉRIFIER LA VICTOIRE
-========================================================= */
-
-function checkVictory() {
-
-  const level =
-    LEVELS[currentLevel];
-
-
-  for (
-    const [symbol, amount]
-    of Object.entries(
-      level.objectives || {}
-    )
-  ) {
-
-    if (
-      (collected[symbol] || 0)
-      <
-      amount
-    ) {
-
-      return false;
-
-    }
-
-  }
-
+  const groups =
+    findAllGroups();
 
   if (
-    level.clearBlocks
-  ) {
-
-    for (
-      let row = 0;
-      row < ROWS;
-      row++
-    ) {
-
-      for (
-        let col = 0;
-        col < COLS;
-        col++
-      ) {
-
-        const cell =
-          board[row][col];
-
-
-        if (
-          cell &&
-          (
-            cell.type === "ice" ||
-            cell.type === "stone"
-          )
-        ) {
-
-          return false;
-
-        }
-
-      }
-
-    }
-
-  }
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-   PROGRESSION OBJECTIF
-========================================================= */
-
-function getObjectiveProgress() {
-
-  const level =
-    LEVELS[currentLevel];
-
-
-  let current = 0;
-
-  let target = 0;
-
-
-  Object.entries(
-    level.objectives || {}
-  ).forEach(([symbol, amount]) => {
-
-    target += amount;
-
-
-    current += Math.min(
-      collected[symbol] || 0,
-      amount
-    );
-
-  });
-
-
-  return {
-    current,
-    target
-  };
-
-}
-
-
-/* =========================================================
-   INTERFACE
-========================================================= */
-
-function updateInterface() {
-
-  scoreDisplay.textContent =
-    score;
-
-
-  timerDisplay.textContent =
-    timeRemaining;
-
-
-  movesDisplay.textContent =
-    Math.max(
-      0,
-      movesRemaining
-    );
-
-
-  const progress =
-    getObjectiveProgress();
-
-
-  objectiveCurrent.textContent =
-    progress.current;
-
-
-  objectiveTarget.textContent =
-    progress.target;
-
-}
-
-
-/* =========================================================
-   CHRONO
-========================================================= */
-
-function startTimer() {
-
-  stopTimer();
-
-
-  timerDisplay.textContent =
-    timeRemaining;
-
-
-  timerInterval =
-    setInterval(() => {
-
-      if (
-        paused ||
-        processing ||
-        levelFinished
-      ) {
-
-        return;
-
-      }
-
-
-      timeRemaining--;
-
-
-      if (
-        timeRemaining < 0
-      ) {
-
-        timeRemaining = 0;
-
-      }
-
-
-      updateInterface();
-
-
-      if (
-        timeRemaining <= 0
-      ) {
-
-        stopTimer();
-
-
-        if (
-          checkVictory()
-        ) {
-
-          finishVictory();
-
-        }
-
-        else {
-
-          finishDefeat();
-
-        }
-
-      }
-
-    }, 1000);
-
-}
-
-
-/* =========================================================
-   STOP CHRONO
-========================================================= */
-
-function stopTimer() {
-
-  if (
-    timerInterval
-  ) {
-
-    clearInterval(
-      timerInterval
-    );
-
-
-    timerInterval = null;
-
-  }
-
-}
-
-
-/* =========================================================
-   VICTOIRE
-========================================================= */
-
-function finishVictory() {
-
-  if (
-    levelFinished
+    groups.length > 0
   ) {
 
     return;
 
   }
-
-
-  levelFinished = true;
-
-  processing = false;
-
-
-  stopTimer();
-
-
-  victoryScore.textContent =
-    score;
-
-
-  victoryScreen.classList.remove(
-    "hidden"
-  );
-
-
-  const nextUnlocked =
-    Math.min(
-      currentLevel + 2,
-      LEVELS.length
-    );
-
-
-  const previousUnlocked =
-    Number(
-      localStorage.getItem(
-        STORAGE_UNLOCKED
-      )
-    ) || 1;
-
-
-  if (
-    nextUnlocked >
-    previousUnlocked
-  ) {
-
-    localStorage.setItem(
-      STORAGE_UNLOCKED,
-      nextUnlocked
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   DÉFAITE
-========================================================= */
-
-function finishDefeat() {
-
-  if (
-    levelFinished
-  ) {
-
-    return;
-
-  }
-
-
-  levelFinished = true;
-
-  processing = false;
-
-
-  stopTimer();
-
-
-  defeatScreen.classList.remove(
-    "hidden"
-  );
-
-}
-
-
-/* =========================================================
-   GARANTIR AU MOINS UN GROUPE
-========================================================= */
-
-function ensurePlayableBoard() {
-
-  if (
-    findAllGroups().length > 0
-  ) {
-
-    return;
-
-  }
-
 
   forcePlayablePair();
 
@@ -2593,20 +2061,19 @@ function forcePlayablePair() {
       col++
     ) {
 
-      const first =
+      const a =
         board[row][col];
 
-      const second =
+      const b =
         board[row][col + 1];
 
-
       if (
-        isSymbolCell(first) &&
-        isSymbolCell(second)
+        isSymbolCell(a) &&
+        isSymbolCell(b)
       ) {
 
-        second.symbol =
-          first.symbol;
+        b.symbol =
+          a.symbol;
 
         return;
 
@@ -2620,21 +2087,262 @@ function forcePlayablePair() {
 
 
 /* =========================================================
-   DONNÉES SYMBOLE
+   VICTOIRE
 ========================================================= */
 
-function getSymbolData(id) {
+function checkVictory() {
 
-  return SYMBOLS.find(
-    symbol =>
-      symbol.id === id
+  const level =
+    LEVELS[currentLevel];
+
+  for (
+    const [symbol, target]
+    of Object.entries(
+      level.objectives || {}
+    )
+  ) {
+
+    if (
+      collected[symbol] <
+      target
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+  if (
+    level.clearBlocks
+  ) {
+
+    for (
+      let row = 0;
+      row < ROWS;
+      row++
+    ) {
+
+      for (
+        let col = 0;
+        col < COLS;
+        col++
+      ) {
+
+        const cell =
+          board[row][col];
+
+        if (
+          cell &&
+          (
+            cell.type === "ice" ||
+            cell.type === "stone"
+          )
+        ) {
+
+          return false;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  return true;
+
+}
+
+
+/* =========================================================
+   PROGRESSION
+========================================================= */
+
+function getObjectiveProgress() {
+
+  const level =
+    LEVELS[currentLevel];
+
+  let current = 0;
+  let target = 0;
+
+  Object.entries(
+    level.objectives || {}
+  ).forEach(([symbol, amount]) => {
+
+    target += amount;
+
+    current +=
+      Math.min(
+        collected[symbol],
+        amount
+      );
+
+  });
+
+  return {
+
+    current,
+    target
+
+  };
+
+}
+
+
+/* =========================================================
+   INTERFACE
+========================================================= */
+
+function updateInterface() {
+
+  scoreDisplay.textContent =
+    score;
+
+  timerDisplay.textContent =
+    timeRemaining;
+
+  movesDisplay.textContent =
+    Math.max(
+      0,
+      movesRemaining
+    );
+
+  const progress =
+    getObjectiveProgress();
+
+  objectiveCurrent.textContent =
+    progress.current;
+
+  objectiveTarget.textContent =
+    progress.target;
+
+}
+
+
+/* =========================================================
+   CHRONO
+========================================================= */
+
+function startTimer() {
+
+  stopTimer();
+
+  timerInterval =
+    setInterval(() => {
+
+      if (
+        paused ||
+        processing ||
+        levelFinished
+      ) {
+
+        return;
+
+      }
+
+      timeRemaining--;
+
+      if (
+        timeRemaining <= 0
+      ) {
+
+        timeRemaining = 0;
+
+        updateInterface();
+
+        stopTimer();
+
+        if (
+          checkVictory()
+        ) {
+
+          finishVictory();
+
+        }
+
+        else {
+
+          finishDefeat();
+
+        }
+
+        return;
+
+      }
+
+      updateInterface();
+
+    }, 1000);
+
+}
+
+
+/* =========================================================
+   STOP TIMER
+========================================================= */
+
+function stopTimer() {
+
+  if (
+    timerInterval
+  ) {
+
+    clearInterval(
+      timerInterval
+    );
+
+    timerInterval = null;
+
+  }
+
+}
+
+
+/* =========================================================
+   VICTOIRE
+========================================================= */
+
+function finishVictory() {
+
+  levelFinished = true;
+
+  processing = false;
+
+  stopTimer();
+
+  victoryScore.textContent =
+    score;
+
+  victoryScreen.classList.remove(
+    "hidden"
   );
 
 }
 
 
 /* =========================================================
-   RETROUVER UNE CASE HTML
+   DÉFAITE
+========================================================= */
+
+function finishDefeat() {
+
+  levelFinished = true;
+
+  processing = false;
+
+  stopTimer();
+
+  defeatScreen.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+/* =========================================================
+   CASE HTML
 ========================================================= */
 
 function getTile(
@@ -2650,7 +2358,7 @@ function getTile(
 
 
 /* =========================================================
-   PETIT EFFET SI CLIC INVALIDE
+   FLASH CASE INVALIDE
 ========================================================= */
 
 function flashTile(
@@ -2664,32 +2372,42 @@ function flashTile(
       col
     );
 
-
   if (!tile) {
 
     return;
 
   }
 
+  tile.animate(
+    [
 
-  tile.classList.add(
-    "selected"
+      {
+        transform:
+          "scale(1)"
+      },
+
+      {
+        transform:
+          "scale(.9)"
+      },
+
+      {
+        transform:
+          "scale(1)"
+      }
+
+    ],
+
+    {
+      duration: 180
+    }
   );
-
-
-  setTimeout(() => {
-
-    tile.classList.remove(
-      "selected"
-    );
-
-  }, 180);
 
 }
 
 
 /* =========================================================
-   BOUTON JOUER
+   BOUTONS
 ========================================================= */
 
 playBtn.addEventListener(
@@ -2704,10 +2422,6 @@ playBtn.addEventListener(
 );
 
 
-/* =========================================================
-   MENU PAUSE
-========================================================= */
-
 menuBtn.addEventListener(
   "click",
   () => {
@@ -2720,9 +2434,7 @@ menuBtn.addEventListener(
 
     }
 
-
     paused = true;
-
 
     pauseMenu.classList.remove(
       "hidden"
@@ -2732,10 +2444,6 @@ menuBtn.addEventListener(
 );
 
 
-/* =========================================================
-   CONTINUER
-========================================================= */
-
 resumeBtn.addEventListener(
   "click",
   () => {
@@ -2744,16 +2452,11 @@ resumeBtn.addEventListener(
       "hidden"
     );
 
-
     paused = false;
 
   }
 );
 
-
-/* =========================================================
-   RECOMMENCER
-========================================================= */
 
 restartBtn.addEventListener(
   "click",
@@ -2767,10 +2470,6 @@ restartBtn.addEventListener(
 );
 
 
-/* =========================================================
-   RETOUR ACCUEIL
-========================================================= */
-
 homeBtn.addEventListener(
   "click",
   () => {
@@ -2780,10 +2479,6 @@ homeBtn.addEventListener(
   }
 );
 
-
-/* =========================================================
-   VICTOIRE - REJOUER
-========================================================= */
 
 victoryRestartBtn.addEventListener(
   "click",
@@ -2797,17 +2492,12 @@ victoryRestartBtn.addEventListener(
 );
 
 
-/* =========================================================
-   NIVEAU SUIVANT
-========================================================= */
-
 nextLevelBtn.addEventListener(
   "click",
   () => {
 
     let next =
       currentLevel + 1;
-
 
     if (
       next >= LEVELS.length
@@ -2817,27 +2507,11 @@ nextLevelBtn.addEventListener(
 
     }
 
-
-    currentLevel = next;
-
-
-    localStorage.setItem(
-      STORAGE_LEVEL,
-      currentLevel
-    );
-
-
-    startLevel(
-      currentLevel
-    );
+    startLevel(next);
 
   }
 );
 
-
-/* =========================================================
-   DÉFAITE - RECOMMENCER
-========================================================= */
 
 defeatRestartBtn.addEventListener(
   "click",
@@ -2850,10 +2524,6 @@ defeatRestartBtn.addEventListener(
   }
 );
 
-
-/* =========================================================
-   DÉFAITE - ACCUEIL
-========================================================= */
 
 defeatHomeBtn.addEventListener(
   "click",
