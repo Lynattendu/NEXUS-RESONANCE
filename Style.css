@@ -1061,7 +1061,8 @@ button {
 .path-background {
   position: absolute;
 
-  inset: 0;
+  top: 0;
+  left: 0;
 
   width: 100%;
   height: 100%;
@@ -1214,17 +1215,15 @@ button {
 .level-path {
   position: relative;
 
-  width:
-    min(
-      92vw,
-      560px
-    );
+  width: 100%;
 
-  min-height: 1180px;
+  max-width: 900px;
+
+  min-height: 1500px;
 
   margin:
-    6px auto
-    18px;
+    10px auto
+    20px;
 }
 
 
@@ -1835,32 +1834,25 @@ button {
    GRAND ÉCRAN / TABLETTE
 ========================================================= */
 
-@media
-(min-width: 700px) {
-
-  .path-content {
-    padding-top: 34px;
-  }
-
+@media (min-width: 700px) {
 
   .level-path {
-    min-height: 1320px;
-
-    max-width: 620px;
+    width: 82vw;
+    max-width: 1000px;
+    min-height: 1550px;
   }
 
-
-  .level-path::before {
-    height: 1180px;
+  .node-circle {
+    width: 72px;
+    height: 72px;
   }
-
 
   .node-label {
-    max-width: 165px;
+    max-width: 170px;
+    font-size: 0.82rem;
   }
 
 }
-
 
 /* =========================================================
    ACCESSIBILITÉ
