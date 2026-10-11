@@ -3463,5 +3463,92 @@ button {
 
 }
 
+/* =========================================================
+   OBJECTIFS AVEC ICÔNES
+========================================================= */
 
+.objective-icons {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin-top: 6px;
+}
+
+
+.objective-item {
+  min-width: 84px;
+
+  padding: 6px 8px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid
+    rgba(160, 228, 255, 0.12);
+}
+
+
+.objective-symbol {
+  width: 42px;
+  height: 42px;
+
+  object-fit: contain;
+
+  display: block;
+
+  filter:
+    drop-shadow(0 0 8px rgba(120, 220, 255, 0.22));
+}
+
+
+.objective-count {
+  color: #ffd66e;
+
+  font-size: 0.98rem;
+
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+
+@media (max-width: 390px) {
+
+  .objective-item {
+    min-width: 72px;
+    padding: 5px 6px;
+  }
+
+  .objective-symbol {
+    width: 36px;
+    height: 36px;
+  }
+
+  .objective-count {
+    font-size: 0.9rem;
+  }
+
+}
 
