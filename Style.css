@@ -1220,7 +1220,7 @@ button {
       560px
     );
 
-  min-height: 760px;
+  min-height: 1180px;
 
   margin:
     6px auto
@@ -1230,7 +1230,6 @@ button {
 
 /* =========================================================
    COURANT LUMINEUX CENTRAL
-   Une ligne fictive pour renforcer le parcours
 ========================================================= */
 
 .level-path::before {
@@ -1240,11 +1239,11 @@ button {
 
   left: 50%;
 
-  top: 50px;
+  top: 55px;
 
   width: 8px;
 
-  height: 650px;
+  height: 1060px;
 
   transform:
     translateX(-50%);
@@ -1273,65 +1272,58 @@ button {
 
 
 /* =========================================================
-   NŒUD NIVEAU
-========================================================= */
-
-.path-node {
-  position: absolute;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  transform:
-    translate(
-      -50%,
-      -50%
-    );
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease,
-    filter 0.25s ease;
-}
-
-
-/* =========================================================
-   POSITION DES 6 NIVEAUX
+   POSITION DES 10 NIVEAUX
 ========================================================= */
 
 .node-1 {
-  left: 35%;
-  top: 10%;
+  left: 34%;
+  top: 6%;
 }
 
 .node-2 {
-  left: 63%;
-  top: 25%;
+  left: 66%;
+  top: 16%;
 }
 
 .node-3 {
-  left: 38%;
-  top: 40%;
+  left: 36%;
+  top: 26%;
 }
 
 .node-4 {
-  left: 67%;
-  top: 56%;
+  left: 66%;
+  top: 36%;
 }
 
 .node-5 {
-  left: 39%;
-  top: 72%;
+  left: 36%;
+  top: 46%;
 }
 
 .node-6 {
-  left: 64%;
-  top: 88%;
+  left: 65%;
+  top: 56%;
 }
 
+.node-7 {
+  left: 35%;
+  top: 66%;
+}
+
+.node-8 {
+  left: 66%;
+  top: 76%;
+}
+
+.node-9 {
+  left: 36%;
+  top: 86%;
+}
+
+.node-10 {
+  left: 64%;
+  top: 96%;
+}
 
 /* =========================================================
    CERCLE NIVEAU
