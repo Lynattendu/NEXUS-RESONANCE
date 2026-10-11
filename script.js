@@ -3490,6 +3490,7 @@ function getObjectiveProgress() {
 }
 
 
+
 /* =========================================================
    INTERFACE
 ========================================================= */
@@ -3499,8 +3500,10 @@ function updateInterface() {
   scoreDisplay.textContent =
     score;
 
+
   timerDisplay.textContent =
     timeRemaining;
+
 
   movesDisplay.textContent =
     Math.max(
@@ -3508,10 +3511,8 @@ function updateInterface() {
       movesRemaining
     );
 
-  const progress =
-    getObjectiveProgress();
 
- renderObjectiveDisplay();
+  renderObjectiveDisplay();
 
 }
 
