@@ -1009,7 +1009,36 @@ button {
   background:
     #020711;
 }
+/* =========================================================
+   NIVEAU CLIQUABLE
+========================================================= */
 
+.path-node.current {
+  cursor: pointer;
+}
+
+
+.path-node.current .node-circle {
+  cursor: pointer;
+}
+
+
+.path-node.current:active {
+  transform:
+    translate(
+      -50%,
+      -50%
+    )
+    scale(0.94);
+}
+
+
+/* niveaux terminés ou verrouillés */
+
+.path-node.completed,
+.path-node.locked-path {
+  cursor: default;
+}
 
 /* =========================================================
    SCÈNE
