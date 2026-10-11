@@ -1233,96 +1233,63 @@ button {
 ========================================================= */
 
 .level-path::before {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-
-  top: 55px;
-
-  width: 8px;
-
-  height: 1060px;
-
-  transform:
-    translateX(-50%);
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(140, 235, 255, 0.1),
-      rgba(80, 220, 255, 0.55),
-      rgba(110, 130, 255, 0.38),
-      rgba(160, 90, 255, 0.22)
-    );
-
-  box-shadow:
-    0 0 12px
-    rgba(80, 220, 255, 0.28),
-    0 0 30px
-    rgba(80, 180, 255, 0.12);
-
-  opacity: 0.68;
-
-  pointer-events: none;
+  display: none;
 }
 
 
 /* =========================================================
-   POSITION DES 10 NIVEAUX
+   POSITION DES NIVEAUX
+   Alignés sur le courant lumineux du décor
 ========================================================= */
 
 .node-1 {
-  left: 34%;
-  top: 6%;
+  left: 31%;
+  top: 5%;
 }
 
 .node-2 {
-  left: 66%;
-  top: 16%;
+  left: 55%;
+  top: 13%;
 }
 
 .node-3 {
-  left: 36%;
-  top: 26%;
+  left: 69%;
+  top: 23%;
 }
 
 .node-4 {
-  left: 66%;
-  top: 36%;
+  left: 46%;
+  top: 32%;
 }
 
 .node-5 {
-  left: 36%;
-  top: 46%;
+  left: 30%;
+  top: 41%;
 }
 
 .node-6 {
-  left: 65%;
-  top: 56%;
+  left: 55%;
+  top: 51%;
 }
 
 .node-7 {
-  left: 35%;
-  top: 66%;
+  left: 72%;
+  top: 61%;
 }
 
 .node-8 {
-  left: 66%;
-  top: 76%;
+  left: 51%;
+  top: 71%;
 }
 
 .node-9 {
-  left: 36%;
-  top: 86%;
+  left: 31%;
+  top: 82%;
 }
 
 .node-10 {
-  left: 64%;
-  top: 96%;
+  left: 52%;
+  top: 93%;
 }
 
 /* =========================================================
