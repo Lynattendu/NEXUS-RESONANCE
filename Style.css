@@ -484,6 +484,60 @@ button {
   height: 32px;
   background: rgba(255, 255, 255, 0.1);
 }
+/* =========================================================
+   BOUTON RÉINITIALISER PROGRESSION
+========================================================= */
+
+.reset-progress-btn {
+
+  margin-top: 16px;
+
+  padding:
+    10px
+    16px;
+
+  border-radius: 12px;
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  color:
+    rgba(190, 210, 235, 0.55);
+
+  font-size: 0.68rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.reset-progress-btn:active {
+
+  transform:
+    scale(0.96);
+
+  color:
+    #ffffff;
+
+  border-color:
+    rgba(85, 214, 255, 0.45);
+
+  background:
+    rgba(85, 214, 255, 0.06);
+
+}
+
 
 .home-footer {
   margin-top: 28px;
