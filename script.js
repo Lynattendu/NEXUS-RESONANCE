@@ -19,7 +19,10 @@ const gameScreen =
 
    const pathScreen =
   document.getElementById("pathScreen");
-
+   
+const pathBackground =
+  document.getElementById("pathBackground");
+   
 const pathMessage =
   document.getElementById("pathMessage");
 
@@ -5933,6 +5936,175 @@ function flashTile(
 
 }
 
+
+/* =========================================================
+   DÉCORS DES DIFFÉRENTES ZONES
+========================================================= */
+
+const PATH_BACKGROUNDS = {
+
+  1:
+    "Images/Parcours/parcours-ocean-fantastique.PNG",
+
+  2:
+    "Images/Parcours/parcours-ocean-fantastique2.PNG",
+
+  3:
+    "Images/Parcours/parcours-ocean-fantastique3.PNG",
+
+  4:
+    "Images/Parcours/parcours-ocean-fantastique4.PNG",
+
+  5:
+    "Images/Parcours/parcours-ocean-fantastique5.PNG",
+
+  6:
+    "Images/Parcours/parcours-ocean-fantastique6.PNG"
+
+};
+
+
+/* =========================================================
+   CONFIGURER LA ZONE DU PARCOURS
+
+   1 à 10   = zone 1
+   11 à 20  = zone 2
+   21 à 30  = zone 3
+   etc.
+========================================================= */
+
+function configurePathZone(
+  referenceLevel
+) {
+
+  const safeLevel =
+    Math.max(
+      1,
+      referenceLevel
+    );
+
+
+  const zone =
+    Math.ceil(
+      safeLevel / 10
+    );
+
+
+  const firstLevel =
+    ((zone - 1) * 10) + 1;
+
+
+  /* =======================================================
+     CHANGER LE DÉCOR
+  ======================================================= */
+
+  const background =
+    PATH_BACKGROUNDS[zone];
+
+
+  if (
+    background &&
+    pathBackground
+  ) {
+
+    pathBackground.src =
+      background;
+
+  }
+
+
+  /* =======================================================
+     TRANSFORMER LES 10 BULLES
+
+     Exemple zone 3 :
+     21,22,23...30
+  ======================================================= */
+
+  pathNodes.forEach(
+    (node, index) => {
+
+      const levelNumber =
+        firstLevel + index;
+
+
+      node.dataset.level =
+        levelNumber;
+
+
+      const circle =
+        node.querySelector(
+          ".node-circle"
+        );
+
+
+      const label =
+        node.querySelector(
+          ".node-label"
+        );
+
+
+      if (circle) {
+
+        circle.textContent =
+          levelNumber;
+
+      }
+
+
+      /*
+         Le nom est récupéré directement
+         dans LEVELS.
+      */
+
+      const levelData =
+        LEVELS[
+          levelNumber - 1
+        ];
+
+
+      if (
+        label &&
+        levelData
+      ) {
+
+        label.textContent =
+          levelData.name;
+
+      }
+
+
+      /*
+         Si le niveau n'existe pas encore,
+         on cache sa bulle.
+
+         Utile actuellement pour 51 à 60
+         tant qu'ils ne sont pas créés.
+      */
+
+      if (
+        levelNumber >
+        LEVELS.length
+      ) {
+
+        node.style.display =
+          "none";
+
+      }
+
+      else {
+
+        node.style.display =
+          "flex";
+
+      }
+
+    }
+  );
+
+}
+
+   
+
 /* =========================================================
    PARCOURS SOUS-MARIN
 ========================================================= */
@@ -5960,7 +6132,15 @@ pathOpenedFromMenu = false;
 
   const nextLevel =
     currentLevel + 2;
+const pathReferenceLevel =
+  nextLevel <= LEVELS.length
+    ? nextLevel
+    : completedLevel;
 
+
+configurePathZone(
+  pathReferenceLevel
+);
 
   /* -------------------------------------------------------
      NETTOYER LES CLASSES
@@ -6128,7 +6308,9 @@ pathOpenedFromMenu = true;
       )
     ) || 1;
 
-
+configurePathZone(
+  unlockedLevel
+);
   pathNodes.forEach(node => {
 
     node.classList.remove(
