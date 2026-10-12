@@ -4312,3 +4312,205 @@ button {
   }
 
 }
+
+/* =========================================================
+   BOMBE NEXUS
+========================================================= */
+
+.tile.nexus-bomb {
+  overflow: visible;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(74, 224, 255, 0.22),
+      rgba(57, 90, 190, 0.18),
+      rgba(13, 25, 62, 0.9)
+    );
+
+  border-color:
+    rgba(132, 236, 255, 0.72);
+
+  box-shadow:
+    inset 0 0 16px
+    rgba(104, 220, 255, 0.15),
+
+    0 0 12px
+    rgba(75, 217, 255, 0.45),
+
+    0 0 26px
+    rgba(125, 82, 255, 0.28);
+}
+
+
+.nexus-bomb-core {
+  position: relative;
+
+  width: 72%;
+  height: 72%;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffffff 0%,
+      #8ff5ff 16%,
+      #39b8ff 38%,
+      #5465ef 62%,
+      #6227a8 100%
+    );
+
+  border:
+    2px solid
+    rgba(222, 251, 255, 0.9);
+
+  box-shadow:
+    0 0 8px
+    rgba(255, 255, 255, 0.8),
+
+    0 0 17px
+    rgba(81, 226, 255, 0.9),
+
+    0 0 30px
+    rgba(113, 90, 255, 0.58);
+
+  animation:
+    nexusBombPulse
+    1.35s ease-in-out
+    infinite;
+}
+
+
+.nexus-bomb-core::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -7px;
+
+  border-radius: 50%;
+
+  border:
+    1px dashed
+    rgba(131, 235, 255, 0.62);
+
+  animation:
+    nexusBombRotate
+    4s linear
+    infinite;
+}
+
+
+.nexus-bomb-core span {
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      1rem,
+      5vw,
+      1.6rem
+    );
+
+  text-shadow:
+    0 0 8px #ffffff,
+    0 0 15px
+    rgba(98, 229, 255, 0.9);
+
+  pointer-events: none;
+}
+
+
+@keyframes nexusBombPulse {
+
+  0%,
+  100% {
+    transform:
+      scale(0.94);
+
+    filter:
+      brightness(1);
+  }
+
+  50% {
+    transform:
+      scale(1.08);
+
+    filter:
+      brightness(1.35);
+  }
+
+}
+
+
+@keyframes nexusBombRotate {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   EXPLOSION BOMBE
+========================================================= */
+
+.tile.nexus-explosion {
+  z-index: 20;
+
+  animation:
+    nexusExplosion
+    0.42s ease
+    forwards;
+}
+
+
+@keyframes nexusExplosion {
+
+  0% {
+    transform:
+      scale(1);
+
+    filter:
+      brightness(1);
+
+    opacity: 1;
+  }
+
+  35% {
+    transform:
+      scale(1.18);
+
+    filter:
+      brightness(2.5);
+
+    box-shadow:
+      0 0 18px
+      rgba(120, 245, 255, 1),
+
+      0 0 38px
+      rgba(119, 87, 255, 0.8);
+  }
+
+  100% {
+    transform:
+      scale(0.15);
+
+    filter:
+      brightness(3);
+
+    opacity: 0;
+  }
+
+}
+
+
+
