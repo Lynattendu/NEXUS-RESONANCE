@@ -3884,4 +3884,431 @@ button {
   }
 
 }
+/* =========================================================
+   CORRECTION FINALE DU PARCOURS
+   PETITES BULLES + NIVEAUX VERROUILLÉS VISIBLES
+========================================================= */
 
+
+/* =========================================================
+   TAILLE GÉNÉRALE DES BULLES
+========================================================= */
+
+#pathScreen .node-circle {
+  width: 46px;
+  height: 46px;
+
+  flex: 0 0 46px;
+
+  font-size: 1.05rem;
+
+  border-width: 2px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PETIT HALO AUTOUR DES BULLES
+========================================================= */
+
+#pathScreen .node-circle::before {
+  inset: -4px;
+}
+
+
+/* =========================================================
+   ÉTIQUETTES PLUS PETITES
+========================================================= */
+
+#pathScreen .node-label {
+  min-width: 90px;
+  max-width: 120px;
+
+  padding:
+    6px
+    8px;
+
+  border-radius: 11px;
+
+  font-size: 0.66rem;
+
+  line-height: 1.15;
+
+  white-space: normal;
+}
+
+
+/* =========================================================
+   NIVEAUX TERMINÉS
+========================================================= */
+
+#pathScreen .path-node.completed {
+  opacity: 1;
+  filter: none;
+}
+
+
+#pathScreen .path-node.completed .node-circle {
+  width: 46px;
+  height: 46px;
+
+  background:
+    radial-gradient(
+      circle at 32% 28%,
+      #ffffff 0%,
+      #bffff0 18%,
+      #5ee5be 42%,
+      #24b68e 72%,
+      #11745b 100%
+    );
+
+  border-color:
+    rgba(
+      193,
+      255,
+      235,
+      0.9
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(
+      81,
+      244,
+      194,
+      0.48
+    ),
+    0 5px 14px
+    rgba(
+      0,
+      0,
+      0,
+      0.32
+    );
+}
+
+
+/* petite coche */
+
+#pathScreen .path-node.completed .node-circle::after {
+  content: "✓";
+
+  right: -4px;
+  top: auto;
+  bottom: -4px;
+
+  width: 17px;
+  height: 17px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #65e7a7;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.9
+    );
+
+  color: #063629;
+
+  font-size: 0.62rem;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 0 7px
+    rgba(
+      83,
+      234,
+      175,
+      0.55
+    );
+}
+
+
+/* =========================================================
+   NIVEAU ACTUEL
+========================================================= */
+
+#pathScreen .path-node.current {
+  opacity: 1;
+
+  filter: none;
+
+  z-index: 8;
+
+  cursor: pointer;
+}
+
+
+#pathScreen .path-node.current .node-circle {
+  width: 48px;
+  height: 48px;
+
+  flex-basis: 48px;
+
+  border-color:
+    rgba(
+      255,
+      235,
+      153,
+      0.95
+    );
+
+  box-shadow:
+    0 0 12px
+    rgba(
+      255,
+      220,
+      104,
+      0.75
+    ),
+    0 0 24px
+    rgba(
+      86,
+      210,
+      255,
+      0.42
+    );
+
+  animation:
+    currentNodePulseSmall
+    1.8s ease-in-out
+    infinite;
+}
+
+
+@keyframes currentNodePulseSmall {
+
+  0%,
+  100% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.08);
+  }
+
+}
+
+
+/* =========================================================
+   NIVEAUX VERROUILLÉS
+   ILS RESTENT BIEN VISIBLES
+========================================================= */
+
+#pathScreen .path-node.locked-path {
+  opacity: 1 !important;
+
+  filter: none !important;
+
+  cursor: default;
+}
+
+
+#pathScreen .path-node.locked-path .node-circle {
+  width: 46px;
+  height: 46px;
+
+  flex-basis: 46px;
+
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      #e9fbff 0%,
+      #8edcff 15%,
+      #4e93ee 34%,
+      #394db8 65%,
+      #25225e 100%
+    );
+
+  border-color:
+    rgba(
+      190,
+      235,
+      255,
+      0.7
+    );
+
+  box-shadow:
+    0 0 8px
+    rgba(
+      91,
+      187,
+      255,
+      0.34
+    ),
+    0 5px 14px
+    rgba(
+      0,
+      0,
+      0,
+      0.32
+    );
+}
+
+
+/* cadenas discret */
+
+#pathScreen .path-node.locked-path .node-circle::after {
+  content: "🔒";
+
+  position: absolute;
+
+  right: -5px;
+  top: auto;
+  bottom: -5px;
+
+  width: 17px;
+  height: 17px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    #f2b94e;
+
+  color:
+    #372200;
+
+  font-size: 0.56rem;
+
+  box-shadow:
+    0 0 7px
+    rgba(
+      255,
+      191,
+      77,
+      0.4
+    );
+}
+
+
+#pathScreen .path-node.locked-path .node-label {
+  opacity: 1;
+
+  color:
+    rgba(
+      245,
+      250,
+      255,
+      0.94
+    );
+
+  background:
+    rgba(
+      4,
+      15,
+      38,
+      0.86
+    );
+
+  border-color:
+    rgba(
+      163,
+      218,
+      255,
+      0.16
+    );
+}
+
+
+/* =========================================================
+   ESPACEMENT ENTRE BULLE ET NOM
+========================================================= */
+
+#pathScreen .path-node {
+  gap: 6px;
+}
+
+
+/* =========================================================
+   TÉLÉPHONE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  #pathScreen .node-circle,
+  #pathScreen .path-node.completed .node-circle,
+  #pathScreen .path-node.locked-path .node-circle {
+    width: 42px;
+    height: 42px;
+
+    flex-basis: 42px;
+
+    font-size: 0.95rem;
+  }
+
+
+  #pathScreen .path-node.current .node-circle {
+    width: 44px;
+    height: 44px;
+
+    flex-basis: 44px;
+  }
+
+
+  #pathScreen .node-label {
+    min-width: 82px;
+    max-width: 108px;
+
+    padding:
+      5px
+      7px;
+
+    font-size: 0.61rem;
+  }
+
+}
+
+
+/* =========================================================
+   TABLETTE / IPAD
+========================================================= */
+
+@media (min-width: 700px) {
+
+  #pathScreen .node-circle,
+  #pathScreen .path-node.completed .node-circle,
+  #pathScreen .path-node.locked-path .node-circle {
+    width: 50px;
+    height: 50px;
+
+    flex-basis: 50px;
+
+    font-size: 1.08rem;
+  }
+
+
+  #pathScreen .path-node.current .node-circle {
+    width: 52px;
+    height: 52px;
+
+    flex-basis: 52px;
+  }
+
+
+  #pathScreen .node-label {
+    min-width: 105px;
+    max-width: 145px;
+
+    font-size: 0.72rem;
+  }
+
+}
