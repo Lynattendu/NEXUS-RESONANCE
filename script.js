@@ -23,7 +23,8 @@ const gameScreen =
 const pathMessage =
   document.getElementById("pathMessage");
 
-
+const pathMenuBtn =
+  document.getElementById("pathMenuBtn");
 
 const pathHomeBtn =
   document.getElementById("pathHomeBtn");
@@ -3908,7 +3909,95 @@ function showPathAfterVictory() {
 
 }
 
+/* =========================================================
+   OUVRIR LE PARCOURS DEPUIS LE MENU
+========================================================= */
 
+function showPathFromMenu() {
+
+  homeScreen.classList.remove("active");
+
+  gameScreen.classList.remove("active");
+
+  victoryScreen.classList.add("hidden");
+
+  defeatScreen.classList.add("hidden");
+
+  pauseMenu.classList.add("hidden");
+
+  pathScreen.classList.add("active");
+
+
+  /*
+     Afficher les niveaux selon
+     la progression actuelle
+  */
+
+  const unlockedLevel =
+    Number(
+      localStorage.getItem(
+        STORAGE_UNLOCKED
+      )
+    ) || 1;
+
+
+  pathNodes.forEach(node => {
+
+    node.classList.remove(
+      "completed",
+      "current",
+      "locked-path",
+      "unlocking-path"
+    );
+
+
+    const level =
+      Number(
+        node.dataset.level
+      );
+
+
+    if (
+      level < unlockedLevel
+    ) {
+
+      node.classList.add(
+        "completed"
+      );
+
+    }
+
+    else if (
+      level === unlockedLevel
+    ) {
+
+      node.classList.add(
+        "current"
+      );
+
+    }
+
+    else {
+
+      node.classList.add(
+        "locked-path"
+      );
+
+    }
+
+  });
+
+
+  pathMessage.textContent =
+    `Progression actuelle : niveau ${unlockedLevel}.`;
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
 
 /* =========================================================
    BOUTONS
@@ -3968,6 +4057,17 @@ resetProgressBtn.addEventListener(
 
   }
 );
+
+pathMenuBtn.addEventListener("click", () => {
+
+  paused = true;
+
+  pauseMenu.classList.add("hidden");
+
+  showPathFromMenu();
+
+});
+
    
 menuBtn.addEventListener(
   "click",
