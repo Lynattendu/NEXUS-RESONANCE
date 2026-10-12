@@ -4014,28 +4014,76 @@ function renderBoard() {
         cell.type === "symbol"
       ) {
 
-        const data =
-          getSymbolData(
-            cell.symbol
-          );
+     /* =====================================================
+   BOMBE NEXUS
+===================================================== */
 
-        tile.classList.add(
-          cell.symbol
-        );
+if (
+  cell.special ===
+  "nexusBomb"
+) {
 
-       const img =
-  document.createElement("img");
+  tile.classList.add(
+    "nexus-bomb"
+  );
 
-img.className =
-  "symbol-img";
 
-img.src =
-  data.image;
+  const bomb =
+    document.createElement(
+      "div"
+    );
 
-img.alt =
-  data.name;
 
-tile.appendChild(img);
+  bomb.className =
+    "nexus-bomb-core";
+
+
+  bomb.innerHTML =
+    "<span>✦</span>";
+
+
+  tile.appendChild(
+    bomb
+  );
+
+}
+
+
+/* =====================================================
+   SYMBOLE NORMAL
+===================================================== */
+
+else {
+
+  const data =
+    getSymbolData(
+      cell.symbol
+    );
+
+
+  const img =
+    document.createElement(
+      "img"
+    );
+
+
+  img.className =
+    "symbol-img";
+
+
+  img.src =
+    data.image;
+
+
+  img.alt =
+    data.name;
+
+
+  tile.appendChild(
+    img
+  );
+
+}
 
         tile.addEventListener(
           "click",
