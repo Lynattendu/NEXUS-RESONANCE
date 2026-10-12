@@ -664,6 +664,7 @@ let timeRemaining = 0;
 let timerInterval = null;
 
 let paused = false;
+   let pathOpenedFromMenu = false;
 let processing = false;
 let levelFinished = false;
 
@@ -3914,7 +3915,7 @@ function showPathAfterVictory() {
 ========================================================= */
 
 function showPathFromMenu() {
-
+pathOpenedFromMenu = true;
   homeScreen.classList.remove("active");
 
   gameScreen.classList.remove("active");
