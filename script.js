@@ -4243,14 +4243,27 @@ pathNodes.forEach(node => {
 });
 
 
-pathHomeBtn.addEventListener(
-  "click",
-  () => {
+pathHomeBtn.addEventListener("click", () => {
 
-    showHome();
+  if (pathOpenedFromMenu) {
+
+    pathOpenedFromMenu = false;
+
+    pathScreen.classList.remove("active");
+
+    gameScreen.classList.add("active");
+
+    paused = false;
+
+    updateInterface();
+
+    return;
 
   }
-);
+
+  showHome();
+
+});
 
 /* =========================================================
    DÉMARRAGE
