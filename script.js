@@ -3969,6 +3969,7 @@ function renderBoard() {
     COLS
   );
 
+
   for (
     let row = 0;
     row < ROWS;
@@ -3984,24 +3985,38 @@ function renderBoard() {
       const cell =
         board[row][col];
 
-      const tile =
-        document.createElement("button");
 
-      tile.type = "button";
+      const tile =
+        document.createElement(
+          "button"
+        );
+
+
+      tile.type =
+        "button";
+
 
       tile.className =
         "tile";
 
+
       tile.dataset.row =
         row;
+
 
       tile.dataset.col =
         col;
 
 
+      /* =====================================================
+         CASE VIDE
+      ===================================================== */
+
       if (!cell) {
 
-        tile.disabled = true;
+        tile.disabled =
+          true;
+
 
         tile.classList.add(
           "tile-empty"
@@ -4010,164 +4025,137 @@ function renderBoard() {
       }
 
 
+      /* =====================================================
+         SYMBOLE
+      ===================================================== */
+
       else if (
         cell.type === "symbol"
       ) {
 
-     /* =====================================================
-   BOMBE NEXUS
-===================================================== */
 
-/* =====================================================
-   BOMBE NEXUS
-===================================================== */
+        /* ===================================================
+           BOMBE NEXUS
+        =================================================== */
 
-if (
-  cell.special ===
-  "nexusBomb"
-) {
+        if (
+          cell.special ===
+          "nexusBomb"
+        ) {
 
-  tile.classList.add(
-    "nexus-bomb"
-  );
+          tile.classList.add(
+            "nexus-bomb"
+          );
 
 
-  const bomb =
-    document.createElement(
-      "div"
-    );
+          const bomb =
+            document.createElement(
+              "div"
+            );
 
 
-  bomb.className =
-    "nexus-bomb-core";
+          bomb.className =
+            "nexus-bomb-core";
 
 
-  bomb.innerHTML =
-    "<span>✦</span>";
+          bomb.innerHTML =
+            "<span>✦</span>";
 
 
-  tile.appendChild(
-    bomb
-  );
+          tile.appendChild(
+            bomb
+          );
 
-}
-
-
-/* =====================================================
-   ONDE NEXUS
-===================================================== */
-
-else if (
-  cell.special ===
-  "nexusLine"
-) {
-
-  tile.classList.add(
-    "nexus-line"
-  );
+        }
 
 
-  tile.classList.add(
-    cell.direction ===
-      "horizontal"
-        ? "nexus-line-horizontal"
-        : "nexus-line-vertical"
-  );
+        /* ===================================================
+           ONDE NEXUS
+        =================================================== */
+
+        else if (
+          cell.special ===
+          "nexusLine"
+        ) {
+
+          tile.classList.add(
+            "nexus-line"
+          );
 
 
-  const wave =
-    document.createElement(
-      "div"
-    );
+          tile.classList.add(
+
+            cell.direction ===
+              "horizontal"
+
+              ? "nexus-line-horizontal"
+
+              : "nexus-line-vertical"
+
+          );
 
 
-  wave.className =
-    "nexus-line-core";
+          const wave =
+            document.createElement(
+              "div"
+            );
 
 
-  wave.innerHTML =
-    "<span>✦</span>";
+          wave.className =
+            "nexus-line-core";
 
 
-  tile.appendChild(
-    wave
-  );
-
-}
+          wave.innerHTML =
+            "<span>✦</span>";
 
 
-/* =====================================================
-   SYMBOLE NORMAL
-===================================================== */
+          tile.appendChild(
+            wave
+          );
 
-else {
-
-  const data =
-    getSymbolData(
-      cell.symbol
-    );
+        }
 
 
-  const img =
-    document.createElement(
-      "img"
-    );
+        /* ===================================================
+           SYMBOLE NORMAL
+        =================================================== */
+
+        else {
+
+          const data =
+            getSymbolData(
+              cell.symbol
+            );
 
 
-  img.className =
-    "symbol-img";
+          const img =
+            document.createElement(
+              "img"
+            );
 
 
-  img.src =
-    data.image;
+          img.className =
+            "symbol-img";
 
 
-  img.alt =
-    data.name;
+          img.src =
+            data.image;
 
 
-  tile.appendChild(
-    img
-  );
-
-}
+          img.alt =
+            data.name;
 
 
-/* =====================================================
-   SYMBOLE NORMAL
-===================================================== */
+          tile.appendChild(
+            img
+          );
 
-else {
-
-  const data =
-    getSymbolData(
-      cell.symbol
-    );
+        }
 
 
-  const img =
-    document.createElement(
-      "img"
-    );
-
-
-  img.className =
-    "symbol-img";
-
-
-  img.src =
-    data.image;
-
-
-  img.alt =
-    data.name;
-
-
-  tile.appendChild(
-    img
-  );
-
-}
+        /* ===================================================
+           CLIC SUR LA CASE
+        =================================================== */
 
         tile.addEventListener(
           "click",
@@ -4184,6 +4172,10 @@ else {
       }
 
 
+      /* =====================================================
+         GLACE
+      ===================================================== */
+
       else if (
         cell.type === "ice"
       ) {
@@ -4192,13 +4184,20 @@ else {
           "blocked-ice"
         );
 
-        tile.disabled = true;
+
+        tile.disabled =
+          true;
+
 
         tile.innerHTML =
           `<span class="symbol">❄️</span>`;
 
       }
 
+
+      /* =====================================================
+         PIERRE
+      ===================================================== */
 
       else if (
         cell.type === "stone"
@@ -4208,13 +4207,20 @@ else {
           "blocked-stone"
         );
 
-        tile.disabled = true;
+
+        tile.disabled =
+          true;
+
 
         tile.innerHTML =
           `<span class="symbol">🪨</span>`;
 
       }
 
+
+      /* =====================================================
+         CADENAS
+      ===================================================== */
 
       else if (
         cell.type === "lock"
@@ -4224,18 +4230,22 @@ else {
           "locked"
         );
 
-        tile.disabled = true;
+
+        tile.disabled =
+          true;
 
       }
 
-      gameBoard.appendChild(tile);
+
+      gameBoard.appendChild(
+        tile
+      );
 
     }
 
   }
 
 }
-
 
 /* =========================================================
    CLIC JOUEUR
