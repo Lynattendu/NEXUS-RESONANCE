@@ -2813,6 +2813,572 @@ const LEVELS = [
     }
 
   ]
+},
+   /* =========================================================
+   NIVEAU 51
+========================================================= */
+
+{
+  name: "Les Portes de l’Abîme",
+
+  mode: "moves",
+
+  moves: 38,
+
+  objectives: {
+    meduse: 32,
+    poisson: 30
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 4,
+      col: 3,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 52
+========================================================= */
+
+{
+  name: "Le Sanctuaire des Perles",
+
+  mode: "time",
+
+  time: 145,
+
+  objectives: {
+    perle: 32,
+    hippocampe: 28
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "ice",
+      hp: 1
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 53
+========================================================= */
+
+{
+  name: "Les Courants du Néant",
+
+  mode: "moves",
+
+  moves: 39,
+
+  objectives: {
+    poulpe: 32,
+    etoile: 30
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 5,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 54
+========================================================= */
+
+{
+  name: "La Chambre des Cristaux",
+
+  mode: "time",
+
+  time: 150,
+
+  objectives: {
+    meduse: 34,
+    perle: 30
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 3,
+      type: "lock",
+      symbol: "meduse",
+      amount: 16
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 55
+========================================================= */
+
+{
+  name: "Le Trône des Profondeurs",
+
+  mode: "moves",
+
+  moves: 40,
+
+  objectives: {
+    etoile: 32,
+    poisson: 30,
+    hippocampe: 26
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "lock",
+      symbol: "etoile",
+      amount: 16
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 16
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "poisson",
+      amount: 14
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 12
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 56
+========================================================= */
+
+{
+  name: "Le Palais des Ombres Bleues",
+
+  mode: "time",
+
+  time: 155,
+
+  objectives: {
+    poulpe: 34,
+    perle: 30
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 4,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 3,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 57
+========================================================= */
+
+{
+  name: "Le Passage des Échos",
+
+  mode: "moves",
+
+  moves: 41,
+
+  objectives: {
+    meduse: 34,
+    poisson: 32,
+    etoile: 26
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "lock",
+      symbol: "meduse",
+      amount: 16
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "lock",
+      symbol: "poisson",
+      amount: 15
+    },
+
+    {
+      row: 4,
+      col: 3,
+      type: "lock",
+      symbol: "etoile",
+      amount: 13
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 58
+========================================================= */
+
+{
+  name: "Le Jardin du Silence",
+
+  mode: "time",
+
+  time: 160,
+
+  objectives: {
+    hippocampe: 34,
+    perle: 32
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 4,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "ice",
+      hp: 1
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 59
+========================================================= */
+
+{
+  name: "La Faille du Nexus",
+
+  mode: "moves",
+
+  moves: 42,
+
+  objectives: {
+    poulpe: 35,
+    meduse: 32,
+    poisson: 30
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 3,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 17
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "meduse",
+      amount: 15
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 60
+========================================================= */
+
+{
+  name: "Le Nexus Primordial",
+
+  mode: "time",
+
+  time: 170,
+
+  objectives: {
+    etoile: 36,
+    perle: 34,
+    hippocampe: 32
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "lock",
+      symbol: "perle",
+      amount: 17
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 18
+    },
+
+    {
+      row: 6,
+      col: 3,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
 }
 
    
