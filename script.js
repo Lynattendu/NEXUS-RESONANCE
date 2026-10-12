@@ -4128,7 +4128,111 @@ async function handleTileClick(
 
   const cell =
     board[row][col];
+/* =======================================================
+   BOMBE NEXUS
+======================================================= */
 
+if (
+  cell &&
+  cell.type === "symbol" &&
+  cell.special === "nexusBomb"
+) {
+
+  processing = true;
+
+  selectedCell = null;
+
+  clearSelectedCells();
+
+
+  const level =
+    LEVELS[currentLevel];
+
+
+  if (
+    level.mode === "moves"
+  ) {
+
+    movesRemaining--;
+
+  }
+
+
+  await activateNexusBomb(
+    row,
+    col
+  );
+
+
+  if (
+    checkVictory()
+  ) {
+
+    finishVictory();
+
+    return;
+
+  }
+
+
+  await gravityAndRefill();
+
+
+  let matches =
+    findAllMatches();
+
+
+  if (
+    matches.length > 0
+  ) {
+
+    await resolveMatches(
+      matches
+    );
+
+  }
+
+
+  if (
+    checkVictory()
+  ) {
+
+    finishVictory();
+
+    return;
+
+  }
+
+
+  if (
+    level.mode === "moves" &&
+    movesRemaining <= 0
+  ) {
+
+    finishDefeat();
+
+    return;
+
+  }
+
+
+  ensurePossibleMove();
+
+
+  renderBoard();
+
+  updateInterface();
+
+
+  gameMessage.textContent =
+    "Bombe Nexus activée !";
+
+
+  processing = false;
+
+  return;
+
+}
 
   if (
     !isSymbolCell(cell)
@@ -5196,6 +5300,7 @@ async function resolveMatches(
 
 /* =========================================================
    SUPPRIMER LES ALIGNEMENTS
+   + CRÉER LES BOMBES NEXUS
 ========================================================= */
 
 async function removeMatchedGroups(
@@ -5207,25 +5312,89 @@ async function removeMatchedGroups(
     new Map();
 
 
-  groups.forEach(
-    group => {
+  /*
+     Les positions qui deviendront
+     des Bombes Nexus.
+  */
 
-      group.forEach(
-        position => {
+  const bombsToCreate =
+    new Map();
 
-          uniquePositions.set(
 
-            `${position.row}-${position.col}`,
+  groups.forEach(group => {
 
-            position
+    if (
+      group.length === 0
+    ) {
 
-          );
+      return;
 
+    }
+
+
+    /* =====================================================
+       MATCH DE 5 OU PLUS
+       ON CONSERVE UNE CASE POUR LA BOMBE
+    ===================================================== */
+
+    if (
+      group.length >= 5
+    ) {
+
+      const bombPosition =
+        chooseBombPosition(
+          group
+        );
+
+
+      bombsToCreate.set(
+
+        `${bombPosition.row}-${bombPosition.col}`,
+
+        {
+          row:
+            bombPosition.row,
+
+          col:
+            bombPosition.col,
+
+          symbol:
+            group[0].symbol
         }
+
       );
 
     }
-  );
+
+
+    group.forEach(position => {
+
+      const key =
+        `${position.row}-${position.col}`;
+
+
+      /*
+         Si cette case doit devenir
+         une bombe, on ne la supprime pas.
+      */
+
+      if (
+        bombsToCreate.has(key)
+      ) {
+
+        return;
+
+      }
+
+
+      uniquePositions.set(
+        key,
+        position
+      );
+
+    });
+
+  });
 
 
   /* =======================================================
@@ -5261,66 +5430,68 @@ async function removeMatchedGroups(
      OBJECTIFS + SCORE + OBSTACLES
   ======================================================= */
 
-  groups.forEach(
-    group => {
+  groups.forEach(group => {
 
-      if (
-        group.length === 0
-      ) {
+    if (
+      group.length === 0
+    ) {
 
-        return;
-
-      }
-
-
-      const first =
-        group[0];
-
-
-      const cell =
-        board[
-          first.row
-        ][
-          first.col
-        ];
-
-
-      if (
-        !isSymbolCell(cell)
-      ) {
-
-        return;
-
-      }
-
-
-      const symbol =
-        cell.symbol;
-
-
-      collected[symbol] +=
-        group.length;
-
-
-      score +=
-
-        calculateGroupScore(
-          group.length
-        ) *
-
-        multiplier;
-
-
-      damageAdjacentBlocks(
-        group
-      );
+      return;
 
     }
-  );
+
+
+    const first =
+      group[0];
+
+
+    const cell =
+      board[
+        first.row
+      ][
+        first.col
+      ];
+
+
+    if (
+      !isSymbolCell(cell)
+    ) {
+
+      return;
+
+    }
+
+
+    const symbol =
+      cell.symbol;
+
+
+    /*
+       Même si une case devient bombe,
+       le match complet compte dans
+       l'objectif.
+    */
+
+    collected[symbol] +=
+      group.length;
+
+
+    score +=
+      calculateGroupScore(
+        group.length
+      ) *
+      multiplier;
+
+
+    damageAdjacentBlocks(
+      group
+    );
+
+  });
 
 
   /* =======================================================
-     SUPPRESSION RÉELLE
+     SUPPRESSION DES CASES
   ======================================================= */
 
   uniquePositions.forEach(
@@ -5336,13 +5507,323 @@ async function removeMatchedGroups(
   );
 
 
+  /* =======================================================
+     CRÉATION DES BOMBES
+  ======================================================= */
+
+  bombsToCreate.forEach(
+    bomb => {
+
+      board[
+        bomb.row
+      ][
+        bomb.col
+      ] = {
+
+        type:
+          "symbol",
+
+        symbol:
+          bomb.symbol,
+
+        special:
+          "nexusBomb"
+
+      };
+
+    }
+  );
+
+
   unlockThresholdBlocks();
+
+
+  /*
+     Petit bonus de score
+     lorsqu'une bombe est créée.
+  */
+
+  if (
+    bombsToCreate.size > 0
+  ) {
+
+    score +=
+      150 *
+      bombsToCreate.size;
+
+
+    gameMessage.textContent =
+      bombsToCreate.size === 1
+        ? "Bombe Nexus créée !"
+        : `${bombsToCreate.size} Bombes Nexus créées !`;
+
+  }
 
 
   updateInterface();
 
 }
 
+/* =========================================================
+   CHOISIR L'EMPLACEMENT DE LA BOMBE
+
+   On choisit une position proche
+   du centre du groupe.
+========================================================= */
+
+function chooseBombPosition(
+  group
+) {
+
+  const averageRow =
+    group.reduce(
+      (total, position) =>
+        total + position.row,
+      0
+    ) /
+    group.length;
+
+
+  const averageCol =
+    group.reduce(
+      (total, position) =>
+        total + position.col,
+      0
+    ) /
+    group.length;
+
+
+  let best =
+    group[0];
+
+
+  let bestDistance =
+    Infinity;
+
+
+  group.forEach(position => {
+
+    const distance =
+      Math.abs(
+        position.row -
+        averageRow
+      ) +
+      Math.abs(
+        position.col -
+        averageCol
+      );
+
+
+    if (
+      distance <
+      bestDistance
+    ) {
+
+      best =
+        position;
+
+      bestDistance =
+        distance;
+
+    }
+
+  });
+
+
+  return best;
+
+}
+   
+/* =========================================================
+   ACTIVER UNE BOMBE NEXUS
+   EXPLOSION 3 × 3
+========================================================= */
+
+async function activateNexusBomb(
+  centerRow,
+  centerCol
+) {
+
+  const positions = [];
+
+
+  for (
+    let row =
+      centerRow - 1;
+
+    row <=
+      centerRow + 1;
+
+    row++
+  ) {
+
+    for (
+      let col =
+        centerCol - 1;
+
+      col <=
+        centerCol + 1;
+
+      col++
+    ) {
+
+      if (
+        row < 0 ||
+        row >= ROWS ||
+        col < 0 ||
+        col >= COLS
+      ) {
+
+        continue;
+
+      }
+
+
+      positions.push({
+        row,
+        col
+      });
+
+    }
+
+  }
+
+
+  /* =======================================================
+     ANIMATION
+  ======================================================= */
+
+  positions.forEach(position => {
+
+    const tile =
+      getTile(
+        position.row,
+        position.col
+      );
+
+
+    if (tile) {
+
+      tile.classList.add(
+        "nexus-explosion"
+      );
+
+    }
+
+  });
+
+
+  gameMessage.textContent =
+    "RÉSONANCE NEXUS !";
+
+
+  await sleep(420);
+
+
+  /* =======================================================
+     DESTRUCTION
+  ======================================================= */
+
+  positions.forEach(position => {
+
+    const cell =
+      board[
+        position.row
+      ][
+        position.col
+      ];
+
+
+    if (!cell) {
+
+      return;
+
+    }
+
+
+    /* =========================
+       SYMBOLE
+    ========================== */
+
+    if (
+      cell.type === "symbol"
+    ) {
+
+      /*
+         Le symbole compte
+         dans les objectifs.
+      */
+
+      if (
+        collected[
+          cell.symbol
+        ] !== undefined
+      ) {
+
+        collected[
+          cell.symbol
+        ]++;
+
+      }
+
+
+      score += 40;
+
+
+      board[
+        position.row
+      ][
+        position.col
+      ] = null;
+
+
+      return;
+
+    }
+
+
+    /* =========================
+       GLACE / PIERRE
+    ========================== */
+
+    if (
+      cell.type === "ice" ||
+      cell.type === "stone"
+    ) {
+
+      cell.hp--;
+
+
+      if (
+        cell.hp <= 0
+      ) {
+
+        board[
+          position.row
+        ][
+          position.col
+        ] = null;
+
+
+        score += 100;
+
+      }
+
+    }
+
+  });
+
+
+  unlockThresholdBlocks();
+
+
+  score += 250;
+
+
+  updateInterface();
+
+}
+   
 
 /* =========================================================
    SCORE
