@@ -3751,7 +3751,7 @@ function flashTile(
 ========================================================= */
 
 function showPathAfterVictory() {
-
+pathOpenedFromMenu = false;
   stopTimer();
 
   homeScreen.classList.remove("active");
