@@ -4512,5 +4512,277 @@ button {
 
 }
 
+/* =========================================================
+   ONDE NEXUS
+========================================================= */
 
+.tile.nexus-line {
+  overflow: visible;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(82, 226, 255, 0.22),
+      rgba(43, 95, 190, 0.2),
+      rgba(8, 24, 60, 0.94)
+    );
+
+  border-color:
+    rgba(122, 230, 255, 0.75);
+
+  box-shadow:
+    0 0 12px
+    rgba(73, 220, 255, 0.48),
+
+    inset 0 0 14px
+    rgba(102, 225, 255, 0.13);
+}
+
+
+.nexus-line-core {
+  position: relative;
+
+  width: 70%;
+  height: 70%;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle,
+      #f8ffff 0%,
+      #81edff 20%,
+      #3a9dff 48%,
+      #5843d7 100%
+    );
+
+  border:
+    2px solid
+    rgba(218, 251, 255, 0.9);
+
+  box-shadow:
+    0 0 10px
+    rgba(255, 255, 255, 0.6),
+
+    0 0 22px
+    rgba(74, 222, 255, 0.7);
+
+  animation:
+    nexusLinePulse
+    1.3s ease-in-out
+    infinite;
+}
+
+
+.nexus-line-core span {
+  color: #ffffff;
+
+  font-size: 1.2rem;
+
+  text-shadow:
+    0 0 8px #ffffff,
+    0 0 15px
+    rgba(77, 226, 255, 0.9);
+}
+
+
+/* =========================================================
+   TRAIT HORIZONTAL
+========================================================= */
+
+.nexus-line-horizontal
+.nexus-line-core::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: -28%;
+  right: -28%;
+
+  top: 50%;
+
+  height: 4px;
+
+  transform:
+    translateY(-50%);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #6feaff,
+      #ffffff,
+      #6feaff,
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(92, 231, 255, 0.9);
+}
+
+
+/* =========================================================
+   TRAIT VERTICAL
+========================================================= */
+
+.nexus-line-vertical
+.nexus-line-core::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -28%;
+  bottom: -28%;
+
+  left: 50%;
+
+  width: 4px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      #6feaff,
+      #ffffff,
+      #6feaff,
+      transparent
+    );
+
+  box-shadow:
+    0 0 10px
+    rgba(92, 231, 255, 0.9);
+}
+
+
+@keyframes nexusLinePulse {
+
+  0%,
+  100% {
+    transform:
+      scale(0.95);
+
+    filter:
+      brightness(1);
+  }
+
+  50% {
+    transform:
+      scale(1.08);
+
+    filter:
+      brightness(1.35);
+  }
+
+}
+
+
+/* =========================================================
+   EXPLOSION HORIZONTALE
+========================================================= */
+
+.tile.nexus-line-horizontal-explosion {
+  z-index: 20;
+
+  animation:
+    nexusHorizontalBlast
+    0.42s ease
+    forwards;
+}
+
+
+@keyframes nexusHorizontalBlast {
+
+  0% {
+    transform:
+      scaleX(1);
+
+    opacity: 1;
+  }
+
+  45% {
+    transform:
+      scaleX(1.18);
+
+    filter:
+      brightness(2.5);
+
+    box-shadow:
+      0 0 18px
+      rgba(100, 239, 255, 1);
+  }
+
+  100% {
+    transform:
+      scaleX(0.2);
+
+    opacity: 0;
+
+    filter:
+      brightness(3);
+  }
+
+}
+
+
+/* =========================================================
+   EXPLOSION VERTICALE
+========================================================= */
+
+.tile.nexus-line-vertical-explosion {
+  z-index: 20;
+
+  animation:
+    nexusVerticalBlast
+    0.42s ease
+    forwards;
+}
+
+
+@keyframes nexusVerticalBlast {
+
+  0% {
+    transform:
+      scaleY(1);
+
+    opacity: 1;
+  }
+
+  45% {
+    transform:
+      scaleY(1.18);
+
+    filter:
+      brightness(2.5);
+
+    box-shadow:
+      0 0 18px
+      rgba(100, 239, 255, 1);
+  }
+
+  100% {
+    transform:
+      scaleY(0.2);
+
+    opacity: 0;
+
+    filter:
+      brightness(3);
+  }
+
+}
 
