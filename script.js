@@ -3379,10 +3379,607 @@ const LEVELS = [
     }
 
   ]
-}
+},
 
    
-];
+   /* =========================================================
+   NIVEAU 61
+========================================================= */
+
+{
+  name: "La Frontière des Abysses",
+
+  mode: "moves",
+
+  moves: 40,
+
+  objectives: {
+    etoile: 34,
+    poisson: 32
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 62
+========================================================= */
+
+{
+  name: "Le Jardin des Courants",
+
+  mode: "time",
+
+  time: 165,
+
+  objectives: {
+    meduse: 34,
+    perle: 32
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 4,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "ice",
+      hp: 1
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 63
+========================================================= */
+
+{
+  name: "Les Portes Coralliennes",
+
+  mode: "moves",
+
+  moves: 41,
+
+  objectives: {
+    hippocampe: 34,
+    poulpe: 32
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 1,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 16
+    },
+
+    {
+      row: 4,
+      col: 5,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 16
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 64
+========================================================= */
+
+{
+  name: "La Crypte Lumineuse",
+
+  mode: "time",
+
+  time: 170,
+
+  objectives: {
+    etoile: 34,
+    meduse: 32,
+    perle: 24
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 3,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 4,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 65
+========================================================= */
+
+{
+  name: "Le Sceau des Profondeurs",
+
+  mode: "moves",
+
+  moves: 42,
+
+  objectives: {
+    poisson: 34,
+    perle: 30,
+    etoile: 28
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "lock",
+      symbol: "poisson",
+      amount: 18
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "lock",
+      symbol: "poisson",
+      amount: 18
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "perle",
+      amount: 15
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "etoile",
+      amount: 14
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 66
+========================================================= */
+
+{
+  name: "Le Palais des Méduses",
+
+  mode: "time",
+
+  time: 175,
+
+  objectives: {
+    meduse: 36,
+    hippocampe: 32
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 4,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 2,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 4,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 67
+========================================================= */
+
+{
+  name: "Le Couloir des Échos",
+
+  mode: "moves",
+
+  moves: 43,
+
+  objectives: {
+    poulpe: 35,
+    poisson: 32,
+    meduse: 28
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 2,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 18
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "lock",
+      symbol: "poisson",
+      amount: 16
+    },
+
+    {
+      row: 4,
+      col: 3,
+      type: "lock",
+      symbol: "meduse",
+      amount: 14
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 68
+========================================================= */
+
+{
+  name: "Les Colonnes du Nexus",
+
+  mode: "time",
+
+  time: 180,
+
+  objectives: {
+    perle: 35,
+    etoile: 32
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 2,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 4,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 69
+========================================================= */
+
+{
+  name: "La Faille Primordiale",
+
+  mode: "moves",
+
+  moves: 44,
+
+  objectives: {
+    etoile: 36,
+    hippocampe: 34,
+    perle: 30
+  },
+
+  blockers: [
+
+    {
+      row: 2,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 3,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "etoile",
+      amount: 18
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 16
+    }
+
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 70
+========================================================= */
+
+{
+  name: "Le Sanctuaire du Septième Nexus",
+
+  mode: "time",
+
+  time: 190,
+
+  objectives: {
+    etoile: 38,
+    perle: 36,
+    poulpe: 34
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+
+    {
+      row: 1,
+      col: 1,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 1,
+      col: 5,
+      type: "stone",
+      hp: 2
+    },
+
+    {
+      row: 3,
+      col: 1,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 3,
+      col: 5,
+      type: "ice",
+      hp: 1
+    },
+
+    {
+      row: 5,
+      col: 1,
+      type: "lock",
+      symbol: "perle",
+      amount: 18
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 20
+    },
+
+    {
+      row: 6,
+      col: 3,
+      type: "stone",
+      hp: 2
+    }
+
+  ]
+}
+ ];
+
 
 /* =========================================================
    SAUVEGARDE
