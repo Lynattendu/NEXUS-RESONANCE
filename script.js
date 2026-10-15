@@ -131,12 +131,40 @@ const MATCH_SIZE = 3;
 ========================================================= */
 
 const OBJECTIVE_IMAGES = {
-  etoile: "Images/Symboles/Etoile-de-mer.PNG",
-  hippocampe: "Images/Symboles/Hippocampe.PNG",
-  meduse: "Images/Symboles/Meduse.PNG",
-  perle: "Images/Symboles/Perle.PNG",
-  poisson: "Images/Symboles/Poisson.PNG",
-  poulpe: "Images/Symboles/Poulpe.PNG"
+
+  etoile:
+    "Images/Symboles/Etoile-de-mer.PNG",
+
+  hippocampe:
+    "Images/Symboles/Hippocampe.PNG",
+
+  meduse:
+    "Images/Symboles/Meduse.PNG",
+
+  perle:
+    "Images/Symboles/Perle.PNG",
+
+  poisson:
+    "Images/Symboles/Poisson.PNG",
+
+  poulpe:
+    "Images/Symboles/Poulpe.PNG",
+
+  tortue:
+    "Images/Symboles/Tortue.PNG",
+
+  raie:
+    "Images/Symboles/Raie.PNG",
+
+  anemone:
+    "Images/Symboles/Anemone.PNG",
+
+  trident:
+    "Images/Symboles/Trident.PNG",
+
+  corail:
+    "Images/Symboles/Corail.PNG"
+
 };
 
 
