@@ -187,40 +187,70 @@ function renderObjectiveDisplay() {
 
 const SYMBOLS = [
 
-  {
+  { 
     id: "etoile",
     image: "Images/Symboles/Etoile-de-mer.PNG",
     name: "étoiles de mer"
   },
 
-  {
+  { 
     id: "poulpe",
     image: "Images/Symboles/Poulpe.PNG",
     name: "poulpes"
   },
 
-  {
+  { 
     id: "hippocampe",
     image: "Images/Symboles/Hippocampe.PNG",
     name: "hippocampes"
   },
 
-  {
+  { 
     id: "poisson",
     image: "Images/Symboles/Poisson.PNG",
     name: "poissons"
   },
 
-  {
+  { 
     id: "meduse",
     image: "Images/Symboles/Meduse.PNG",
     name: "méduses"
   },
 
-  {
+  { 
     id: "perle",
     image: "Images/Symboles/Perle.PNG",
     name: "perles"
+  },
+
+  { 
+    id: "tortue",
+    image: "Images/Symboles/Tortue.PNG",
+    name: "tortues"
+  },
+
+  { 
+    id: "raie",
+    image: "Images/Symboles/Raie.PNG",
+    name: "raies"
+  },
+
+  { 
+    id: "anemone",
+    image: "Images/Symboles/Anemone.PNG",
+    name: "anémones"
+  },
+
+  { 
+    id: "triden",
+    image: "Images/Symboles/Triden.PNG",
+    name: "tridents"
+  },
+
+  { 
+    id: "corail",
+    image: "Images/Symboles/Corail.PNG",
+    name: "coraux"
   }
 
 ];
