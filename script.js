@@ -4815,7 +4815,13 @@ let collected = {
   hippocampe: 0,
   poisson: 0,
   meduse: 0,
-  perle: 0
+  perle: 0,
+
+  tortue: 0,
+  raie: 0,
+  anemone: 0,
+  trident: 0,
+  corail: 0
 
 };
 
