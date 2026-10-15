@@ -4835,14 +4835,59 @@ function sleep(ms) {
 }
 
 
+/* =========================================================
+   CHOISIR LE GROUPE DE SYMBOLES DU NIVEAU
+========================================================= */
+
+function getCurrentSymbolSet() {
+
+  const levelNumber =
+    currentLevel + 1;
+
+  if (
+    levelNumber <= 30
+  ) {
+
+    return SYMBOL_SETS[1];
+
+  }
+
+  if (
+    levelNumber <= 60
+  ) {
+
+    return SYMBOL_SETS[2];
+
+  }
+
+  if (
+    levelNumber <= 90
+  ) {
+
+    return SYMBOL_SETS[3];
+
+  }
+
+  return SYMBOL_SETS[4];
+
+}
+
+
+/* =========================================================
+   SYMBOLE ALÉATOIRE
+========================================================= */
+
 function randomSymbol() {
 
-  return SYMBOLS[
+  const currentSet =
+    getCurrentSymbolSet();
+
+  return currentSet[
     Math.floor(
       Math.random() *
-      SYMBOLS.length
+      currentSet.length
     )
-  ].id;
+  ];
 
 }
 
