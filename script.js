@@ -8180,6 +8180,9 @@ const PATH_BACKGROUNDS = {
   6:
     "Images/Parcours/parcours-ocean-fantastique6.PNG"
 
+   7:
+  "Images/Parcours/parcours-ocean-fantastique7.PNG"
+
 };
 
 
