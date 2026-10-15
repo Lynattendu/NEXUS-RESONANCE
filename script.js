@@ -3977,7 +3977,706 @@ const LEVELS = [
     }
 
   ]
+},
+
+/* =========================================================
+   NIVEAU 81
+========================================================= */
+
+{
+  name: "Le Royaume des Hippocampes",
+  mode: "moves",
+  moves: 44,
+
+  objectives: {
+    hippocampe: 38,
+    perle: 32
+  },
+
+  blockers: [
+    { row: 2, col: 2, type: "ice", hp: 1 },
+    { row: 2, col: 4, type: "ice", hp: 1 },
+    { row: 4, col: 2, type: "stone", hp: 2 },
+    { row: 4, col: 4, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 82
+========================================================= */
+
+{
+  name: "Les Jardins Lumineux",
+  mode: "time",
+  time: 180,
+
+  objectives: {
+    etoile: 38,
+    meduse: 34
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "ice", hp: 1 },
+    { row: 1, col: 5, type: "ice", hp: 1 },
+    { row: 3, col: 2, type: "stone", hp: 2 },
+    { row: 3, col: 4, type: "stone", hp: 2 },
+    { row: 5, col: 1, type: "ice", hp: 1 },
+    { row: 5, col: 5, type: "ice", hp: 1 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 83
+========================================================= */
+
+{
+  name: "La Route des Perles",
+  mode: "moves",
+  moves: 45,
+
+  objectives: {
+    perle: 38,
+    poisson: 34
+  },
+
+  blockers: [
+    { row: 2, col: 1, type: "stone", hp: 2 },
+    { row: 2, col: 5, type: "stone", hp: 2 },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "perle",
+      amount: 18
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "poisson",
+      amount: 16
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 84
+========================================================= */
+
+{
+  name: "Le Temple des Courants",
+  mode: "time",
+  time: 185,
+
+  objectives: {
+    poulpe: 38,
+    hippocampe: 35,
+    meduse: 28
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 2, type: "stone", hp: 2 },
+    { row: 1, col: 4, type: "stone", hp: 2 },
+    { row: 3, col: 1, type: "ice", hp: 1 },
+    { row: 3, col: 5, type: "ice", hp: 1 },
+    { row: 5, col: 2, type: "stone", hp: 2 },
+    { row: 5, col: 4, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 85
+========================================================= */
+
+{
+  name: "Le Sceau Marin",
+  mode: "moves",
+  moves: 46,
+
+  objectives: {
+    etoile: 40,
+    perle: 34,
+    poisson: 30
+  },
+
+  blockers: [
+    {
+      row: 2,
+      col: 1,
+      type: "lock",
+      symbol: "etoile",
+      amount: 20
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 20
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "perle",
+      amount: 17
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "poisson",
+      amount: 15
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 86
+========================================================= */
+
+{
+  name: "Les Colonnes Englouties",
+  mode: "time",
+  time: 190,
+
+  objectives: {
+    meduse: 40,
+    poulpe: 36
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "stone", hp: 2 },
+    { row: 1, col: 5, type: "stone", hp: 2 },
+    { row: 3, col: 2, type: "ice", hp: 1 },
+    { row: 3, col: 4, type: "ice", hp: 1 },
+    { row: 5, col: 1, type: "stone", hp: 2 },
+    { row: 5, col: 5, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 87
+========================================================= */
+
+{
+  name: "La Danse des Hippocampes",
+  mode: "moves",
+  moves: 47,
+
+  objectives: {
+    hippocampe: 42,
+    etoile: 34,
+    perle: 30
+  },
+
+  blockers: [
+    {
+      row: 2,
+      col: 2,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 20
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 20
+    },
+
+    {
+      row: 4,
+      col: 3,
+      type: "lock",
+      symbol: "etoile",
+      amount: 16
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 88
+========================================================= */
+
+{
+  name: "La Faille des Cristaux",
+  mode: "time",
+  time: 195,
+
+  objectives: {
+    poisson: 40,
+    perle: 36
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "ice", hp: 1 },
+    { row: 1, col: 5, type: "ice", hp: 1 },
+    { row: 2, col: 3, type: "stone", hp: 2 },
+    { row: 4, col: 3, type: "stone", hp: 2 },
+    { row: 5, col: 1, type: "ice", hp: 1 },
+    { row: 5, col: 5, type: "ice", hp: 1 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 89
+========================================================= */
+
+{
+  name: "Le Cœur des Hippocampes",
+  mode: "moves",
+  moves: 48,
+
+  objectives: {
+    hippocampe: 42,
+    meduse: 36,
+    poulpe: 32
+  },
+
+  blockers: [
+    { row: 2, col: 1, type: "stone", hp: 2 },
+    { row: 2, col: 3, type: "stone", hp: 2 },
+    { row: 2, col: 5, type: "stone", hp: 2 },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 20
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "meduse",
+      amount: 18
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 90
+========================================================= */
+
+{
+  name: "Le Gardien des Profondeurs",
+  mode: "time",
+  time: 205,
+
+  objectives: {
+    etoile: 42,
+    perle: 40,
+    hippocampe: 36
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "stone", hp: 2 },
+    { row: 1, col: 5, type: "stone", hp: 2 },
+    { row: 3, col: 1, type: "ice", hp: 1 },
+    { row: 3, col: 5, type: "ice", hp: 1 },
+
+    {
+      row: 5,
+      col: 1,
+      type: "lock",
+      symbol: "perle",
+      amount: 20
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 21
+    },
+
+    { row: 6, col: 3, type: "stone", hp: 2 }
+  ]
+},
+/* =========================================================
+   NIVEAU 91
+========================================================= */
+
+{
+  name: "Le Royaume des Poissons-Clowns",
+  mode: "moves",
+  moves: 46,
+
+  objectives: {
+    poisson: 42,
+    perle: 34
+  },
+
+  blockers: [
+    { row: 2, col: 2, type: "ice", hp: 1 },
+    { row: 2, col: 4, type: "ice", hp: 1 },
+    { row: 4, col: 2, type: "stone", hp: 2 },
+    { row: 4, col: 4, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 92
+========================================================= */
+
+{
+  name: "Le Jardin des Anémones",
+  mode: "time",
+  time: 195,
+
+  objectives: {
+    poisson: 40,
+    meduse: 38
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "ice", hp: 1 },
+    { row: 1, col: 5, type: "ice", hp: 1 },
+    { row: 3, col: 2, type: "stone", hp: 2 },
+    { row: 3, col: 4, type: "stone", hp: 2 },
+    { row: 5, col: 1, type: "ice", hp: 1 },
+    { row: 5, col: 5, type: "ice", hp: 1 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 93
+========================================================= */
+
+{
+  name: "Le Labyrinthe Corallien",
+  mode: "moves",
+  moves: 47,
+
+  objectives: {
+    poulpe: 40,
+    etoile: 38
+  },
+
+  blockers: [
+    { row: 2, col: 1, type: "stone", hp: 2 },
+    { row: 2, col: 5, type: "stone", hp: 2 },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 20
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "etoile",
+      amount: 18
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 94
+========================================================= */
+
+{
+  name: "Les Cascades de Lumière",
+  mode: "time",
+  time: 200,
+
+  objectives: {
+    perle: 40,
+    hippocampe: 38,
+    meduse: 30
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 2, type: "stone", hp: 2 },
+    { row: 1, col: 4, type: "stone", hp: 2 },
+    { row: 3, col: 1, type: "ice", hp: 1 },
+    { row: 3, col: 5, type: "ice", hp: 1 },
+    { row: 5, col: 2, type: "stone", hp: 2 },
+    { row: 5, col: 4, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 95
+========================================================= */
+
+{
+  name: "Le Sceau des Anémones",
+  mode: "moves",
+  moves: 49,
+
+  objectives: {
+    poisson: 44,
+    etoile: 38,
+    perle: 34
+  },
+
+  blockers: [
+    {
+      row: 2,
+      col: 1,
+      type: "lock",
+      symbol: "poisson",
+      amount: 22
+    },
+
+    {
+      row: 2,
+      col: 5,
+      type: "lock",
+      symbol: "poisson",
+      amount: 22
+    },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "etoile",
+      amount: 18
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "perle",
+      amount: 16
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 96
+========================================================= */
+
+{
+  name: "Le Palais Corallien",
+  mode: "time",
+  time: 210,
+
+  objectives: {
+    poulpe: 42,
+    meduse: 40
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "stone", hp: 2 },
+    { row: 1, col: 5, type: "stone", hp: 2 },
+    { row: 2, col: 3, type: "ice", hp: 1 },
+    { row: 4, col: 3, type: "ice", hp: 1 },
+    { row: 5, col: 1, type: "stone", hp: 2 },
+    { row: 5, col: 5, type: "stone", hp: 2 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 97
+========================================================= */
+
+{
+  name: "La Grande Migration",
+  mode: "moves",
+  moves: 50,
+
+  objectives: {
+    poisson: 44,
+    hippocampe: 40,
+    etoile: 34
+  },
+
+  blockers: [
+    {
+      row: 2,
+      col: 2,
+      type: "lock",
+      symbol: "poisson",
+      amount: 22
+    },
+
+    {
+      row: 2,
+      col: 4,
+      type: "lock",
+      symbol: "hippocampe",
+      amount: 20
+    },
+
+    {
+      row: 4,
+      col: 3,
+      type: "lock",
+      symbol: "etoile",
+      amount: 17
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 98
+========================================================= */
+
+{
+  name: "La Grotte des Mille Couleurs",
+  mode: "time",
+  time: 215,
+
+  objectives: {
+    perle: 42,
+    etoile: 40
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "ice", hp: 1 },
+    { row: 1, col: 5, type: "ice", hp: 1 },
+    { row: 3, col: 1, type: "stone", hp: 2 },
+    { row: 3, col: 3, type: "stone", hp: 2 },
+    { row: 3, col: 5, type: "stone", hp: 2 },
+    { row: 5, col: 1, type: "ice", hp: 1 },
+    { row: 5, col: 5, type: "ice", hp: 1 }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 99
+========================================================= */
+
+{
+  name: "La Porte du Centième Nexus",
+  mode: "moves",
+  moves: 52,
+
+  objectives: {
+    meduse: 44,
+    poulpe: 40,
+    poisson: 38
+  },
+
+  blockers: [
+    { row: 2, col: 1, type: "stone", hp: 2 },
+    { row: 2, col: 3, type: "stone", hp: 2 },
+    { row: 2, col: 5, type: "stone", hp: 2 },
+
+    {
+      row: 4,
+      col: 2,
+      type: "lock",
+      symbol: "meduse",
+      amount: 22
+    },
+
+    {
+      row: 4,
+      col: 4,
+      type: "lock",
+      symbol: "poulpe",
+      amount: 20
+    }
+  ]
+},
+
+
+/* =========================================================
+   NIVEAU 100
+========================================================= */
+
+{
+  name: "Le Cœur du Grand Nexus",
+  mode: "time",
+  time: 225,
+
+  objectives: {
+    etoile: 46,
+    perle: 44,
+    hippocampe: 40
+  },
+
+  clearBlocks: true,
+
+  blockers: [
+    { row: 1, col: 1, type: "stone", hp: 2 },
+    { row: 1, col: 3, type: "stone", hp: 2 },
+    { row: 1, col: 5, type: "stone", hp: 2 },
+
+    { row: 3, col: 1, type: "ice", hp: 1 },
+    { row: 3, col: 5, type: "ice", hp: 1 },
+
+    {
+      row: 5,
+      col: 1,
+      type: "lock",
+      symbol: "perle",
+      amount: 22
+    },
+
+    {
+      row: 5,
+      col: 5,
+      type: "lock",
+      symbol: "etoile",
+      amount: 23
+    },
+
+    { row: 6, col: 3, type: "stone", hp: 2 }
+  ]
 }
+
+
+
+
+
+
+   
  ];
 
 
