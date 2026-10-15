@@ -8881,7 +8881,23 @@ const PATH_BACKGROUNDS = {
 
    7:
   "Images/Parcours/parcours-ocean-fantastique7.PNG"
+   
+8:
+  "Images/Parcours/parcours-ocean-fantastique8.PNG"
+   9:
+  "Images/Parcours/parcours-ocean-fantastique9.PNG"
+   10:
+  "Images/Parcours/parcours-ocean-fantastique10.PNG"
+   11:
+  "Images/Parcours/parcours-ocean-fantastique11.PNG"
+  12:
+  "Images/Parcours/parcours-ocean-fantastique12.PNG"
+13:
+  "Images/Parcours/parcours-ocean-fantastique13.PNG"
+14:
+  "Images/Parcours/parcours-ocean-fantastique14.PNG"
 
+   
 };
 
 
