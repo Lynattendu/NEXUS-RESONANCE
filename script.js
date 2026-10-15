@@ -256,6 +256,57 @@ const SYMBOLS = [
 ];
 
 /* =========================================================
+   GROUPES DE SYMBOLES PAR ZONE
+========================================================= */
+
+const SYMBOL_SETS = {
+
+  /* NIVEAUX 1 À 30 */
+  1: [
+    "etoile",
+    "poulpe",
+    "hippocampe",
+    "poisson",
+    "meduse",
+    "perle"
+  ],
+
+  /* NIVEAUX 31 À 60 */
+  2: [
+    "etoile",
+    "poulpe",
+    "hippocampe",
+    "tortue",
+    "raie",
+    "perle"
+  ],
+
+  /* NIVEAUX 61 À 90 */
+  3: [
+    "tortue",
+    "raie",
+    "anemone",
+    "corail",
+    "etoile",
+    "perle"
+  ],
+
+  /* NIVEAUX 91 ET PLUS */
+  4: [
+    "raie",
+    "anemone",
+    "corail",
+    "trident",
+    "hippocampe",
+    "perle"
+  ]
+
+};
+
+
+   
+
+/* =========================================================
    NIVEAUX
 ========================================================= */
 
