@@ -4933,8 +4933,6 @@ function sleep(ms) {
 
 }
 
-
-
 /* =========================================================
    GROUPE DE SYMBOLES DU NIVEAU ACTUEL
 ========================================================= */
@@ -4975,7 +4973,6 @@ function getCurrentSymbolSet() {
   return SYMBOL_SETS[4];
 
 }
-
 
 /* =========================================================
    SYMBOLE ALÉATOIRE
