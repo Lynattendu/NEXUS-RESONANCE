@@ -116,6 +116,27 @@ const victoryScore =
   document.getElementById("victoryScore");
 
 
+   const nexusPointsDisplay =
+  document.getElementById(
+    "nexusPointsDisplay"
+  );
+
+const buyMovesBtn =
+  document.getElementById(
+    "buyMovesBtn"
+  );
+
+const buyTimeBtn =
+  document.getElementById(
+    "buyTimeBtn"
+  );
+
+const bonusBuyMessage =
+  document.getElementById(
+    "bonusBuyMessage"
+  );
+
+
 /* =========================================================
    PARAMÈTRES
 ========================================================= */
@@ -8978,6 +8999,104 @@ function stopTimer() {
 }
 
 
+   /* =========================================================
+   RÉSERVE NEXUS
+========================================================= */
+
+function saveNexusPoints() {
+
+  localStorage.setItem(
+    STORAGE_NEXUS_POINTS,
+    nexusPoints
+  );
+
+}
+
+
+function updateNexusPointsDisplay() {
+
+  if (
+    nexusPointsDisplay
+  ) {
+
+    nexusPointsDisplay.textContent =
+      nexusPoints;
+
+  }
+
+}
+
+
+/* =========================================================
+   AFFICHER LE BONUS DISPONIBLE À LA DÉFAITE
+========================================================= */
+
+function updateDefeatBonusButtons() {
+
+  const level =
+    LEVELS[currentLevel];
+
+
+  buyMovesBtn.classList.add(
+    "hidden"
+  );
+
+  buyTimeBtn.classList.add(
+    "hidden"
+  );
+
+
+  bonusBuyMessage.textContent =
+    "";
+
+
+  if (
+    level.mode === "moves"
+  ) {
+
+    buyMovesBtn.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  if (
+    level.mode === "time"
+  ) {
+
+    buyTimeBtn.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  const canBuy =
+    nexusPoints >= BONUS_PRICE;
+
+
+  buyMovesBtn.disabled =
+    !canBuy;
+
+  buyTimeBtn.disabled =
+    !canBuy;
+
+
+  if (!canBuy) {
+
+    bonusBuyMessage.textContent =
+      `Il te manque ${
+        BONUS_PRICE - nexusPoints
+      } points.`;
+
+  }
+
+
+  updateNexusPointsDisplay();
+
+}
+
 /* =========================================================
    VICTOIRE
 ========================================================= */
@@ -9003,7 +9122,16 @@ function finishVictory() {
   victoryScore.textContent =
     score;
 
+/* =====================================================
+   AJOUT DU SCORE À LA RÉSERVE NEXUS
+===================================================== */
 
+nexusPoints +=
+  score;
+
+saveNexusPoints();
+
+updateNexusPointsDisplay();
   /*
      Niveau maximum désormais débloqué
   */
@@ -9043,21 +9171,28 @@ function finishVictory() {
 }
 
 
+
 /* =========================================================
    DÉFAITE
 ========================================================= */
 
 function finishDefeat() {
 
-  levelFinished = true;
+  levelFinished =
+    true;
 
-  processing = false;
+  processing =
+    false;
 
   stopTimer();
+
 
   defeatScreen.classList.remove(
     "hidden"
   );
+
+
+  updateDefeatBonusButtons();
 
 }
 
@@ -9594,6 +9729,150 @@ playBtn.addEventListener(
     startLevel(
       currentLevel
     );
+
+  }
+);
+   /* =========================================================
+   ACHETER +5 COUPS
+========================================================= */
+
+buyMovesBtn.addEventListener(
+  "click",
+  () => {
+
+    const level =
+      LEVELS[currentLevel];
+
+
+    if (
+      level.mode !== "moves"
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      nexusPoints <
+      BONUS_PRICE
+    ) {
+
+      bonusBuyMessage.textContent =
+        "Pas assez de points Nexus.";
+
+      return;
+
+    }
+
+
+    nexusPoints -=
+      BONUS_PRICE;
+
+
+    saveNexusPoints();
+
+
+    movesRemaining +=
+      5;
+
+
+    levelFinished =
+      false;
+
+    processing =
+      false;
+
+    paused =
+      false;
+
+
+    defeatScreen.classList.add(
+      "hidden"
+    );
+
+
+    updateNexusPointsDisplay();
+
+    updateInterface();
+
+
+    gameMessage.textContent =
+      "+5 coups Nexus ! Continue !";
+
+  }
+);
+
+   /* =========================================================
+   ACHETER +20 SECONDES
+========================================================= */
+
+buyTimeBtn.addEventListener(
+  "click",
+  () => {
+
+    const level =
+      LEVELS[currentLevel];
+
+
+    if (
+      level.mode !== "time"
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      nexusPoints <
+      BONUS_PRICE
+    ) {
+
+      bonusBuyMessage.textContent =
+        "Pas assez de points Nexus.";
+
+      return;
+
+    }
+
+
+    nexusPoints -=
+      BONUS_PRICE;
+
+
+    saveNexusPoints();
+
+
+    timeRemaining +=
+      20;
+
+
+    levelFinished =
+      false;
+
+    processing =
+      false;
+
+    paused =
+      false;
+
+
+    defeatScreen.classList.add(
+      "hidden"
+    );
+
+
+    updateNexusPointsDisplay();
+
+    updateInterface();
+
+
+    startTimer();
+
+
+    gameMessage.textContent =
+      "+20 secondes Nexus ! Continue !";
 
   }
 );
