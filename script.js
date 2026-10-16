@@ -4934,47 +4934,6 @@ function sleep(ms) {
 }
 
 
-/* =========================================================
-   CHOISIR LE GROUPE DE SYMBOLES DU NIVEAU
-========================================================= */
-
-function getCurrentSymbolSet() {
-
-  const levelNumber =
-    currentLevel + 1;
-
-  if (
-    levelNumber <= 30
-  ) {
-
-    return SYMBOL_SETS[1];
-
-  }
-
-  if (
-    levelNumber <= 60
-  ) {
-
-    return SYMBOL_SETS[2];
-
-  }
-
-  if (
-    levelNumber <= 90
-  ) {
-
-    return SYMBOL_SETS[3];
-
-  }
-
-  return SYMBOL_SETS[4];
-
-}
-
-
-/* =========================================================
-   SYMBOLE ALÉATOIRE
-========================================================= */
 
 /* =========================================================
    GROUPE DE SYMBOLES DU NIVEAU ACTUEL
@@ -9238,6 +9197,78 @@ function getStarsText(
   return "⭐☆☆";
 
 }
+/* =========================================================
+   ÉTOILES SUR LE PARCOURS
+========================================================= */
+
+function updatePathStars() {
+
+  const savedStars =
+    getSavedStars();
+
+
+  pathNodes.forEach(node => {
+
+    const levelNumber =
+      Number(
+        node.dataset.level
+      );
+
+
+    const starsElement =
+      node.querySelector(
+        ".node-stars"
+      );
+
+
+    if (!starsElement) {
+
+      return;
+
+    }
+
+
+    const stars =
+      savedStars[levelNumber] || 0;
+
+
+    if (
+      stars === 3
+    ) {
+
+      starsElement.textContent =
+        "⭐⭐⭐";
+
+    }
+
+    else if (
+      stars === 2
+    ) {
+
+      starsElement.textContent =
+        "⭐⭐☆";
+
+    }
+
+    else if (
+      stars === 1
+    ) {
+
+      starsElement.textContent =
+        "⭐☆☆";
+
+    }
+
+    else {
+
+      starsElement.textContent =
+        "☆☆☆";
+
+    }
+
+  });
+
+}
 
    
 /* =========================================================
@@ -9545,7 +9576,152 @@ function configurePathZone(
   const firstLevel =
     ((zone - 1) * 10) + 1;
 
+/* =========================================================
+   ÉTAT DES NIVEAUX SUR LE PARCOURS
+========================================================= */
 
+function updatePathStates(
+  unlockedLevel
+) {
+
+  pathNodes.forEach(node => {
+
+    const level =
+      Number(
+        node.dataset.level
+      );
+
+
+    /* Nettoyer les anciens états */
+
+    node.classList.remove(
+      "completed",
+      "current",
+      "locked-path",
+      "unlocking-path"
+    );
+
+
+    /* Supprimer un ancien cadenas HTML */
+
+    const oldLock =
+      node.querySelector(
+        ".node-lock"
+      );
+
+
+    if (oldLock) {
+
+      oldLock.remove();
+
+    }
+
+
+    const circle =
+      node.querySelector(
+        ".node-circle"
+      );
+
+
+    /* =====================================================
+       NIVEAU DÉJÀ TERMINÉ
+    ===================================================== */
+
+    if (
+      level <
+      unlockedLevel
+    ) {
+
+      node.classList.add(
+        "completed"
+      );
+
+
+      /*
+         On ajoute une coche réelle.
+      */
+
+      if (circle) {
+
+        const check =
+          document.createElement(
+            "span"
+          );
+
+
+        check.className =
+          "node-check";
+
+
+        check.textContent =
+          "✓";
+
+
+        circle.appendChild(
+          check
+        );
+
+      }
+
+
+      return;
+
+    }
+
+
+    /* =====================================================
+       NIVEAU ACTUEL
+    ===================================================== */
+
+    if (
+      level ===
+      unlockedLevel
+    ) {
+
+      node.classList.add(
+        "current"
+      );
+
+
+      return;
+
+    }
+
+
+    /* =====================================================
+       NIVEAU VERROUILLÉ
+    ===================================================== */
+
+    node.classList.add(
+      "locked-path"
+    );
+
+
+    if (circle) {
+
+      const lock =
+        document.createElement(
+          "span"
+        );
+
+
+      lock.className =
+        "node-lock";
+
+
+      lock.textContent =
+        "🔒";
+
+
+      circle.appendChild(
+        lock
+      );
+
+    }
+
+  });
+
+}
   /* =======================================================
      CHANGER LE DÉCOR
   ======================================================= */
@@ -9658,61 +9834,84 @@ function configurePathZone(
    
 
 /* =========================================================
-   PARCOURS SOUS-MARIN
+   ÉTOILES SUR LE PARCOURS
 ========================================================= */
 
-function showPathAfterVictory() {
-pathOpenedFromMenu = false;
-  stopTimer();
+function updatePathStars() {
 
-  homeScreen.classList.remove("active");
+  const savedStars =
+    getSavedStars();
 
-  gameScreen.classList.remove("active");
-
-  victoryScreen.classList.add("hidden");
-
-  defeatScreen.classList.add("hidden");
-
-  pauseMenu.classList.add("hidden");
-
-  pathScreen.classList.add("active");
-
-
-  const completedLevel =
-    currentLevel + 1;
-
-
-  const nextLevel =
-    currentLevel + 2;
-const pathReferenceLevel =
-  nextLevel <= LEVELS.length
-    ? nextLevel
-    : completedLevel;
-
-
-configurePathZone(
-  pathReferenceLevel
-);
-updatePathStars();
-  /* -------------------------------------------------------
-     NETTOYER LES CLASSES
-  ------------------------------------------------------- */
 
   pathNodes.forEach(node => {
 
-    node.classList.remove(
-      "completed",
-      "current",
-      "locked-path",
-      "unlocking-path"
-    );
+    const levelNumber =
+      Number(
+        node.dataset.level
+      );
+
+
+    const starsElement =
+      node.querySelector(
+        ".node-stars"
+      );
+
+
+    if (!starsElement) {
+
+      return;
+
+    }
+
+
+    const stars =
+      savedStars[levelNumber] || 0;
+
+
+    if (stars === 3) {
+
+      starsElement.textContent =
+        "⭐⭐⭐";
+
+    }
+
+    else if (stars === 2) {
+
+      starsElement.textContent =
+        "⭐⭐☆";
+
+    }
+
+    else if (stars === 1) {
+
+      starsElement.textContent =
+        "⭐☆☆";
+
+    }
+
+    else {
+
+      starsElement.textContent =
+        "☆☆☆";
+
+    }
 
   });
 
+}
 
-  /* -------------------------------------------------------
-     ÉTAT DES NIVEAUX
-  ------------------------------------------------------- */
+
+/* =========================================================
+   ÉTAT VISUEL DES NIVEAUX DU PARCOURS
+========================================================= */
+
+function updatePathStates(
+  unlockedLevel
+) {
+
+  const savedStars =
+    getSavedStars();
+
 
   pathNodes.forEach(node => {
 
@@ -9722,71 +9921,255 @@ updatePathStars();
       );
 
 
+    node.classList.remove(
+      "completed",
+      "current",
+      "locked-path",
+      "unlocking-path"
+    );
+
+
     /*
-       Niveaux déjà terminés
+       Nettoyer les anciens symboles
+       éventuellement présents
     */
 
+    const oldLock =
+      node.querySelector(
+        ".node-lock"
+      );
+
+
+    if (oldLock) {
+
+      oldLock.remove();
+
+    }
+
+
+    const oldCheck =
+      node.querySelector(
+        ".node-check"
+      );
+
+
+    if (oldCheck) {
+
+      oldCheck.remove();
+
+    }
+
+
+    const circle =
+      node.querySelector(
+        ".node-circle"
+      );
+
+
+    const stars =
+      savedStars[level] || 0;
+
+
+    /* =====================================================
+       NIVEAU TERMINÉ
+    ===================================================== */
+
     if (
-      level <=
-      completedLevel
+      stars > 0 ||
+      level < unlockedLevel
     ) {
 
       node.classList.add(
         "completed"
       );
 
+
+      if (circle) {
+
+        const check =
+          document.createElement(
+            "span"
+          );
+
+
+        check.className =
+          "node-check";
+
+
+        check.textContent =
+          "✓";
+
+
+        circle.appendChild(
+          check
+        );
+
+      }
+
+
+      return;
+
     }
 
 
-    /*
-       Prochain niveau
-    */
+    /* =====================================================
+       NIVEAU ACTUEL
+    ===================================================== */
 
-    else if (
-      level ===
-      nextLevel &&
-      nextLevel <=
-      LEVELS.length
+    if (
+      level === unlockedLevel
     ) {
 
       node.classList.add(
         "current"
       );
 
+
+      return;
+
     }
 
 
-    /*
-       Futurs niveaux
-    */
+    /* =====================================================
+       NIVEAU VERROUILLÉ
+    ===================================================== */
 
-    else {
+    node.classList.add(
+      "locked-path"
+    );
 
-      node.classList.add(
-        "locked-path"
+
+    if (circle) {
+
+      const lock =
+        document.createElement(
+          "span"
+        );
+
+
+      lock.className =
+        "node-lock";
+
+
+      lock.textContent =
+        "🔒";
+
+
+      circle.appendChild(
+        lock
       );
 
     }
 
   });
 
-
-  /* -------------------------------------------------------
-     MESSAGE
-  ------------------------------------------------------- */
-
-  const continuePathBtn =
-  document.getElementById("continuePathBtn");
+}
 
 
-  /* -------------------------------------------------------
-     ANIMATION DU PROCHAIN NIVEAU
-  ------------------------------------------------------- */
+/* =========================================================
+   PARCOURS APRÈS UNE VICTOIRE
+========================================================= */
+
+function showPathAfterVictory() {
+
+  pathOpenedFromMenu =
+    false;
+
+
+  stopTimer();
+
+
+  homeScreen.classList.remove(
+    "active"
+  );
+
+
+  gameScreen.classList.remove(
+    "active"
+  );
+
+
+  victoryScreen.classList.add(
+    "hidden"
+  );
+
+
+  defeatScreen.classList.add(
+    "hidden"
+  );
+
+
+  pauseMenu.classList.add(
+    "hidden"
+  );
+
+
+  pathScreen.classList.add(
+    "active"
+  );
+
+
+  const completedLevel =
+    currentLevel + 1;
+
+
+  const nextLevel =
+    currentLevel + 2;
+
+
+  const unlockedLevel =
+    Number(
+      localStorage.getItem(
+        STORAGE_UNLOCKED
+      )
+    ) || 1;
+
+
+  /*
+     On affiche la zone contenant
+     le niveau suivant.
+  */
+
+  const pathReferenceLevel =
+
+    nextLevel <= LEVELS.length
+
+      ? nextLevel
+
+      : completedLevel;
+
+
+  configurePathZone(
+    pathReferenceLevel
+  );
+
+
+  /*
+     IMPORTANT :
+     les états doivent être appliqués
+     APRÈS configurePathZone().
+  */
+
+  updatePathStates(
+    unlockedLevel
+  );
+
+
+  updatePathStars();
+
+
+  /* =====================================================
+     ANIMATION DU NIVEAU SUIVANT
+  ===================================================== */
 
   if (
     nextLevel <=
     LEVELS.length
   ) {
+
+    pathMessage.textContent =
+      `Niveau ${completedLevel} terminé ! Touche le niveau ${nextLevel} pour continuer.`;
+
 
     const nextNode =
       document.querySelector(
@@ -9811,47 +10194,70 @@ updatePathStars();
           "unlocking-path"
         );
 
-        nextNode.classList.add(
-          "current"
-        );
-
       }, 1500);
 
     }
 
   }
 
+  else {
+
+    pathMessage.textContent =
+      "Tous les niveaux disponibles sont terminés !";
+
+  }
+
 
   window.scrollTo({
+
     top: 0,
+
     behavior: "smooth"
+
   });
 
 }
+
 
 /* =========================================================
    OUVRIR LE PARCOURS DEPUIS LE MENU
 ========================================================= */
 
 function showPathFromMenu() {
-pathOpenedFromMenu = true;
-  homeScreen.classList.remove("active");
 
-  gameScreen.classList.remove("active");
-
-  victoryScreen.classList.add("hidden");
-
-  defeatScreen.classList.add("hidden");
-
-  pauseMenu.classList.add("hidden");
-
-  pathScreen.classList.add("active");
+  pathOpenedFromMenu =
+    true;
 
 
-  /*
-     Afficher les niveaux selon
-     la progression actuelle
-  */
+  homeScreen.classList.remove(
+    "active"
+  );
+
+
+  gameScreen.classList.remove(
+    "active"
+  );
+
+
+  victoryScreen.classList.add(
+    "hidden"
+  );
+
+
+  defeatScreen.classList.add(
+    "hidden"
+  );
+
+
+  pauseMenu.classList.add(
+    "hidden"
+  );
+
+
+  pathScreen.classList.add(
+    "active"
+  );
+
 
   const unlockedLevel =
     Number(
@@ -9860,55 +10266,18 @@ pathOpenedFromMenu = true;
       )
     ) || 1;
 
-configurePathZone(
-  unlockedLevel
-);
-   updatePathStars();
-  pathNodes.forEach(node => {
 
-    node.classList.remove(
-      "completed",
-      "current",
-      "locked-path",
-      "unlocking-path"
-    );
+  configurePathZone(
+    unlockedLevel
+  );
 
 
-    const level =
-      Number(
-        node.dataset.level
-      );
+  updatePathStates(
+    unlockedLevel
+  );
 
 
-    if (
-      level < unlockedLevel
-    ) {
-
-      node.classList.add(
-        "completed"
-      );
-
-    }
-
-    else if (
-      level === unlockedLevel
-    ) {
-
-      node.classList.add(
-        "current"
-      );
-
-    }
-
-    else {
-
-      node.classList.add(
-        "locked-path"
-      );
-
-    }
-
-  });
+  updatePathStars();
 
 
   pathMessage.textContent =
@@ -9916,12 +10285,113 @@ configurePathZone(
 
 
   window.scrollTo({
+
     top: 0,
+
     behavior: "smooth"
+
   });
 
 }
 
+
+/* =========================================================
+   NOUVEAU CLIC SUR LES NIVEAUX DU PARCOURS
+========================================================= */
+
+pathNodes.forEach(node => {
+
+  node.addEventListener(
+    "click",
+    event => {
+
+      /*
+         Cela empêche l'ancien gestionnaire
+         situé plus bas dans ton script
+         de se déclencher également.
+      */
+
+      event.stopImmediatePropagation();
+
+
+      if (
+        !pathScreen.classList.contains(
+          "active"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const selectedLevel =
+        Number(
+          node.dataset.level
+        );
+
+
+      const unlockedLevel =
+        Number(
+          localStorage.getItem(
+            STORAGE_UNLOCKED
+          )
+        ) || 1;
+
+
+      /*
+         Niveau pas encore débloqué
+      */
+
+      if (
+        selectedLevel >
+        unlockedLevel
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+         Sécurité
+      */
+
+      if (
+        selectedLevel < 1 ||
+        selectedLevel >
+        LEVELS.length
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+         On peut jouer le niveau actuel
+         OU rejouer un ancien niveau
+         pour améliorer ses étoiles.
+      */
+
+      currentLevel =
+        selectedLevel - 1;
+
+
+      localStorage.setItem(
+        STORAGE_LEVEL,
+        currentLevel
+      );
+
+
+      startLevel(
+        currentLevel
+      );
+
+    }
+  );
+
+});
 /* =========================================================
    BOUTONS
 ========================================================= */
