@@ -4816,6 +4816,23 @@ const STORAGE_LEVEL =
 const STORAGE_UNLOCKED =
   "nexusResonance_unlocked";
 
+   /* =========================================================
+   RÉSERVE NEXUS
+========================================================= */
+
+const STORAGE_NEXUS_POINTS =
+  "nexusResonance_points";
+
+const BONUS_PRICE =
+  1000;
+
+let nexusPoints =
+  Number(
+    localStorage.getItem(
+      STORAGE_NEXUS_POINTS
+    )
+  ) || 0;
+
 /* =========================================================
    VARIABLES
 ========================================================= */
