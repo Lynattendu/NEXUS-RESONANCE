@@ -4886,6 +4886,52 @@ button {
     rgba(255, 220, 170, 0.9);
 }
 
+/* =========================================================
+   ÉTOILES DE VICTOIRE
+========================================================= */
 
+.victory-stars-box {
+  margin: 18px 0;
+  text-align: center;
+}
+
+
+.victory-stars-title {
+  font-size: .72rem;
+  letter-spacing: .16em;
+
+  color:
+    rgba(193, 239, 255, .82);
+}
+
+
+.victory-stars {
+  margin-top: 6px;
+
+  font-size:
+    clamp(
+      2rem,
+      9vw,
+      3.2rem
+    );
+
+  letter-spacing: .08em;
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(255, 220, 90, .75)
+    );
+}
+
+
+.victory-stars-message {
+  margin-top: 6px;
+
+  font-size: .85rem;
+
+  color:
+    rgba(255, 255, 255, .85);
+}
 
 
