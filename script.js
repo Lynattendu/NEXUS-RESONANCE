@@ -269,11 +269,11 @@ const SYMBOLS = [
     name: "anémones"
   },
 
-  { 
-    id: "triden",
-    image: "Images/Symboles/Triden.PNG",
-    name: "tridents"
-  },
+  {
+  id: "trident",
+  image: "Images/Symboles/Trident.PNG",
+  name: "tridents"
+},
 
   { 
     id: "corail",
