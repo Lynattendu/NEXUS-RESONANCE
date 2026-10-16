@@ -4929,10 +4929,58 @@ function getCurrentSymbolSet() {
    SYMBOLE ALÉATOIRE
 ========================================================= */
 
+/* =========================================================
+   GROUPE DE SYMBOLES DU NIVEAU ACTUEL
+========================================================= */
+
+function getCurrentSymbolSet() {
+
+  const levelNumber =
+    currentLevel + 1;
+
+
+  if (
+    levelNumber <= 30
+  ) {
+
+    return SYMBOL_SETS[1];
+
+  }
+
+
+  if (
+    levelNumber <= 60
+  ) {
+
+    return SYMBOL_SETS[2];
+
+  }
+
+
+  if (
+    levelNumber <= 90
+  ) {
+
+    return SYMBOL_SETS[3];
+
+  }
+
+
+  return SYMBOL_SETS[4];
+
+}
+
+
+/* =========================================================
+   SYMBOLE ALÉATOIRE
+   UNIQUEMENT DANS LE GROUPE DU NIVEAU
+========================================================= */
+
 function randomSymbol() {
 
   const currentSet =
     getCurrentSymbolSet();
+
 
   return currentSet[
     Math.floor(
@@ -4948,53 +4996,80 @@ function randomSymbol() {
    Évite les alignements automatiques de 3
 ========================================================= */
 
-function startingSymbol(row, col) {
+/* =========================================================
+   SYMBOLE DE DÉPART
+   ÉVITE LES ALIGNEMENTS DE 3 AU DÉMARRAGE
+========================================================= */
+
+function startingSymbol(
+  row,
+  col
+) {
+
+  const currentSet =
+    getCurrentSymbolSet();
+
 
   let possibilities =
-    SYMBOLS.map(symbol => symbol.id);
+    [...currentSet];
 
+
+  /* =======================================================
+     ÉVITER 3 IDENTIQUES HORIZONTALEMENT
+  ======================================================= */
 
   if (
     col >= 2 &&
-    isSymbolCell(board[row][col - 1]) &&
-    isSymbolCell(board[row][col - 2]) &&
+    isSymbolCell(
+      board[row][col - 1]
+    ) &&
+    isSymbolCell(
+      board[row][col - 2]
+    ) &&
     board[row][col - 1].symbol ===
     board[row][col - 2].symbol
   ) {
 
+    const forbiddenSymbol =
+      board[row][col - 1].symbol;
+
+
     possibilities =
       possibilities.filter(
         symbol =>
           symbol !==
-          board[row][col - 1].symbol
+          forbiddenSymbol
       );
 
   }
 
 
+  /* =======================================================
+     ÉVITER 3 IDENTIQUES VERTICALEMENT
+  ======================================================= */
+
   if (
     row >= 2 &&
-    isSymbolCell(board[row - 1][col]) &&
-    isSymbolCell(board[row - 2][col]) &&
+    isSymbolCell(
+      board[row - 1][col]
+    ) &&
+    isSymbolCell(
+      board[row - 2][col]
+    ) &&
     board[row - 1][col].symbol ===
     board[row - 2][col].symbol
   ) {
 
+    const forbiddenSymbol =
+      board[row - 1][col].symbol;
+
+
     possibilities =
       possibilities.filter(
         symbol =>
           symbol !==
-          board[row - 1][col].symbol
+          forbiddenSymbol
       );
-
-  }
-
-
-  if (
-    possibilities.length === 0
-  ) {
-
-    return randomSymbol();
 
   }
 
