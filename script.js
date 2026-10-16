@@ -9693,7 +9693,7 @@ const pathReferenceLevel =
 configurePathZone(
   pathReferenceLevel
 );
-
+updatePathStars();
   /* -------------------------------------------------------
      NETTOYER LES CLASSES
   ------------------------------------------------------- */
@@ -9863,6 +9863,7 @@ pathOpenedFromMenu = true;
 configurePathZone(
   unlockedLevel
 );
+   updatePathStars();
   pathNodes.forEach(node => {
 
     node.classList.remove(
