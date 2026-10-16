@@ -135,7 +135,15 @@ const bonusBuyMessage =
   document.getElementById(
     "bonusBuyMessage"
   );
+const victoryStars =
+  document.getElementById(
+    "victoryStars"
+  );
 
+const victoryStarsMessage =
+  document.getElementById(
+    "victoryStarsMessage"
+  );
 
 /* =========================================================
    PARAMÈTRES
@@ -4843,7 +4851,8 @@ const STORAGE_UNLOCKED =
 
 const STORAGE_NEXUS_POINTS =
   "nexusResonance_points";
-
+const STORAGE_STARS =
+  "nexusResonance_stars";
 const BONUS_PRICE =
   1000;
 
@@ -9098,6 +9107,140 @@ function updateDefeatBonusButtons() {
 }
 
 /* =========================================================
+   ÉTOILES DU NIVEAU
+========================================================= */
+
+function calculateStars(scoreValue) {
+
+  if (
+    scoreValue > 5000
+  ) {
+
+    return 3;
+
+  }
+
+
+  if (
+    scoreValue >= 3000
+  ) {
+
+    return 2;
+
+  }
+
+
+  return 1;
+
+}
+
+
+/* =========================================================
+   LIRE LES ÉTOILES SAUVEGARDÉES
+========================================================= */
+
+function getSavedStars() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_STARS
+    );
+
+
+  if (!saved) {
+
+    return {};
+
+  }
+
+
+  try {
+
+    return JSON.parse(
+      saved
+    );
+
+  }
+
+  catch (error) {
+
+    return {};
+
+  }
+
+}
+
+
+/* =========================================================
+   SAUVEGARDER LE MEILLEUR RÉSULTAT
+========================================================= */
+
+function saveLevelStars(
+  levelNumber,
+  stars
+) {
+
+  const savedStars =
+    getSavedStars();
+
+
+  const oldStars =
+    savedStars[levelNumber] || 0;
+
+
+  if (
+    stars >
+    oldStars
+  ) {
+
+    savedStars[levelNumber] =
+      stars;
+
+
+    localStorage.setItem(
+      STORAGE_STARS,
+      JSON.stringify(
+        savedStars
+      )
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   TEXTE DES ÉTOILES
+========================================================= */
+
+function getStarsText(
+  stars
+) {
+
+  if (
+    stars === 3
+  ) {
+
+    return "⭐⭐⭐";
+
+  }
+
+
+  if (
+    stars === 2
+  ) {
+
+    return "⭐⭐☆";
+
+  }
+
+
+  return "⭐☆☆";
+
+}
+
+   
+/* =========================================================
    VICTOIRE
 ========================================================= */
 
@@ -9122,6 +9265,66 @@ function finishVictory() {
   victoryScore.textContent =
     score;
 
+/* =====================================================
+   CALCUL DES ÉTOILES
+===================================================== */
+
+const earnedStars =
+  calculateStars(
+    score
+  );
+
+
+saveLevelStars(
+  currentLevel + 1,
+  earnedStars
+);
+
+
+if (
+  victoryStars
+) {
+
+  victoryStars.textContent =
+    getStarsText(
+      earnedStars
+    );
+
+}
+
+
+if (
+  victoryStarsMessage
+) {
+
+  if (
+    earnedStars === 3
+  ) {
+
+    victoryStarsMessage.textContent =
+      "Performance exceptionnelle !";
+
+  }
+
+  else if (
+    earnedStars === 2
+  ) {
+
+    victoryStarsMessage.textContent =
+      "Très belle résonance !";
+
+  }
+
+  else {
+
+    victoryStarsMessage.textContent =
+      "Niveau réussi !";
+
+  }
+
+}
+
+   
 /* =====================================================
    AJOUT DU SCORE À LA RÉSERVE NEXUS
 ===================================================== */
