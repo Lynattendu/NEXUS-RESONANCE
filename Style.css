@@ -4964,4 +4964,252 @@ button {
   }
 
 }
+/* =========================================================
+   CORRECTION FINALE ÉTATS DU PARCOURS
+   + ÉTOILES
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   INFORMATIONS DU NIVEAU
+--------------------------------------------------------- */
+
+#pathScreen .node-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+
+/* ---------------------------------------------------------
+   ÉTOILES
+--------------------------------------------------------- */
+
+#pathScreen .node-stars {
+  font-size: .7rem;
+  line-height: 1;
+  letter-spacing: .03em;
+
+  color: #ffd95a;
+
+  text-shadow:
+    0 0 5px rgba(255, 216, 70, .85);
+}
+
+
+/* =========================================================
+   NIVEAU TERMINÉ
+========================================================= */
+
+#pathScreen .path-node.completed {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+
+#pathScreen .path-node.completed .node-circle {
+
+  background:
+    linear-gradient(
+      145deg,
+      #42e8ad,
+      #168f78
+    ) !important;
+
+  border:
+    2px solid
+    rgba(184, 255, 224, .95) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 0 8px rgba(70, 255, 195, .75),
+    0 0 20px rgba(36, 201, 158, .55),
+    inset 0 0 12px rgba(255,255,255,.25) !important;
+}
+
+
+/* petite coche niveau réussi */
+
+#pathScreen .path-node.completed .node-circle::after {
+
+  content: "✓";
+
+  position: absolute;
+
+  right: -5px;
+  bottom: -5px;
+
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #26c98f;
+
+  color: #ffffff;
+
+  font-size: .68rem;
+  font-weight: 900;
+
+  border:
+    2px solid
+    rgba(220,255,245,.95);
+
+  box-shadow:
+    0 0 8px
+    rgba(61,255,194,.7);
+}
+
+
+/* =========================================================
+   NIVEAU ACTUEL / DÉBLOQUÉ
+========================================================= */
+
+#pathScreen .path-node.current {
+  opacity: 1 !important;
+  filter: none !important;
+  z-index: 10;
+}
+
+
+#pathScreen .path-node.current .node-circle {
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #bdf8ff,
+      #53cfff 35%,
+      #5265ec 72%,
+      #3b31aa
+    ) !important;
+
+  border:
+    2px solid
+    #d8fbff !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 0 10px rgba(119,235,255,.95),
+    0 0 28px rgba(93,151,255,.85) !important;
+
+  animation:
+    nexusCurrentLevelPulse
+    1.6s ease-in-out infinite;
+}
+
+
+/* surtout aucun cadenas sur le niveau actuel */
+
+#pathScreen .path-node.current .node-circle::after {
+  content: none !important;
+}
+
+
+/* =========================================================
+   NIVEAU VERROUILLÉ
+========================================================= */
+
+#pathScreen .path-node.locked-path {
+  opacity: .82 !important;
+  filter: none !important;
+}
+
+
+#pathScreen .path-node.locked-path .node-circle {
+
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #183f73,
+      #101f4d
+    ) !important;
+
+  border:
+    2px solid
+    rgba(117,185,255,.7) !important;
+
+  color:
+    rgba(230,245,255,.8) !important;
+
+  box-shadow:
+    0 0 7px
+    rgba(78,155,255,.35),
+    inset 0 0 12px
+    rgba(0,0,0,.28) !important;
+}
+
+
+/* CADENAS */
+
+#pathScreen .path-node.locked-path .node-circle::after {
+
+  content: "🔒" !important;
+
+  position: absolute;
+
+  right: -6px;
+  bottom: -6px;
+
+  width: 19px;
+  height: 19px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    #0d2549;
+
+  border:
+    1px solid
+    rgba(130,205,255,.85);
+
+  font-size: .62rem;
+
+  box-shadow:
+    0 0 7px
+    rgba(52,175,255,.55);
+}
+
+
+/* étoiles d'un niveau non terminé */
+
+#pathScreen .path-node.locked-path .node-stars {
+  color:
+    rgba(190,210,225,.55);
+
+  text-shadow: none;
+}
+
+
+/* =========================================================
+   ANIMATION NIVEAU ACTUEL
+========================================================= */
+
+@keyframes nexusCurrentLevelPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+}
+
+
+
 
