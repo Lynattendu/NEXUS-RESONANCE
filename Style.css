@@ -4933,5 +4933,35 @@ button {
   color:
     rgba(255, 255, 255, .85);
 }
+/* =========================================================
+   ÉTOILES DU PARCOURS
+========================================================= */
 
+.node-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+
+.node-stars {
+  font-size: .72rem;
+  letter-spacing: .04em;
+  line-height: 1;
+
+  color: #ffd95a;
+
+  text-shadow:
+    0 0 5px rgba(255, 215, 90, .7);
+}
+
+
+@media (max-width: 480px) {
+
+  .node-stars {
+    font-size: .62rem;
+  }
+
+}
 
